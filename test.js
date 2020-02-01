@@ -37,11 +37,27 @@ for(const file of commandFiles)
 
 bot.on('message', msg=>
 {
+    let args = msg.content.split(" ");
+
     switch (msg.content.toLowerCase()){
         case 'hello':
             bot.commands.get('hello').execute(msg);
          break;
+
+         case 'labanaktis maziuk':
+             if (msg.author.username === 'Layon')
+             {
+                       bot.commands.get('Layon').execute(msg);
+             }
+             else 
+            {
+                 msg.reply('Eik nx');
+            }
+      
+        break;
+
     }
+
 
   
 })
