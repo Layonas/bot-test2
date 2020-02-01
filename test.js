@@ -89,4 +89,5 @@ bot.off('unready', ()=>
 {
     console.log('Bot is off');
 })
+.listen(process.env.PORT);
 bot.login(token);
