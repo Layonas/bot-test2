@@ -23,6 +23,24 @@ bot.on('message', msg=>
     }
 })
 
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+for(const file of commandFiles)
+{
+    const command = require(`./commands/${file}`);
+    bot.commands.set(command.name, command);
+}
+
+bot.on('message', msg=>
+{
+    switch (msg.content.toLowerCase()){
+        case 'hello':
+            bot.commands.get('hello').execute(msg);
+         break;
+    }
+
+  
+})
+
 bot.on ('message', msg=>
 {
     let args = msg.content.substring(prefix.length).split(" ");
@@ -53,7 +71,7 @@ bot.on ('message', msg=>
                 const Embed = new RichEmbed()
                     .setTitle('Server status')
                     .addField('Status', response.version.slice(4), true )
-                    .addField('Online players', response.onlinePlayers, true)
+                    .addField('Online players', 'One or more:)', true)
                     .addField('Server IP', response.host)
                     .setColor(0x3AFF00 )
                     .setThumbnail(msg.author.avatarURL)
