@@ -1,0 +1,25 @@
+{
+  "name": "bot-test2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "dependencies": {
+    "minecraft-server-util": "^1.1.0",
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Layonas/bot-test2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Layonas/bot-test2/issues"
+  },
+  "homepage": "https://github.com/Layonas/bot-test2#readme"
+}
