@@ -3,7 +3,10 @@ const bot = new Client();
 const ping = require('minecraft-server-util');
 const token = 'NjcyODM2MzEwMTc1NzExMjcz.XjRRxg.82ce9gS8z-EJcOyVVePditPyPqk';
 const prefix = '!';
-const fd = require('fs');
+
+const fs = require('fs');
+bot.commands = new Discord.Collection();
+
 bot.on('ready', () =>{
     console.log('The bot is online. ');
 })
