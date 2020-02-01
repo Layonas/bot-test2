@@ -3,6 +3,7 @@ const bot = new Client();
 const ping = require('minecraft-server-util');
 const token = 'NjcyODM2MzEwMTc1NzExMjcz.XjRRxg.82ce9gS8z-EJcOyVVePditPyPqk';
 const prefix = '!';
+const fd = require('fs');
 bot.on('ready', () =>{
     console.log('The bot is online. ');
 })
