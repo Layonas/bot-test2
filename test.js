@@ -103,7 +103,7 @@ bot.on ('message', msg=>
             break;
             
             case 'help':
-            bot.commands.get('help').execute(msg, agrs);
+            bot.commands.get('help').execute(msg, args);
             break;
             
         /*case 'clear':
