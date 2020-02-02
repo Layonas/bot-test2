@@ -12,22 +12,6 @@ bot.on('ready', () =>{
     console.log('The bot is online. ');
 })
 
-ping ('0o0o0o0o0o0o0o0o.aternos.me', 25565, (error, response) =>
-            {
-                if (error) throw error;
-                var str = response.version;
-                var str1 = str.slice(4);
-                console.log(str1);
-            })
-
-bot.on('message', msg=>
-{
-    if (msg.content === "Hello")
-    {
-        msg.reply ('Hello bitch.');
-    }
-})
-
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles)
 {
@@ -68,11 +52,9 @@ bot.on ('message', msg=>
 
     switch(args[0])
     {
-        case 'gay':
-             msg.channel.send('pong bitch!');
-        break;
         
-        case 'info':
+        
+        /*case 'info':
             if (args[1] === 'YT')
             {
                  msg.channel.send('https://www.youtube.com/channel/UCMoy_yYppvhDjTUfEH210ew?view_as=subscriber');
@@ -81,9 +63,10 @@ bot.on ('message', msg=>
             {
                 msg.channel.send('Are u gay, try again.');
             }
-            break;
+            break;*/
         case 'server':
-            
+            if (msg.author.username !== 'AdvancingBot1')
+            {
             ping ('0o0o0o0o0o0o0o0o.aternos.me', 25565, (error, response) =>
             {
                 if (error) throw error;
@@ -116,17 +99,18 @@ bot.on ('message', msg=>
                 console.log(response)
                 }
             })
+            }
             break;
+            
+            case 'help':
+            bot.commands.get('help').execute(msg, agrs);
+            break;
+            
         /*case 'clear':
             if (!args[1]) return msg.reply('Please choose how much you want to delete')
             msg.channel.bulkDelete(args[1]);
             break;*/
     }
-})
-
-bot.off('unready', ()=>
-{
-    console.log('Bot is off');
 })
 
 bot.login(token);
