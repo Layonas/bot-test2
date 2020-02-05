@@ -10,6 +10,7 @@ bot.commands = new Discord.Collection();
 
 bot.on('ready', () =>{
     console.log('The bot is online. ');
+    bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
 })
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
