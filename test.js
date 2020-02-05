@@ -19,6 +19,15 @@ for(const file of commandFiles)
     bot.commands.set(command.name, command);
 }
 
+bot.on("guildMemberAdd", member =>{
+
+    const channel = member.guild.channels.find(channel => channel.name === "memes-pls");
+    if (!channel) return;
+
+    channel.send(`Sveikas ${member}, sveikinu prisijungus prie mūsų serverio!`);
+
+});
+
 bot.on('message', msg=>
 {
     let args = msg.content.split(" ");
