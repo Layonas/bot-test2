@@ -115,6 +115,10 @@ bot.on ('message', msg=>
             case 'help':
             bot.commands.get('help').execute(msg, args);
             break;
+
+            case 'kick':
+                bot.commands.get('kick').execute(msg, args);
+            break;
             
         /*case 'clear':
             if (!args[1]) return msg.reply('Please choose how much you want to delete')
