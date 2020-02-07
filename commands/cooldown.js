@@ -3,7 +3,8 @@ module.exports = {
     description: 'Making a player timeout so he couldnt write messages till the time runs out.',
     execute(msg, args, CommandCooldown)
     {  
-         console.log(args[2]);     
+    if (msg.author.username === 'Layon' || msg.author.username === 'TopperHarley') 
+    {    
         if (args[1])
         {
             const user = msg.mentions.users.first();
@@ -50,4 +51,9 @@ module.exports = {
         }
 
     }
+    else {
+        msg.reply('Tu neturi tokiu teisiu!');
+    }
+}
+
 }

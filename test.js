@@ -122,7 +122,7 @@ bot.on ('message', msg=>
             break;
 
             case 'cooldown':
-                bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
+                    bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
             break;
             
         /*case 'clear':
