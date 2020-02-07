@@ -119,11 +119,23 @@ bot.on ('message', msg=>
             case 'kick':
                 bot.commands.get('kick').execute(msg, args);
             break;
+
+            case 'cooldown':
+                bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
+            break;
             
         /*case 'clear':
             if (!args[1]) return msg.reply('Please choose how much you want to delete')
             msg.channel.bulkDelete(args[1]);
             break;*/
+    }
+})
+
+bot.on('message', msg=>{
+    if(CommandCooldown.has(msg.author.id))
+    {
+        console.log('Deleting message.');
+        msg.channel.bulkDelete(1);
     }
 })
 
