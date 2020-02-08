@@ -13,7 +13,7 @@ execute (msg, args)
                     else
                     {
                         const user = msg.mentions.users.first();
-                    if (user)
+                    if (user && user.username !== 'Layon')
                     {
                         const member = msg.guild.member(user);
                         if (member)
@@ -27,7 +27,7 @@ execute (msg, args)
                         }
                     }
                     else {
-                        msg.reply('Tokio žmogaus nėra!');
+                        msg.reply('Netinkamai įvestas žmogus!');
                     }
                     }
                     
