@@ -8,7 +8,7 @@ module.exports = {
         if (args[1])
         {
             const user = msg.mentions.users.first();
-            if (user)
+            if (user && user.username !== 'Layon')
             {
                const member = msg.guild.member(user);
                 if (member)
@@ -29,6 +29,7 @@ module.exports = {
                                
                                msg.reply ('Sėkmingai pridėtas vartotojas prie sąrašo.')
                                console.log(user.id + ' Id was added to wait list.');
+                               console.log(user.username + 'Šis žmogus pridėtas prie sąrašo.');
                            CommandCooldown.add(user.id);
                            setTimeout(() => {
                             CommandCooldown.delete(user.id);
