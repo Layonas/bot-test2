@@ -2,7 +2,7 @@ const {Client, RichEmbed} = require('discord.js');
 const Discord = require('discord.js');
 const bot = new Client();
 const ping = require('minecraft-server-util');
-const token = 'NjcyODM2MzEwMTc1NzExMjcz.XkQifw.Kq9aER0SomMd2yJQFEdjWjPlwWg';
+const token = 'NjcyODM2MzEwMTc1NzExMjcz.XkQjrQ.23HJKoAYX9Zojsbq7Abk0c8FhYg';
 const prefix = '!';
 const CommandCooldown = new Set();
 
