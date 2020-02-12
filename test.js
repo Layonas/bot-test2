@@ -8,11 +8,14 @@ const CommandCooldown = new Set();
 
 const fs = require('fs');
 bot.commands = new Discord.Collection();
+func = new Discord.Collection();
 
 bot.on('ready', () =>{
     console.log('The bot is online. ');
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
+    setInterval(func.get('checking').execute, 1000*60*30)
 })
+
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles)
@@ -20,6 +23,14 @@ for(const file of commandFiles)
     const command = require(`./commands/${file}`);
     bot.commands.set(command.name, command);
 }
+const FunctionFiles = fs.readdirSync('./functions/').filter(file => file.endsWith('.js'));
+for(const file of FunctionFiles)
+{
+    const command = require(`./functions/${file}`);
+    func.set(command.name, command);
+}
+
+
 
 bot.on("guildMemberAdd", member =>{
 
@@ -33,6 +44,8 @@ bot.on("guildMemberAdd", member =>{
 bot.on('message', msg=>
 {
     let args = msg.content.split(" ");
+
+    
 
     switch (msg.content.toLowerCase()){
         case 'hello':
