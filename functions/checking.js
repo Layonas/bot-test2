@@ -6,7 +6,7 @@ module.exports = {
         var a = 0;
         const ping = require('minecraft-server-util');
         ping('0o0o0o0o0o0o0o0o.aternos.me', 25565, (error, response) =>{
-            if (error) throw err;
+            if (error) throw error;
             if (response.version.slice(4) === 'Online')
             {
                 if (a === 0)
