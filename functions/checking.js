@@ -11,7 +11,7 @@ module.exports = {
             {
                 if (a === 0)
                 {
-                    channel.send('The server is online! Join now at ' + response.host);
+                    msg.channel.send('The server is online! Join now at ' + response.host);
                     a++;
                 }
                 

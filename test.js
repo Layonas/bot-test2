@@ -9,7 +9,6 @@ const CommandCooldown = new Set();
 const fs = require('fs');
 bot.commands = new Discord.Collection();
 func = new Discord.Collection();
-
 bot.on('ready', () =>{
     console.log('The bot is online. ');
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
