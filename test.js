@@ -5,6 +5,10 @@ const ping = require('minecraft-server-util');
 const token = 'NjcyODM2MzEwMTc1NzExMjcz.XkQjrQ.23HJKoAYX9Zojsbq7Abk0c8FhYg';
 const prefix = '!';
 const CommandCooldown = new Set();
+const ytdl = require("ytdl-core");
+var servers = {};
+
+     
 
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -22,6 +26,7 @@ for(const file of commandFiles)
     const command = require(`./commands/${file}`);
     bot.commands.set(command.name, command);
 }
+const holder = bot.commands;
 const FunctionFiles = fs.readdirSync('./functions/').filter(file => file.endsWith('.js'));
 for(const file of FunctionFiles)
 {
@@ -75,54 +80,19 @@ bot.on ('message', msg=>
 
     switch(args[0])
     {
-        
-        
-        /*case 'info':
-            if (args[1] === 'YT')
-            {
-                 msg.channel.send('https://www.youtube.com/channel/UCMoy_yYppvhDjTUfEH210ew?view_as=subscriber');
-            }
-            else 
-            {
-                msg.channel.send('Are u gay, try again.');
-            }
-            break;*/
-        case 'server':
-            if (msg.author.username !== 'AdvancingBot1')
-            {
-            ping ('0o0o0o0o0o0o0o0o.aternos.me', 25565, (error, response) =>
-            {
-                if (error) throw error;
-                if (response.version.slice(4) === 'Online')
-                {
-                const Embed = new RichEmbed()
-                    .setTitle('Server status')
-                    .addField('Status', response.version.slice(4), true )
-                    .addField('Online players', 'One or more:)', true)
-                    .addField('Server IP', response.host)
-                    .setColor(0x3AFF00 )
-                    .setThumbnail(msg.author.avatarURL)
-                    
 
-                msg.channel.send(Embed);
-                console.log(response)
-                }
-                else 
-                {
-                const Embed = new RichEmbed()
-                    .setTitle('Server status')
-                    .addField('Status', response.version.slice(4), true )
-                    .addField('Online players', response.onlinePlayers, true)
-                    .addField('Server IP', response.host)
-                    .setColor(0xFF2D00 )
-                    .setThumbnail(msg.author.avatarURL)
-                    
+        case 'play':
+            bot.commands.get('play').execute(msg, args, ytdl, servers);
+        break;
+        case 'stop':
+            bot.commands.get('stop').execute(msg, servers, holder);
+        break;
+        case 'skip':
+            bot.commands.get('skip').execute(msg, servers);
+        break;
 
-                msg.channel.send(Embed);
-                console.log(response)
-                }
-            })
-            }
+            case 'server':
+            holder.get('server').execute(msg, ping, RichEmbed);
             break;
             
             case 'help':
@@ -137,10 +107,15 @@ bot.on ('message', msg=>
                     bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
             break;
             
-        /*case 'clear':
+            case 'clear':
+            if (msg.author.username == "Layon")
+            {
             if (!args[1]) return msg.reply('Please choose how much you want to delete')
             msg.channel.bulkDelete(args[1]);
-            break;*/
+            }
+            else msg.reply('No.');
+            
+            break;
     }
 })
 
