@@ -19,6 +19,10 @@ bot.on('ready', () =>{
     setInterval(func.get('checking').execute, 1000*60*30)
 })
 
+bot.on('disconnect', () => console.log('Bot got disconnected, trying to reconnect now ...'));
+bot.on('reconnecting', () => console.log('Reconnecting ....'));
+bot.on('warn', console.warn);
+
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles)
@@ -47,35 +51,18 @@ bot.on("guildMemberAdd", member =>{
 
 bot.on('message', msg=>
 {
-    let args = msg.content.split(" ");
-
-    
-
     switch (msg.content.toLowerCase()){
         case 'hello':
             bot.commands.get('hello').execute(msg);
-         break;
-
-         case 'labanaktis maziuk':
-             if (msg.author.username === 'Layon')
-             {
-                       bot.commands.get('Layon').execute(msg);
-             }
-             else 
-            {
-                 msg.reply('Eik nx');
-            }
-      
-        break;
+         break;      
 
     }
-
-
-  
 })
 
 bot.on ('message', msg=>
 {
+    if (!msg.content.startsWith(prefix)) return;
+
     let args = msg.content.substring(prefix.length).split(" ");
 
     switch(args[0])
@@ -98,7 +85,6 @@ bot.on ('message', msg=>
             case 'help':
             bot.commands.get('help').execute(msg, args);
             break;
-
             case 'kick':
                 bot.commands.get('kick').execute(msg, args);
             break;
