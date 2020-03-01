@@ -4,8 +4,8 @@ module.exports = {
     execute(msg, args, ytdl, servers)
     {
         msg.channel.bulkDelete(1);
-                            function play(connection, msg){
-                                var k = 0;
+        var k = 0;
+                            function play(connection, msg, k){
                                 var server = servers[msg.guild.id];
                                 server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: "audioonly"}));
                                 const stream = ytdl(server.queue[0]);
@@ -59,7 +59,7 @@ module.exports = {
          })
 
          if(!msg.guild.voiceConnection) msg.member.voiceChannel.join().then(function(connection){
-             play(connection, msg);
+             play(connection, msg, k);
          })
     } 
 }
