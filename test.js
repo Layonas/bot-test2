@@ -97,7 +97,7 @@ bot.on ('message', msg=>
             if (msg.author.username == "Layon")
             {
             if (!args[1]) return msg.reply('Please choose how much you want to delete')
-            msg.channel.bulkDelete(args[1]);
+            msg.channel.bulkDelete(parseInt(args[1])+1);
             }
             else msg.reply('No.');
             
