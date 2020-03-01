@@ -97,6 +97,7 @@ bot.on ('message', msg=>
             if (msg.author.username == "Layon")
             {
             if (!args[1]) return msg.reply('Please choose how much you want to delete')
+            if (isNaN(args[1])) return msg.reply(`<${args[1]}> is not a number`)
             msg.channel.bulkDelete(parseInt(args[1])+1);
             }
             else msg.reply('No.');
