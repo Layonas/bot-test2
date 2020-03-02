@@ -11,9 +11,15 @@ module.exports = {
                                 const stream = ytdl(server.queue[0]);
                                 stream.on('info', (info) => {
                                     console.log(info.title);   
-                                    console.log(info.video_url); 
-                                    msg.channel.send(`Now playing - ${info.title}`);
-                                    // make an embed and send to a server 
+                                    console.log(info.video_url);
+                                    console.log(info.video_id); 
+                                    const Embed = new RichEmbed()
+                                    .setTitle('Playing now!')
+                                    .addField('Title', info.title, false )
+                                    .addField('Video URL', info.video_url)
+                                    .setColor((Math.random()*0xFFFFFF<<0).toString(16))
+                                    .setThumbnail(`https://img.youtube.com/vi/${info.video_id}/default.jpg`)
+                                    msg.channel.send(Embed);
                                 });
                                 server.queue.shift();
                                 

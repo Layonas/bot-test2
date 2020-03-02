@@ -19,9 +19,7 @@ module.exports = {
             else 
             {
                 a = 0;
-            }
-            console.log(response.version.slice(4));
-            
+            }  
         })
 
     }
