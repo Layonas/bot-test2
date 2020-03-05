@@ -13,11 +13,7 @@ var servers = {};
 const fs = require('fs');
 bot.commands = new Discord.Collection();
 func = new Discord.Collection();
-bot.on('ready', () =>{
-    console.log('The bot is online. ');
-    bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
-    setInterval(func.get('checking').execute, 1000*60*30)
-})
+
 
 bot.on('disconnect', () => console.log('Bot got disconnected, trying to reconnect now ...'));
 bot.on('reconnecting', () => console.log('Reconnecting ....'));
@@ -38,6 +34,11 @@ for(const file of FunctionFiles)
     func.set(command.name, command);
 }
 
+bot.on('ready', () =>{
+    console.log('The bot is online. ');
+    bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
+    //setInterval(func.get('checking').execute, 1000*60*30)
+})
 
 
 bot.on("guildMemberAdd", member =>{
@@ -51,6 +52,7 @@ bot.on("guildMemberAdd", member =>{
 
 bot.on('message', msg=>
 {
+
     switch (msg.content.toLowerCase()){
         case 'hello':
             bot.commands.get('hello').execute(msg);
