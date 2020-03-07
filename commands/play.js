@@ -3,6 +3,7 @@ module.exports ={
     description: 'Plays a song that a user inputs.',
     async execute(msg, args, ytdl, queue, serverQueue)
     {
+        msg.channel.bulkDelete(1);
         if (!args[1]) return msg.reply('Add a link!');
         const voiceChannel = msg.member.voiceChannel;
         if(!voiceChannel) return msg.reply('You have to be in a voice channel!');

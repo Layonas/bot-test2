@@ -2,6 +2,7 @@ module.exports = {
     name: 'resume',
     description: 'Resumes the song that was paused.',
     execute(msg, queue, serverQueue){
+        msg.channel.bulkDelete(1);
         if(serverQueue && !serverQueue.playing)
         {
         serverQueue.connection.dispatcher.resume();

@@ -3,6 +3,7 @@ module.exports = {
    description: 'Full list of songs that are currently in the queue.',
    execute(msg, serverQueue, ytdl, queue)
    {
+        msg.channel.bulkDelete(1);
         if(!serverQueue) return msg.reply('Nothing is playing.');
         return msg.reply(`
         __**Playlist**__

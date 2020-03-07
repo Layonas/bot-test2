@@ -2,6 +2,7 @@ module.exports = {
     name: 'pause',
     description: 'Pauses the song that is playing.',
     execute(msg, queue, serverQueue){
+        msg.channel.bulkDelete(1);
         if(serverQueue && serverQueue.playing)
         {
         serverQueue.connection.dispatcher.pause();

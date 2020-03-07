@@ -3,7 +3,7 @@ module.exports={
     description: 'Stops the music that is being played with the bot.',
     execute(msg, serverQueue)
     {
-        holder.get('p').dispatcher;
+        msg.channel.bulkDelete(1);
         if(!msg.member.voiceChannel) return msg.reply('You cant stop the music!');
         if(!serverQueue) return msg.reply('There is nothing to skip!');
         serverQueue.songs = [];
