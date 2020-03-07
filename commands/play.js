@@ -7,6 +7,7 @@ module.exports ={
         if (!args[1]) return msg.reply('Add a link!');
         const voiceChannel = msg.member.voiceChannel;
         if(!voiceChannel) return msg.reply('You have to be in a voice channel!');
+        if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('You must be in **music** voice channel!');
 
         const songInfo = await ytdl.getInfo(args[1]);
         const song = {

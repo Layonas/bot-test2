@@ -84,7 +84,7 @@ bot.on ('message', msg=>
         case 'skip':
             bot.commands.get('skip').execute(msg, serverQueue);
         break;
-        case 'list':
+        case 'playlist':
             bot.commands.get('list').execute(msg, serverQueue, queue, ytdl);
             break;
         case 'pause':
