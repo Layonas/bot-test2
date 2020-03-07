@@ -1,21 +1,15 @@
-
 module.exports={
     name: 'stop',
     description: 'Stops the music that is being played with the bot.',
-    execute(msg, servers, holder)
+    execute(msg, serverQueue)
     {
-        holder.get('play').servers;
-        var server = servers[msg.guild.id];
-        if(msg.guild.voiceConnection)
-        {
-            for (var i = server.queue.length -1; i >=0; i--)
-            {
-                server.queue.splice(i, 1);
-            }
-            server.dispatcher.end();
-            msg.reply('Stopped the songs!');
-            console.log('Stopped the songs.');
-        }
-        if(msg.guild.connection) msg.guild.voiceConnection.disconnect();
+        holder.get('p').dispatcher;
+        if(!msg.member.voiceChannel) return msg.reply('You cant stop the music!');
+        if(!serverQueue) return msg.reply('There is nothing to skip!');
+        serverQueue.songs = [];
+        serverQueue.connection.dispatcher.end();
+        msg.reply('You have stopped the music!');
+        console.log('Forced Stop!');
+
     }
 }

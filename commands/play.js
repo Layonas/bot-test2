@@ -1,71 +1,66 @@
-module.exports = {
+module.exports ={
     name: 'play',
-    description: 'Get Youtube music and plays it in the server.',
-    execute(msg, args, ytdl, servers)
+    description: 'Plays a song that a user inputs.',
+    async execute(msg, args, ytdl, queue, serverQueue)
     {
-        msg.channel.bulkDelete(1);
-        var k = 0;
-                            function play(connection, msg, k){
-                                var server = servers[msg.guild.id];
-                                server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: "audioonly"}));
-                                const stream = ytdl(server.queue[0]);
-                                stream.on('info', (info) => {
-                                    console.log(info.title);   
-                                    console.log(info.video_url);
-                                    console.log(info.video_id); 
-                                    const Embed = new RichEmbed()
-                                    .setTitle('Playing now!')
-                                    .addField('Title', info.title, false )
-                                    .addField('Video URL', info.video_url)
-                                    .setColor((Math.random()*0xFFFFFF<<0).toString(16))
-                                    .setThumbnail(`https://img.youtube.com/vi/${info.video_id}/default.jpg`)
-                                    msg.channel.send(Embed);
-                                });
-                                server.queue.shift();
-                                
-                                if (k === 0) 
-                                {
-                                    console.log('Started playing a song!');
-                                    k++;
-                                }
-                                server.dispatcher.on("end", function(){
-                                    console.log('Song ended.');
-                                    if(server.queue[0]){
-                                        console.log('Playing the next song.');
-                                        play(connection, msg);
-                                    }
-                                    else {
-                                        console.log('Disconnected from the voice channel.');
-                                        connection.disconnect();
-                                    }
-                                })
-                                                         }
+        if (!args[1]) return msg.reply('Add a link!');
+        const voiceChannel = msg.member.voiceChannel;
+        if(!voiceChannel) return msg.reply('You have to be in a voice channel!');
 
-        if (!args[1]) 
-         {
-             msg.channel.send('Add link pls');
-             return;
-         }
-         if (!msg.member.voiceChannel)
-         {
-             msg.reply('Go to voice channel');
-             return;
-         }
+        const songInfo = await ytdl.getInfo(args[1]);
+        const song = {
+            title: songInfo.title,
+            url: songInfo.video_url
+        }
 
-         if(!servers[msg.guild.id]) servers[msg.guild.id] = {
-             queue: []
-         }
-         var server = servers[msg.guild.id];
+        if (!serverQueue) 
+        {
+            const queueConstruct = {
+                textChannel: msg.channel,
+                voiceChannel: voiceChannel,
+                connection: null,
+                songs: [],
+                playing: true
+            };
+            queue.set(msg.guild.id, queueConstruct);
+            queueConstruct.songs.push(song);
 
-         server.queue.push(args[1]);
-         const stream = ytdl(args[1]);
-         stream.on('info', (info) => {
-            console.log(`--------------- ${info.title} ----------- added to queue!`);
-            msg.channel.send(`${info.title} added to the queue!`);
-         })
+            try {
+                var connection = await voiceChannel.join();
+                queueConstruct.connection = connection;
+                play(msg.guild, queueConstruct.songs[0]);
+            } catch (error) {
+                queue.delete(msg.guild.id);
+                console.error(error);
+            }
+        } else{
+                    serverQueue.songs.push(song);
+                   return msg.channel.send(`**${song.title}** added to the queue!`);
+        }
 
-         if(!msg.guild.voiceConnection) msg.member.voiceChannel.join().then(function(connection){
-             play(connection, msg, k);
-         })
-    } 
+    function play (guild, song)
+        {
+            const serverQueue = queue.get(guild.id);
+            
+            if (!song)
+            {
+                serverQueue.voiceChannel.leave();
+                queue.delete(guild.id);
+                return;
+            }
+            const dispatcher = serverQueue.connection.playStream(ytdl(song.url, {filter: "audioonly"}));
+            dispatcher.on('end', () =>{
+                          console.log('Song ended and shifted to the next one!');
+                          serverQueue.songs.shift();
+                          play(guild, serverQueue.songs[0]);
+                      })
+                      .on('error', error => console.error(error));
+
+                      serverQueue.textChannel.send(`**${song.title}** started playing!`);
+        }
+
+
+
+
+    }
 }

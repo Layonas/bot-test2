@@ -6,7 +6,7 @@ const token = 'NjcyODM2MzEwMTc1NzExMjcz.XkQjrQ.23HJKoAYX9Zojsbq7Abk0c8FhYg';
 const prefix = '!';
 const CommandCooldown = new Set();
 const ytdl = require("ytdl-core");
-var servers = {};
+const queue = new Map();
 
      
 
@@ -67,18 +67,32 @@ bot.on ('message', msg=>
 
     let args = msg.content.substring(prefix.length).split(" ");
 
+    const serverQueue = queue.get(msg.guild.id);
+
     switch(args[0])
     {
 
         case 'play':
-            bot.commands.get('play').execute(msg, args, ytdl, servers);
+            bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue);
         break;
+        case 'np':
+            bot.commands.get('NowPlaying').execute(msg, serverQueue, queue);
+            break;
         case 'stop':
-            bot.commands.get('stop').execute(msg, servers, holder);
+            bot.commands.get('stop').execute(msg, serverQueue);
         break;
         case 'skip':
-            bot.commands.get('skip').execute(msg, servers);
+            bot.commands.get('skip').execute(msg, serverQueue);
         break;
+        case 'list':
+            bot.commands.get('list').execute(msg, serverQueue, queue, ytdl);
+            break;
+        case 'pause':
+            bot.commands.get('pause').execute(msg, queue, serverQueue);
+            break;
+        case 'resume':
+            bot.commands.get('resume').execute(msg, queue, serverQueue);
+            break;
 
             case 'server':
             holder.get('server').execute(msg, ping, RichEmbed);
