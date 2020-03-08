@@ -72,19 +72,19 @@ bot.on ('message', msg=>
     switch(args[0])
     {
 
-        case 'play':
+        case 'play', 'join', 'start', 'listen':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue);
         break;
-        case 'np':
+        case 'np', 'NowPlaying', 'nowplaying':
             bot.commands.get('NowPlaying').execute(msg, serverQueue, queue);
             break;
-        case 'stop':
+        case 'stop', 's', 'st':
             bot.commands.get('stop').execute(msg, serverQueue);
         break;
-        case 'skip':
+        case 'skip', 'sk':
             bot.commands.get('skip').execute(msg, serverQueue);
         break;
-        case 'playlist':
+        case 'playlist', 'pl', 'list', 'Playlist':
             bot.commands.get('list').execute(msg, serverQueue, queue, ytdl);
             break;
         case 'pause':
