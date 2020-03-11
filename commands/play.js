@@ -1,18 +1,31 @@
 module.exports ={
     name: 'play',
     description: 'Plays a song that a user inputs.',
-    async execute(msg, args, ytdl, queue, serverQueue)
+    async execute(msg, args, ytdl, queue, serverQueue, youtube)
     {
         msg.channel.bulkDelete(1);
         if (!args[1]) return msg.reply('Add a link!');
+        const url = args[1];
+        const searcString = agrs.slice(1).join(' ');
         const voiceChannel = msg.member.voiceChannel;
         if(!voiceChannel) return msg.reply('You have to be in a voice channel!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('You must be in **music** voice channel!');
 
-        const songInfo = await ytdl.getInfo(args[1]);
+        try {
+            const video = await youtube.getVideo(url);
+        } catch (error) {
+            try {
+                var videos = await youtube.searchVideos(searchString, 1);
+                var video  = await youtube.getVideoByID(videos[0].id);
+            } catch (err) {
+                console.error(err);
+                msg.reply('No video was found!');
+            }
+        }
         const song = {
-            title: songInfo.title,
-            url: songInfo.video_url
+            title: video.title,
+            id: video.id,
+            url: `https://www.youtube.com/watch?v=${video.id}`,
         }
 
         if (!serverQueue) 

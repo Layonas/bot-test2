@@ -1,14 +1,16 @@
 const {Client, RichEmbed} = require('discord.js');
+const {YOUTUBE_API_KEY, token} = require('./config.js');
 const Discord = require('discord.js');
-const bot = new Client();
 const ping = require('minecraft-server-util');
-const token = 'NjcyODM2MzEwMTc1NzExMjcz.XkQjrQ.23HJKoAYX9Zojsbq7Abk0c8FhYg';
-const prefix = '!';
-const CommandCooldown = new Set();
 const ytdl = require("ytdl-core");
-const queue = new Map();
+const Youtube = require('simple-youtube-api');
 
-     
+const prefix = '!';
+
+const bot = new Client();
+const CommandCooldown = new Set();
+const queue = new Map();
+const youtube = new Youtube(YOUTUBE_API_KEY);
 
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -71,9 +73,8 @@ bot.on ('message', msg=>
 
     switch(args[0])
     {
-
         case 'play'://, 'join', 'start', 'listen':
-            bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue);
+            bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
             break;
         case 'np'://, 'NowPlaying', 'nowplaying':
             bot.commands.get('NowPlaying').execute(msg, serverQueue, queue);
