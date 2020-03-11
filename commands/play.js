@@ -6,7 +6,7 @@ module.exports ={
         msg.channel.bulkDelete(1);
         if (!args[1]) return msg.reply('Add a link!');
         const url = args[1];
-        const searcString = agrs.slice(1).join(' ');
+        const searchString = args.slice(1).join(' ');
         const voiceChannel = msg.member.voiceChannel;
         if(!voiceChannel) return msg.reply('You have to be in a voice channel!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('You must be in **music** voice channel!');
