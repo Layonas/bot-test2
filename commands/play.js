@@ -4,7 +4,7 @@ module.exports ={
     async execute(msg, args, ytdl, queue, serverQueue, youtube)
     {
         msg.channel.bulkDelete(1);
-        if (!args[1]) return msg.reply('Add a link!');
+        if (!args[1]) return msg.reply('Add a link or just a name of a song!');
         const url = args[1];
         const searchString = args.slice(1).join(' ');
         const voiceChannel = msg.member.voiceChannel;
@@ -12,16 +12,17 @@ module.exports ={
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('You must be in **music** voice channel!');
 
         try {
-            const video = await youtube.getVideo(url);
+            var video = await youtube.getVideo(url);
         } catch (error) {
             try {
                 var videos = await youtube.searchVideos(searchString, 1);
                 var video  = await youtube.getVideoByID(videos[0].id);
             } catch (err) {
                 console.error(err);
-                msg.reply('No video was found!');
+                return msg.reply('No video was found!');
             }
         }
+
         const song = {
             title: video.title,
             id: video.id,

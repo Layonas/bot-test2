@@ -38,8 +38,8 @@ for(const file of FunctionFiles)
 
 bot.on('ready', () =>{
     console.log('The bot is online. ');
-    console.log(bot);
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
+    
     setInterval( () => {
         var room =  bot.channels.get('543849764219781131');
         try {
