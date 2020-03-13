@@ -39,11 +39,15 @@ for(const file of FunctionFiles)
 bot.on('ready', () =>{
     console.log('The bot is online. ');
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
-    
+
+    var d = new Date();
+    fs.writeFile('BotLogs.txt', `[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`)
+
+    var a = 0;
     setInterval( () => {
         var room =  bot.channels.get('543849764219781131');
         try {
-            func.get('checking').execute(room, bot);
+            func.get('checking').execute(room, bot, a);
         } catch (error) {
             console.error(error);
         } 
@@ -79,6 +83,14 @@ bot.on ('message', msg=>
     let args = msg.content.substring(prefix.length).split(" ");
 
     const serverQueue = queue.get(msg.guild.id);
+
+    var d = new Date();
+    fs.readFile('BotLogs.txt', (err, text) => {
+        if (err) throw err;
+        fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()}:${d.getDate()+1} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
+            if (error) throw error;
+        })
+    })
 
     switch(args[0])
     {

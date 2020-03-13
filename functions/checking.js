@@ -1,9 +1,8 @@
 module.exports = {
     name: 'checking',
     description: 'checks if the server is online',
-   async execute(room, bot)
+   async execute(room, bot, a)
     {
-        var a = 0;
         const ping = require('minecraft-server-util');
         const {Client, RichEmbed} = require('discord.js');
         
