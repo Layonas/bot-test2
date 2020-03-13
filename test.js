@@ -41,7 +41,9 @@ bot.on('ready', () =>{
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
 
     var d = new Date();
-    fs.writeFile('BotLogs.txt', `[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`)
+    fs.writeFile('BotLogs.txt', `[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) {
+        if (err) throw err;
+    })
 
     var a = 0;
     setInterval( () => {
