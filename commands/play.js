@@ -63,7 +63,8 @@ module.exports ={
                 }
             } else{
                         serverQueue.songs.push(song);
-                       return msg.channel.send(`**${song.title}** added to the queue!`);
+                        if (playlist) return;
+                            else return msg.channel.send(`**${song.title}** added to the queue!`);
             }
         }
 
