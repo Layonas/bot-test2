@@ -102,7 +102,7 @@ bot.on ('message', msg=>
 
     switch(args[0])
     {
-        case 'p'://, 'join', 'start', 'listen':
+        case 'play'://, 'join', 'start', 'listen':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
             break;
         case 'np'://, 'NowPlaying', 'nowplaying':
