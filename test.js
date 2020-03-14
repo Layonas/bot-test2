@@ -41,9 +41,15 @@ bot.on('ready', () =>{
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
 
     var d = new Date();
-    fs.writeFile('BotLogs.txt', `[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
+    fs.readFile('BotLogs.txt', (error, text) =>{
+                if(error) throw error;
+            fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
         if (err) throw err;
     })
+    })
+
+    
+
 
     var a = 0;
     setInterval( () => {
@@ -96,7 +102,7 @@ bot.on ('message', msg=>
 
     switch(args[0])
     {
-        case 'play'://, 'join', 'start', 'listen':
+        case 'p'://, 'join', 'start', 'listen':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
             break;
         case 'np'://, 'NowPlaying', 'nowplaying':

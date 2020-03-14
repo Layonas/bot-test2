@@ -5,7 +5,7 @@ module.exports = {
         msg.channel.bulkDelete(1);
         if(!msg.member.voiceChannel) return msg.reply('You cant skip the music!');
         if(msg.member.voiceChannel.name.toLowerCase() !== 'music') return msg.reply('You must be in **music** voice channel!');
-        if(!serverQueue) msg.reply('No songs to skip');
+        if(!serverQueue) return msg.reply('No songs to skip');
         serverQueue.connection.dispatcher.end();
         msg.reply('Skipped a song!');
         console.log('Skipped a song.');

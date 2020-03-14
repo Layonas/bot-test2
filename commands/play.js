@@ -11,48 +11,63 @@ module.exports ={
         if(!voiceChannel) return msg.reply('You have to be in a voice channel!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('You must be in **music** voice channel!');
 
-        try {
-            var video = await youtube.getVideo(url);
-        } catch (error) {
-            try {
-                var videos = await youtube.searchVideos(searchString, 1);
-                var video  = await youtube.getVideoByID(videos[0].id);
-            } catch (err) {
-                console.error(err);
-                return msg.reply('No video was found!');
+        if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
+            const playlist = await youtube.getPlaylist(url);
+            const videos  = await playlist.getVideos();
+            for (const video of Object.values(videos)){
+                const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
+                await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
             }
-        }
-
-        const song = {
-            title: video.title,
-            id: video.id,
-            url: `https://www.youtube.com/watch?v=${video.id}`,
-        }
-
-        if (!serverQueue) 
-        {
-            const queueConstruct = {
-                textChannel: msg.channel,
-                voiceChannel: voiceChannel,
-                connection: null,
-                songs: [],
-                playing: true
-            };
-            queue.set(msg.guild.id, queueConstruct);
-            queueConstruct.songs.push(song);
-
+            msg.channel.send(`Playlist **__${playlist.title}__** has been added to the list!`);
+        }else {
             try {
-                var connection = await voiceChannel.join();
-                queueConstruct.connection = connection;
-                play(msg.guild, queueConstruct.songs[0]);
+                var video = await youtube.getVideo(url);
             } catch (error) {
-                queue.delete(msg.guild.id);
-                console.error(error);
+                try {
+                    var videos = await youtube.searchVideos(searchString, 1);
+                    var video  = await youtube.getVideoByID(videos[0].id);
+                } catch (err) {
+                    console.error(err);
+                    return msg.reply('No video was found!');
+                }
             }
-        } else{
-                    serverQueue.songs.push(song);
-                   return msg.channel.send(`**${song.title}** added to the queue!`);
+            return handleVideo(video, msg, voiceChannel);
         }
+
+   async function handleVideo (video, msg, voiceChannel , playlist = false){
+            const song = {
+                title: video.title,
+                id: video.id,
+                url: `https://www.youtube.com/watch?v=${video.id}`,
+            }
+    
+            if (!serverQueue) 
+            {
+                const queueConstruct = {
+                    textChannel: msg.channel,
+                    voiceChannel: voiceChannel,
+                    connection: null,
+                    songs: [],
+                    playing: true
+                };
+                queue.set(msg.guild.id, queueConstruct);
+                queueConstruct.songs.push(song);
+    
+                try {
+                    var connection = await voiceChannel.join();
+                    queueConstruct.connection = connection;
+                    play(msg.guild, queueConstruct.songs[0]);
+                } catch (error) {
+                    queue.delete(msg.guild.id);
+                    console.error(error);
+                }
+            } else{
+                        serverQueue.songs.push(song);
+                       return msg.channel.send(`**${song.title}** added to the queue!`);
+            }
+        }
+
+
 
     function play (guild, song)
         {
