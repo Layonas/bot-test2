@@ -5,14 +5,15 @@ module.exports = {
    {
         msg.channel.bulkDelete(1);
         const Discord = require('discord.js');
-        if(!serverQueue) return msg.reply('Nothing is playing.');
+        if(!serverQueue) return msg.reply('Šiuo metu niekas negroja.');
         let embed = new Discord.RichEmbed()
         .setColor('RANDOM')
         .setThumbnail(msg.author.avatarURL)
-        .setDescription(`__**Playlist**__
+        .setDescription(`__**Playlist'as**__
         ${serverQueue.songs.map(song => `**+** ${song.title}`).join('\n')}
         
-        **__Now playing:__**  ${serverQueue.songs[0].title}`);
+        Dabar yra **${serverQueue.songs.length}** dainų saraše!
+        **__Dabar groja:__**  ${serverQueue.songs[0].title}`);
         return msg.channel.send(embed);
 }
 }

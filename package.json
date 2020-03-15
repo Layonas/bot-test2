@@ -4,8 +4,9 @@
   "description": "",
   "main": "test.js",
   "dependencies": {
-    "discord.js": "^11.6.1",
+    "discord.js": "^11.6.2",
     "minecraft-server-util": "^1.1.0",
+    "node-opus": "^0.3.3",
     "opusscript": "0.0.7",
     "simple-youtube-api": "^5.2.1",
     "ytdl-core": "^2.0.0"

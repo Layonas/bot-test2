@@ -75,7 +75,6 @@ bot.on("guildMemberAdd", member =>{
 
 bot.on('message', msg=>
 {
-
     switch (msg.content.toLowerCase()){
         case 'hello':
             bot.commands.get('hello').execute(msg);
