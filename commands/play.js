@@ -10,16 +10,27 @@ module.exports ={
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinima arba dainos nuorodą!');
         const url = args[1];
         const searchString = args.slice(1).join(' ');
-
+        console.log(`Order was requested.`);
+        
         if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
             const playlist = await youtube.getPlaylist(url);
             const videos  = await playlist.getVideos();
+            //return console.log(videos.length) //veikia
             for (const video of Object.values(videos)){
-                const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
-                await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
+                try {
+                    const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
+                    await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
+                } catch (error) {
+                    try {
+                        const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
+                        await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
             }
             msg.channel.send(`Playlist'as **__${playlist.title}__** buvo pridėtas prie sąrašo eilės!`);
-            console.log(`Playlist has been added.`);
+            console.log(`Playlist has been added with ${videos.length} songs in the queue!`);
         }else{
             try {
                 var video = await youtube.getVideo(url);
@@ -70,7 +81,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
     } else{
         await serverQueue.songs.push(song);
         //console.log(serverQueue.songs);
-        if (playlist) return;
+        if (playlist) return;//console.log(serverQueue.songs.length);
         else return msg.channel.send(`**${song.title}** pridėta prie sąrašo!`);
         }
 return undefined;

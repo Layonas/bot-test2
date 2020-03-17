@@ -43,7 +43,7 @@ bot.on('ready', () =>{
     var d = new Date();
     fs.readFile('BotLogs.txt', (error, text) =>{
                 if(error) throw error;
-            fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
+            fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()+1} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
         if (err) throw err;
     })
     })
@@ -94,7 +94,7 @@ bot.on ('message', msg=>
     var d = new Date();
     fs.readFile('BotLogs.txt', (err, text) => {
         if (err) throw err;
-        fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()}:${d.getDate()+1} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
+        fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()+1}:${d.getDate()+1} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
             if (error) throw error;
         })
     })

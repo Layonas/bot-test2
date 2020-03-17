@@ -144,3 +144,60 @@
 [ 2:16 19h 24m 26s ]  Layon (279665080000315393) -- !help play 
 [ 2:16 19h 28m 53s ]  Layon (279665080000315393) -- !help kick 
 [ 2:16 19h 28m 59s ]  Layon (279665080000315393) -- !help cooldown
+[ 3:16 19h 26m 46s ] The bot went Online!
+[ 3:16 19h 26m 52s ] The bot went Online! 
+[ 2:17 19h 29m 15s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuJW-AsK0faQKqnv4twa9L2r
+[ 3:18 12h 43m 17s ] The bot went Online! 
+[ 3:18 12h 43m 45s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuJW-AsK0faQKqnv4twa9L2r 
+[ 3:18 12h 44m 19s ]  Layon (279665080000315393) -- !skip 
+[ 3:18 12h 45m 27s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 12h 46m 15s ]  Layon (279665080000315393) -- !skip 
+[ 3:18 12h 46m 20s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 12h 49m 55s ]  Layon (279665080000315393) -- !stop
+[ 3:18 12h 50m 18s ] The bot went Online! 
+[ 3:18 12h 50m 23s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuJW-AsK0faQKqnv4twa9L2r 
+[ 3:18 12h 50m 39s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 12h 52m 23s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 12h 52m 42s ]  Layon (279665080000315393) -- !skip 
+[ 3:18 12h 52m 46s ]  Layon (279665080000315393) -- !skip 
+[ 3:18 12h 52m 50s ]  Layon (279665080000315393) -- !skip 
+[ 3:18 12h 52m 54s ]  Layon (279665080000315393) -- !skip 
+[ 3:18 12h 52m 59s ]  Layon (279665080000315393) -- !playlisy 
+[ 3:18 12h 53m 2s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 12h 55m 12s ]  Layon (279665080000315393) -- !stop
+[ 3:18 12h 55m 16s ] The bot went Online! 
+[ 3:18 12h 55m 19s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuJW-AsK0faQKqnv4twa9L2r
+[ 3:18 12h 56m 7s ] The bot went Online! 
+[ 3:18 12h 56m 19s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf
+[ 3:18 12h 56m 54s ] The bot went Online! 
+[ 3:18 12h 56m 58s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf
+[ 3:18 12h 57m 31s ] The bot went Online! 
+[ 3:18 12h 57m 34s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf
+[ 3:18 12h 58m 30s ] The bot went Online! 
+[ 3:18 12h 58m 33s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf
+[ 3:18 13h 0m 58s ] The bot went Online! 
+[ 3:18 13h 1m 5s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuJW-AsK0faQKqnv4twa9L2r 
+[ 3:18 13h 9m 1s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 13h 9m 31s ]  Layon (279665080000315393) -- !stop
+[ 3:18 13h 9m 41s ] The bot went Online! 
+[ 3:18 13h 10m 50s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLZWHoah8ZLx_V-YTKlCs0fibGpmw0iqbC 
+[ 3:18 13h 11m 34s ]  Layon (279665080000315393) -- !playlisy 
+[ 3:18 13h 11m 37s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 13h 19m 13s ]  Layon (279665080000315393) -- !stop
+[ 3:18 13h 19m 18s ] The bot went Online! 
+[ 3:18 13h 19m 22s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLZWHoah8ZLx_V-YTKlCs0fibGpmw0iqbC 
+[ 3:18 13h 19m 55s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 13h 22m 43s ]  Layon (279665080000315393) -- !stop
+[ 3:18 13h 22m 49s ] The bot went Online! 
+[ 3:18 13h 22m 51s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLZWHoah8ZLx_V-YTKlCs0fibGpmw0iqbC 
+[ 3:18 13h 23m 16s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 13h 24m 16s ]  Layon (279665080000315393) -- !stop
+[ 3:18 13h 24m 22s ] The bot went Online! 
+[ 3:18 13h 24m 25s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLZWHoah8ZLx_V-YTKlCs0fibGpmw0iqbC 
+[ 3:18 13h 24m 52s ]  Layon (279665080000315393) -- !playlisy 
+[ 3:18 13h 24m 55s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 13h 26m 58s ]  Layon (279665080000315393) -- !stop
+[ 3:18 13h 27m 12s ] The bot went Online! 
+[ 3:18 13h 27m 16s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLZWHoah8ZLx_V-YTKlCs0fibGpmw0iqbC 
+[ 3:18 13h 27m 36s ]  Layon (279665080000315393) -- !playlist 
+[ 3:18 13h 29m 34s ]  Layon (279665080000315393) -- !stop
