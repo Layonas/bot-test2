@@ -201,3 +201,26 @@
 [ 3:18 13h 27m 16s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLZWHoah8ZLx_V-YTKlCs0fibGpmw0iqbC 
 [ 3:18 13h 27m 36s ]  Layon (279665080000315393) -- !playlist 
 [ 3:18 13h 29m 34s ]  Layon (279665080000315393) -- !stop
+[ 3:19 13h 10m 29s ] The bot went Online! 
+[ 3:19 13h 11m 23s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf
+[ 3:19 13h 11m 59s ] The bot went Online! 
+[ 3:19 13h 12m 6s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf
+[ 3:19 13h 13m 13s ] The bot went Online! 
+[ 3:19 13h 13m 16s ]  Layon (279665080000315393) -- !sk 
+[ 3:19 13h 13m 19s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf 
+[ 3:19 13h 13m 29s ]  Layon (279665080000315393) -- !sk 
+[ 3:19 13h 14m 8s ]  Layon (279665080000315393) -- !playlist 
+[ 3:19 13h 14m 14s ]  Layon (279665080000315393) -- !sk 4
+[ 3:19 13h 16m 55s ] The bot went Online! 
+[ 3:19 13h 16m 59s ]  Layon (279665080000315393) -- !p https://www.youtube.com/playlist?list=PLOh0cbfmptuIKR2BTscm4deobDJGsDzWf 
+[ 3:19 13h 17m 7s ]  Layon (279665080000315393) -- !sk 
+[ 3:19 13h 17m 14s ]  Layon (279665080000315393) -- !sk 2 
+[ 3:19 13h 17m 29s ]  Layon (279665080000315393) -- !playlist 
+[ 3:19 13h 17m 38s ]  Layon (279665080000315393) -- !sk 4 
+[ 3:19 13h 22m 3s ]  Layon (279665080000315393) -- !stop
+[ 3:19 13h 27m 33s ] The bot went Online! 
+[ 3:19 13h 28m 7s ]  Layon (279665080000315393) -- !p tokyo ghoul first opening remix 
+[ 3:19 13h 28m 25s ]  Layon (279665080000315393) -- !p tokyo ghoul first opening remix 
+[ 3:19 13h 28m 42s ]  Layon (279665080000315393) -- !np 
+[ 3:19 13h 28m 52s ]  Layon (279665080000315393) -- !playlist 
+[ 3:19 13h 29m 11s ]  Layon (279665080000315393) -- !stop

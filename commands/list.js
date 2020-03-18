@@ -14,7 +14,8 @@ module.exports = {
                 ${serverQueue.songs.map(song => `**+** ${song.title}`).join('\n')}
 
 Dabar yra **${serverQueue.songs.length}** dainų saraše!
-**__Dabar groja:__**  ${serverQueue.songs[0].title}`);
+**__Dabar groja:__**  ${serverQueue.songs[0].title}
+**__Grojamos dainos linkas__** <${serverQueue.songs[0].url}>`);
                 return msg.channel.send(embed);                
         } catch (error) {
                 try {

@@ -98,7 +98,7 @@ bot.on ('message', msg=>
             if (error) throw error;
         })
     })
-
+    
     switch(args[0])
     {
         case 'play'://, 'join', 'start', 'listen':
@@ -111,7 +111,7 @@ bot.on ('message', msg=>
             bot.commands.get('stop').execute(msg, serverQueue);
         break;
         case 'skip'://, 'sk':
-            bot.commands.get('skip').execute(msg, serverQueue);
+            bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
         case 'playlist'://, 'pl', 'list', 'Playlist':
             bot.commands.get('list').execute(msg, serverQueue, queue, ytdl);

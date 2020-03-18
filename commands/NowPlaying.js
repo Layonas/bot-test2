@@ -4,6 +4,7 @@ module.exports = {
     execute(msg, serverQueue, queue){
         msg.channel.bulkDelete(1);
         if(!serverQueue) return msg.reply('Dabar niekas negroja!');
-        return msg.reply(`Dabar groja **${serverQueue.songs[0].title}**`);
+        return msg.reply(`Dabar groja **${serverQueue.songs[0].title}**
+__Dainos nuoroda__ <${serverQueue.songs[0].url}>`);
     }
 }

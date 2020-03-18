@@ -20,7 +20,7 @@ switch(args[1]){
        .setTitle('Information')
        .setDescription(`Kūrėjas: **${owner.user.username}**
 Boto pavadinimas: **${msg.guild.members.get('672836310175711273').user.username}**
-Versija: **0.5.8**`);
+Versija: **0.6.8**`);
          msg.channel.send(embed);
     break;
     case 'server':
@@ -40,7 +40,10 @@ Versija: **0.5.8**`);
     break;
 
     case 'skip':
-        msg.reply(`Praleidžia dabar grojančią dainą.`);
+        msg.reply(`Praleidžia dabar grojančią dainą arba galima nurodyti antrą argumentą ir praleisti tiek dainų kiek nurodoma.
+**Naudoti**  __!skip__  **arba**  __!skip <skaičius>__
+**Pavyzdys** *Praleidžia tik vieną dainą* __!skip__
+**Pavyzdys** *Praledžia 5 dainas*  __!skip 5__`);
     break;
 
     case 'playlist':
