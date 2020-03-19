@@ -16,6 +16,7 @@ const fs = require('fs');
 bot.commands = new Discord.Collection();
 func = new Discord.Collection();
 
+var a = 0;
 
 bot.on('disconnect', () => console.log('Bot got disconnected, trying to reconnect now ...'));
 bot.on('reconnecting', () => console.log('Reconnecting ....'));
@@ -43,17 +44,17 @@ bot.on('ready', () =>{
     var d = new Date();
     fs.readFile('BotLogs.txt', (error, text) =>{
                 if(error) throw error;
-            fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()+1} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
+            fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
         if (err) throw err;
     })
     })
 
     
 
-
-    var a = 0;
+    
     setInterval( () => {
-        var room =  bot.channels.get('543849764219781131');
+        //var room =  bot.channels.get('543849764219781131');
+        var room = bot.channels.get('672837775569190922'); 
         try {
             func.get('checking').execute(room, bot, a);
         } catch (error) {
@@ -87,6 +88,12 @@ bot.on ('message', msg=>
 {
     if (!msg.content.startsWith(prefix)) return;
 
+    if(CommandCooldown.has(msg.author.id))
+    {
+        console.log('Deleting message.');
+        return msg.channel.bulkDelete(1);
+    }
+
     let args = msg.content.substring(prefix.length).split(" ");
 
     const serverQueue = queue.get(msg.guild.id);
@@ -94,14 +101,14 @@ bot.on ('message', msg=>
     var d = new Date();
     fs.readFile('BotLogs.txt', (err, text) => {
         if (err) throw err;
-        fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()+1}:${d.getDate()+1} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
+        fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
             if (error) throw error;
         })
     })
     
-    switch(args[0])
+    switch(args[0].toLowerCase())
     {
-        case 'play'://, 'join', 'start', 'listen':
+        case 'p'://, 'join', 'start', 'listen':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
             break;
         case 'np'://, 'NowPlaying', 'nowplaying':
@@ -148,14 +155,6 @@ bot.on ('message', msg=>
             else msg.reply('No.');
             
             break;
-    }
-})
-
-bot.on('message', msg=>{
-    if(CommandCooldown.has(msg.author.id))
-    {
-        console.log('Deleting message.');
-        msg.channel.bulkDelete(1);
     }
 })
 

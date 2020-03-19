@@ -27,9 +27,9 @@ module.exports = {
                            else
                            {
                                
-                               msg.reply ('Sėkmingai pridėtas vartotojas prie sąrašo.')
+                               msg.channel.send (`Sėkmingai pridėtas vartotojas prie sąrašo. ${user.username}`)
                                console.log(user.id + ' Id was added to wait list.');
-                               console.log(user.username + 'Šis žmogus pridėtas prie sąrašo.');
+                               console.log(user.username + ' Šis žmogus pridėtas prie sąrašo.');
                            CommandCooldown.add(user.id);
                            setTimeout(() => {
                             CommandCooldown.delete(user.id);
