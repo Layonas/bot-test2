@@ -48,13 +48,12 @@ bot.on('ready', () =>{
         if (err) throw err;
     })
     })
-
-    
+ 
 
     
     setInterval( () => {
         //var room =  bot.channels.get('543849764219781131');
-        var room = bot.channels.get('672837775569190922'); 
+        var room = bot.channels.get('672837776672030774'); 
         try {
             func.get('checking').execute(room, bot, a);
         } catch (error) {
@@ -108,9 +107,12 @@ bot.on ('message', msg=>
     
     switch(args[0].toLowerCase())
     {
-        case 'p'://, 'join', 'start', 'listen':
+        case 'play'://, 'join', 'start', 'listen':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
             break;
+        case 'splay':
+            bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
+        break;
         case 'np'://, 'NowPlaying', 'nowplaying':
             bot.commands.get('NowPlaying').execute(msg, serverQueue, queue);
             break;
