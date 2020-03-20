@@ -35,6 +35,12 @@ Versija: **0.6.8**`);
 **Pavyzdys dainos tik su pavadinimu** __!play justin bieber baby__`);
     break;
 
+    case 'splay':
+        msg.reply(`Jeigu nežinai, kaip tiksliai vadinasi daina gali pamėginti padaryti dainos paiešką, ši komanda gražins pirmas 10 dainų ir leis pasirinkti!
+**Naudojimas** __!splay <pavadinimas>__
+**Pavyzdys**  __!splay justin bieber baby__`);
+    break;
+
     case 'stop':
         msg.reply('Sustabdo visas dainos, kurios gros ir kuri groja ir panaikina muzikos eilę.');
     break;
