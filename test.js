@@ -16,7 +16,6 @@ const fs = require('fs');
 bot.commands = new Discord.Collection();
 func = new Discord.Collection();
 
-var a = 0;
 
 bot.on('disconnect', () => console.log('Bot got disconnected, trying to reconnect now ...'));
 bot.on('reconnecting', () => console.log('Reconnecting ....'));
@@ -41,16 +40,17 @@ bot.on('ready', () =>{
     console.log('The bot is online. ');
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
 
-    var d = new Date();
-    fs.readFile('BotLogs.txt', (error, text) =>{
-                if(error) throw error;
-            fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
-        if (err) throw err;
-    })
-    })
+    // var d = new Date();
+    // fs.readFile('BotLogs.txt', (error, text) =>{
+    //             if(error) throw error;
+    //         fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
+    //     if (err) throw err;
+    // })
+    // })
  
 
-    
+    var a = 0;
+    if (a === 0){
     setInterval( () => {
         //var room =  bot.channels.get('543849764219781131');
         var room = bot.channels.get('672837776672030774'); 
@@ -61,6 +61,9 @@ bot.on('ready', () =>{
         } 
         
     }, 1000*60*30);
+
+    a++;
+}else return msg.channel.send('Checked!');
 })
 
 
@@ -97,13 +100,13 @@ bot.on ('message', msg=>
 
     const serverQueue = queue.get(msg.guild.id);
 
-    var d = new Date();
-    fs.readFile('BotLogs.txt', (err, text) => {
-        if (err) throw err;
-        fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
-            if (error) throw error;
-        })
-    })
+    // var d = new Date();
+    // fs.readFile('BotLogs.txt', (err, text) => {
+    //     if (err) throw err;
+    //     fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
+    //         if (error) throw error;
+    //     })
+    // })
     
     switch(args[0].toLowerCase())
     {
@@ -112,6 +115,9 @@ bot.on ('message', msg=>
             break;
         case 'splay':
             bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
+        break;
+        case 'instaplay':
+            bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
         case 'np'://, 'NowPlaying', 'nowplaying':
             bot.commands.get('NowPlaying').execute(msg, serverQueue, queue);

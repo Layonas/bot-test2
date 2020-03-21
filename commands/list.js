@@ -31,7 +31,7 @@ Dabar yra **${serverQueue.songs.length}** dainų sąraše!
 **__Dabar groja:__**  ${holder[0].title}`); //paziureti ar eina index ideti
                         return msg.channel.send(embed);                        
                 } catch (err) {
-                        console.log(err);
+                        console.error(err);
                         return msg.reply('Atsiprašome įvyko klaida, prašome pabandyti vėliau.');
                 }
         }

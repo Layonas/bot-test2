@@ -3,7 +3,7 @@ module.exports = {
     description: 'send all available commands',
     execute(msg, args){
        if (!args[1]){
-        msg.reply('!server, !info, !play, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown');
+        msg.reply('!server, !info, !play, !splay, !instaplay, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown');
  return msg.reply(`Dėl papildomos informacijos, kaip veikia komanda, prašome parašyti
 **!help <komandos_pavadinimas>**
 __Pavyzdys__ -- !help info`)
@@ -41,6 +41,12 @@ Versija: **0.6.8**`);
 **Pavyzdys**  __!splay justin bieber baby__`);
     break;
 
+    case 'instaplay':
+        msg.reply(`Prideda dainą be eilės iš kart į antrą vietą, kad nereikėtų stabdyti dainų ir naikinti eilės.
+**Naudojimas**  __!instaplay <pavadinimas>__ arba  __!instaplay <url>__
+**Pavyzdys dainos tik su pavadinimu**  __!instaplay justin bieber baby__
+**Pavyzdys dainos tik su url**  __!instaplay <https://www.youtube.com/watch?v=scq68KbF4Gk>__`);
+    break;
     case 'stop':
         msg.reply('Sustabdo visas dainos, kurios gros ir kuri groja ir panaikina muzikos eilę.');
     break;
