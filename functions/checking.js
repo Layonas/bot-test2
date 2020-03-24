@@ -26,7 +26,7 @@ if (response.version.slice(4) === 'Online' && a === 0)
     room.send(`Checked ${a}`);
     a++;
 }else {
-    room.send('Offline');
+    //room.send('Offline');
     a = 0;
 } 
 
