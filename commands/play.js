@@ -62,6 +62,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         const queueConstruct = {
             textChannel: msg.channel,
             voiceChannel: voiceChannel,
+            requester: [],
             connection: null,
             songs: [],
             playing: true
@@ -69,6 +70,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         console.log(`Queue has been made!`);
         queue.set(msg.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
+        queueConstruct.requester.push(msg.author.username);// kas pirmas papraso to visada raso
     
         try {
             var connection = await voiceChannel.join();
@@ -80,6 +82,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         }
     } else{
         await serverQueue.songs.push(song);
+        await serverQueue.requester.push(msg.author.username);
         //console.log(serverQueue.songs);
         if (playlist) return;//console.log(serverQueue.songs.length);
         else return msg.channel.send(`**${song.title}** pridėta prie sąrašo!`);
@@ -101,6 +104,7 @@ async function play (guild, song){
     dispatcher.on('end', () =>{
          console.log('Song ended and shifted to the next one!');
         serverQueue.songs.shift();
+        serverQueue.requester.shift();
         play(guild, serverQueue.songs[0]);
     })
                 .on('error', error => console.error(error));

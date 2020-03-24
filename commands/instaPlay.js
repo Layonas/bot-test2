@@ -59,6 +59,7 @@ if (!serverQueue)
 const queueConstruct = {
     textChannel: msg.channel,
     voiceChannel: voiceChannel,
+    requester: [],
     connection: null,
     songs: [],
     playing: true
@@ -66,6 +67,7 @@ const queueConstruct = {
 console.log(`Queue has been made!`);
 queue.set(msg.guild.id, queueConstruct);
 queueConstruct.songs.push(song);
+queueConstruct.requester.push(msg.author.username);
 
 try {
     var connection = await voiceChannel.join();
@@ -77,6 +79,7 @@ try {
 }
 } else{
 await serverQueue.songs.splice(1, 0, song);
+await serverQueue.requester.splice(1, 0, msg.author.username);
 //console.log(serverQueue.songs);
 if (playlist) return;//console.log(serverQueue.songs.length);
 else return msg.channel.send(`**${song.title}** pridėta prie sąrašo!`);
@@ -98,6 +101,7 @@ const dispatcher = await serverQueue.connection.playStream(ytdl(song.url, {filte
 dispatcher.on('end', () =>{
  console.log('Song ended and shifted to the next one!');
 serverQueue.songs.shift();
+serverQueue.requester.shift();
 play(guild, serverQueue.songs[0]);
 })
         .on('error', error => console.error(error));

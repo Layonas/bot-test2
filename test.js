@@ -48,22 +48,8 @@ bot.on('ready', () =>{
     // })
     // })
  
+    func.get('checking').execute(bot);
 
-    var a = 0;
-    if (a === 0){
-    setInterval( () => {
-        //var room =  bot.channels.get('543849764219781131');
-        var room = bot.channels.get('672837776672030774'); 
-        try {
-            func.get('checking').execute(room, bot, a);
-        } catch (error) {
-            console.error(error);
-        } 
-        
-    }, 1000*60*30);
-
-    a++;
-}else return msg.channel.send('Checked!');
 })
 
 

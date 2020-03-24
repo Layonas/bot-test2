@@ -11,11 +11,12 @@ module.exports = {
                 .setColor('RANDOM')
                 .setThumbnail(msg.author.avatarURL)
                 .setDescription(`__**Playlist'as**__
-                ${serverQueue.songs.map(song => `**+** ${song.title}`).join('\n')}
+                ${serverQueue.songs.map((song, index) => `**+${index+1}** ${song.title}`).join('\n')}
 
 Dabar yra **${serverQueue.songs.length}** dainų saraše!
 **__Dabar groja:__**  ${serverQueue.songs[0].title}
-**__Grojamos dainos linkas__** <${serverQueue.songs[0].url}>`);
+**__Grojamos dainos linkas__** <${serverQueue.songs[0].url}>
+**__Dainą užsakė__** ${serverQueue.requester[0]}`);
                 return msg.channel.send(embed);                
         } catch (error) {
                 try {
@@ -24,11 +25,12 @@ Dabar yra **${serverQueue.songs.length}** dainų saraše!
                         .setColor('RANDOM')
                         .setThumbnail(msg.author.avatarURL)
                         .setDescription(`__**Playlist'as**__
-                        ${holder.map(song => `**+** ${song.title}`).join('\n')}
+                        ${holder.map((song, index) => `**+${index+1}** ${song.title}`).join('\n')}
 
 Dainų sąraše yra tik 30 dainų, tačiau tai ne visos!        
 Dabar yra **${serverQueue.songs.length}** dainų sąraše!
-**__Dabar groja:__**  ${holder[0].title}`); //paziureti ar eina index ideti
+**__Dabar groja:__**  ${holder[0].title}
+**__Dainą užsakė__** ${serverQueue.requester[0]}`); //paziureti ar eina index ideti
                         return msg.channel.send(embed);                        
                 } catch (err) {
                         console.error(err);
