@@ -158,9 +158,9 @@ bot.on ('message', msg=>
             bot.commands.get('resume').execute(msg, queue, serverQueue);
             break;
 
-        case 'poll':
-            bot.commands.get('poll').execute(msg);
-        break;
+        // case 'poll':
+        //     bot.commands.get('poll').execute(msg);
+        // break;
 
             case 'server':
             holder.get('server').execute(msg, ping, RichEmbed);
