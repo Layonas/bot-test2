@@ -22,12 +22,12 @@ module.exports = {
                            const time = args[2];
                            if (CommandCooldown.has(user))
                            {
-                               msg.reply('Vartotojas jau yra cooldown sąraše.')
+                               msg.reply('Vartotojas jau yra cooldown sąraše.');
                            }
                            else
                            {
                                
-                               msg.channel.send (`Sėkmingai pridėtas vartotojas prie sąrašo. ${user.username}`)
+                               msg.channel.send (`Sėkmingai pridėtas vartotojas prie sąrašo. ${user.username}`);
                                console.log(user.id + ' Id was added to wait list.');
                                console.log(user.username + ' Šis žmogus pridėtas prie sąrašo.');
                            CommandCooldown.add(user.id);
@@ -57,4 +57,8 @@ module.exports = {
     }
 }
 
-}
+};
+//veikia
+// module.exports.help = {
+//     name: 'cooldown'
+// }

@@ -14,16 +14,15 @@ module.exports = {
         if(isNaN(args[1])) return msg.reply(`${args[1]} nėra skaičius!`);
 
         try {
-            for(var i = 0; i < parseInt(args[1]); i++)
-            {
+                serverQueue.songs.splice(0, parseInt(args[1])-1);
                 await serverQueue.connection.dispatcher.end();
-            }
+
             if (parseInt(args[1]) % 10 === 0 || parseInt(args[1]) >= 100) msg.channel.send(`${msg.author.username} praleido ${args[1]} dainų!`);
             else if (parseInt(args[1]) > 1 && parseInt(args[1]) < 100) msg.channel.send(`${msg.author.username} praleido ${args[1]} dainas!`);
-            return console.log(`Skipped ${args[1]} songs.`)
+            return console.log(`Skipped ${args[1]} songs.`);
         } catch (error) {
             console.error(error);
             return msg.reply(`Atsiprašome įvyko klaida, bandykite sumažinti skaičių arba bandykite vėliau!`);
         } 
     }
-}
+};

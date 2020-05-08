@@ -5,8 +5,11 @@ module.exports ={
     {
         msg.channel.bulkDelete(1);
         const voiceChannel = msg.member.voiceChannel;
+        console.log(msg.author.id);
+        if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
+        }
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinima arba dainos nuorodą!');
         const url = args[1];
         const searchString = args.slice(1).join(' ');
@@ -38,13 +41,13 @@ module.exports ={
                 
                 try {
                     var videos = await youtube.searchVideos(searchString, 1);
-                    var video  = await youtube.getVideoByID(videos[0].id);
+                    var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
                 } catch (err) {
                     console.error(err);
                     return msg.reply('Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!');
                 }
             }
-            console.log(`Video has been added.`)
+            console.log(`Video has been added.`);
             return handleVideo(video, msg, voiceChannel);
             
         }
@@ -55,7 +58,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         title: video.title,
         id: video.id,
         url: `https://www.youtube.com/watch?v=${video.id}`,
-    }
+    };
     
     if (!serverQueue) 
     {
@@ -111,4 +114,4 @@ async function play (guild, song){
                 serverQueue.textChannel.send(`**${song.title}** pradėjo groti!`);
 }
 }
-}
+};

@@ -1,7 +1,14 @@
-module.exports = {
+module.exports ={
     name: 'hello',
-    description: 'says hello.',
     execute(msg){
-        msg.channel.send('Hello there :), have a nice day!');
+        msg.channel.send('Hey you should have a really nice day:).');
     }
-}
+ };
+ 
+// module.exports.run = (msg) =>{
+//     msg.channel.send(`veikia`);
+// };
+
+// module.exports.help = {
+//     name: 'hello'
+// };

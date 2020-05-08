@@ -4,8 +4,10 @@ module.exports = {
     async execute(msg, args, ytdl, queue, youtube){
         msg.channel.bulkDelete(1);
         const voiceChannel = msg.member.voiceChannel;
+        if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
+        }
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinimą!');
         const searchString = args.slice(1).join(' ');
         const url = args[1];
@@ -33,7 +35,7 @@ try {
     return msg.channel.send('Nebuvo teisingai pasirinktas skaičius arba išseko laikas!');    
 }
         const videoIndex = parseInt(respone.first().content);
-        var video  = await youtube.getVideoByID(videos[videoIndex - 1].id);
+        var video  = await youtube.getVideoByID(videos[videoIndex - 1].id); // eslint-disable-line
             } catch (err) {
                 console.error(err);
                 return msg.reply('Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!');
@@ -41,7 +43,7 @@ try {
         }
 
     
-    console.log(`Video has been added.`)
+    console.log(`Video has been added.`);
     return handleVideo(video, msg, voiceChannel);
     
 
@@ -52,7 +54,7 @@ const song = {
 title: video.title,
 id: video.id,
 url: `https://www.youtube.com/watch?v=${video.id}`,
-}
+};
 
 if (!serverQueue) 
 {
@@ -108,4 +110,4 @@ play(guild, serverQueue.songs[0]);
         serverQueue.textChannel.send(`**${song.title}** pradėjo groti!`);
 }
     }
-}
+};
