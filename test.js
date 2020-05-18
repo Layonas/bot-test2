@@ -84,7 +84,8 @@ bot.on('guildDelete', guild =>{
 bot.on('message', msg=>
 {
 
-  console.log(`${msg.createdAt.getHours()}:${msg.createdAt.getMinutes()}:${msg.createdAt.getSeconds()} `);
+ // console.log(`${msg.createdAt.getHours()}:${msg.createdAt.getMinutes()}:${msg.createdAt.getSeconds()} `);  // Jei leidziamas per mano pc 
+  //console.log(`${msg.createdAt.getHours()+3}:${msg.createdAt.getMinutes()}:${msg.createdAt.getSeconds()} `); // Jei leidziamas per Heroku
     // let cmd = bot.commands.get(msg.content.toLowerCase());
     // console.log(`${cmd}`);
     // if(cmd) cmd.run(msg);
@@ -140,7 +141,7 @@ bot.on ('message', msg=>
             bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
         case 'np'://, 'NowPlaying', 'nowplaying':
-            bot.commands.get('NowPlaying').execute(msg, serverQueue, queue);
+            bot.commands.get('NowPlaying').execute(msg, serverQueue);
             break;
         case 'stop'://, 's', 'st':
             bot.commands.get('stop').execute(msg, serverQueue);
@@ -158,9 +159,9 @@ bot.on ('message', msg=>
             bot.commands.get('resume').execute(msg, queue, serverQueue);
             break;
 
-        // case 'poll':
-        //     bot.commands.get('poll').execute(msg);
-        // break;
+        case 'poll':
+             bot.commands.get('poll').execute(msg, args);
+            break;
 
             case 'server':
             holder.get('server').execute(msg, ping, RichEmbed);
@@ -175,6 +176,10 @@ bot.on ('message', msg=>
 
             case 'cooldown':
                     bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
+            break;
+
+            case 'elyga':
+                    bot.commands.get('elyga').execute(msg, args);
             break;
             
             case 'clear':

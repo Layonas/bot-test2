@@ -5,7 +5,6 @@ module.exports ={
     {
         msg.channel.bulkDelete(1);
         const voiceChannel = msg.member.voiceChannel;
-        console.log(msg.author.id);
         if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
@@ -38,14 +37,20 @@ module.exports ={
             try {
                 var video = await youtube.getVideo(url);
             } catch (error) {
-                
                 try {
-                    var videos = await youtube.searchVideos(searchString, 1);
-                    var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
-                } catch (err) {
-                    console.error(err);
-                    return msg.reply('Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!');
+                    var video = await youtube.getVideo(url); // eslint-disable-line
+                } catch (err1) {
+                    console.log(err1 + 'Pirmas bandymas nepavyko!');
+                    try {
+                        var videos = await youtube.searchVideos(searchString, 1);
+                        var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
+                        console.log(`${video.duration.hours}:${video.duration.minutes}:${video.duration.seconds}`);
+                    } catch (err) {
+                        console.error(err);
+                        return msg.reply('Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!');
+                    }
                 }
+
             }
             console.log(`Video has been added.`);
             return handleVideo(video, msg, voiceChannel);
@@ -58,6 +63,12 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         title: video.title,
         id: video.id,
         url: `https://www.youtube.com/watch?v=${video.id}`,
+        hours: video.duration.hours,
+        minutes: video.duration.minutes,
+        seconds: video.duration.seconds,
+        msgHours: msg.createdAt.getHours(),
+        msgMinutes: msg.createdAt.getMinutes(),
+        msgSeconds: msg.createdAt.getSeconds()
     };
     
     if (!serverQueue) 

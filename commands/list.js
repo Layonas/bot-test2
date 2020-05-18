@@ -1,7 +1,7 @@
 module.exports = {
    name: 'list',
    description: 'Full list of songs that are currently in the queue.',
-   execute(msg, serverQueue, ytdl, queue)
+   execute(msg, serverQueue, ytdl, queue) // eslint-disable-line
    {
         msg.channel.bulkDelete(1);
         const Discord = require('discord.js');
@@ -39,4 +39,4 @@ Dabar yra **${serverQueue.songs.length}** dainų sąraše!
         }
 
 }
-}
+};

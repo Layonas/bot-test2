@@ -2,29 +2,26 @@ module.exports = {
     name: 'help',
     description: 'send all available commands',
     execute(msg, args){
-       if (!args[1]){
-        msg.reply('!server, !info, !play, !splay, !instaplay, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown');
- return msg.reply(`Dėl papildomos informacijos, kaip veikia komanda, prašome parašyti
-**!help <komandos_pavadinimas>**
-__Pavyzdys__ -- !help info`)
-       } 
-
 const DC = require('discord.js');
 const owner = msg.guild.members.get('279665080000315393');
+       if (!args[1]){
+        msg.reply('!server, !play, !splay, !instaplay, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown');
+        msg.reply(`Dėl papildomos informacijos, kaip veikia komanda, prašome parašyti
+**!help <komandos_pavadinimas>**
+__Pavyzdys__ -- !help info`);
+let embed = new DC.RichEmbed()// eslint-disable-line
+.setColor('BLUE')
+.setThumbnail(owner.user.avatarURL)
+.setTitle('Information')
+.setDescription(`Kūrėjas: **${owner.user.username}**
+Boto pavadinimas: **${msg.guild.members.get('672836310175711273').user.username}**
+Versija: **0.7.1**`); 
+        msg.channel.send(embed);
+       } 
 
 switch(args[1]){
-    case 'info':
-       let embed = new DC.RichEmbed()
-       .setColor('BLUE')
-       .setThumbnail(owner.user.avatarURL)
-       .setTitle('Information')
-       .setDescription(`Kūrėjas: **${owner.user.username}**
-Boto pavadinimas: **${msg.guild.members.get('672836310175711273').user.username}**
-Versija: **0.6.8**`);
-         msg.channel.send(embed);
-    break;
     case 'server':
-        msg.reply('Pažiūri ar minecraft serveris yra įjungtas, ar ne ir gražina informaciją apie jį.')
+        msg.reply('Pažiūri ar minecraft serveris yra įjungtas, ar ne ir gražina informaciją apie jį.');
     break;
     
     case 'play':
@@ -88,4 +85,4 @@ Versija: **0.6.8**`);
 }
 return;
 }
-}
+};
