@@ -109,9 +109,10 @@ bot.on ('message', msg=>
     }
 
     let args = msg.content.substring(prefix.length).split(" ");
-    for(const names of bot.commands){
-        if(args[0].toLowerCase() !== names.name) return msg.reply(`__**${args[0]}**__ nėra komanda`);
-    }
+    // for(var i = 0; i < commandFiles.length; i++){
+    //     if(args[0] !== commandFiles[i].slice(0, commandFiles[i].length-3)) return msg.reply(`${args[0]} nėra komanda!`);
+    // }
+
 
     const serverQueue = queue.get(msg.guild.id);
 
