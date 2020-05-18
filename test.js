@@ -109,6 +109,9 @@ bot.on ('message', msg=>
     }
 
     let args = msg.content.substring(prefix.length).split(" ");
+    for(const names of bot.commands){
+        if(args[0].toLowerCase() !== names.name) return msg.reply(`__**${args[0]}**__ nėra komanda`);
+    }
 
     const serverQueue = queue.get(msg.guild.id);
 
@@ -131,7 +134,7 @@ bot.on ('message', msg=>
 
     switch(args[0].toLowerCase())
     {
-        case 'play'://, 'join', 'start', 'listen':
+        case 'p'://, 'join', 'start', 'listen':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
             break;
         case 'splay':
@@ -140,16 +143,16 @@ bot.on ('message', msg=>
         case 'instaplay':
             bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
-        case 'np'://, 'NowPlaying', 'nowplaying':
+        case 'n'://, 'NowPlaying', 'nowplaying':
             bot.commands.get('NowPlaying').execute(msg, serverQueue);
             break;
-        case 'stop'://, 's', 'st':
+        case 's'://, 's', 'st':
             bot.commands.get('stop').execute(msg, serverQueue);
         break;
-        case 'skip'://, 'sk':
+        case 'sk'://, 'sk':
             bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
-        case 'playlist'://, 'pl', 'list', 'Playlist':
+        case 'playlis'://, 'pl', 'list', 'Playlist':
             bot.commands.get('list').execute(msg, serverQueue, queue, ytdl);
             break;
         case 'pause':
