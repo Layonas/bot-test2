@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'NP',
+    name: 'np',
     description: 'Tells what is the song that is currently playing.',
     execute(msg, serverQueue){
         msg.channel.bulkDelete(1);
@@ -7,11 +7,11 @@ module.exports = {
         var seconds = new Date();
         var sekundes;
         var min = 0;
+        if(!serverQueue) return msg.reply('Dabar niekas negroja!');
         if((serverQueue.songs[0].msgMinutes+serverQueue.songs[0].minutes) > 60){
             sekundes = ((serverQueue.songs[0].msgMinutes+serverQueue.songs[0].minutes) -60)*60 - minutes.getMinutes() * 60 + serverQueue.songs[0].msgSeconds + serverQueue.songs[0].seconds - seconds.getSeconds();
         }else sekundes = (serverQueue.songs[0].msgMinutes+serverQueue.songs[0].minutes) *60 - minutes.getMinutes() * 60 + serverQueue.songs[0].msgSeconds + serverQueue.songs[0].seconds - seconds.getSeconds();
 
-        if(!serverQueue) return msg.reply('Dabar niekas negroja!');
         if(serverQueue.songs[0].hours === 0){
                 while(sekundes > 60){
                     min++;

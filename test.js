@@ -114,6 +114,7 @@ bot.on ('message', msg=>
         const command = require(`./commands/${commandFiles[i]}`);
         if(command.name.toLowerCase() === args[0].toLowerCase()) number = i;
      }
+     if(args[0].toLowerCase() === 'clear') number = 1;
      if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
 
     const serverQueue = queue.get(msg.guild.id);
@@ -147,7 +148,7 @@ bot.on ('message', msg=>
             bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
         case 'np'://, 'NowPlaying', 'nowplaying':
-            bot.commands.get('NowPlaying').execute(msg, serverQueue);
+            bot.commands.get('np').execute(msg, serverQueue);
             break;
         case 'stop'://, 's', 'st':
             bot.commands.get('stop').execute(msg, serverQueue);
@@ -156,7 +157,7 @@ bot.on ('message', msg=>
             bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
         case 'playlist'://, 'pl', 'list', 'Playlist':
-            bot.commands.get('list').execute(msg, serverQueue, queue, ytdl);
+            bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
             break;
         case 'pause':
             bot.commands.get('pause').execute(msg, queue, serverQueue);
