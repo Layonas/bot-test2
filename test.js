@@ -135,7 +135,7 @@ bot.on ('message', msg=>
 
     switch(args[0].toLowerCase())
     {
-        case 'p'://, 'join', 'start', 'listen':
+        case 'play'://, 'join', 'start', 'listen':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
             break;
         case 'splay':
@@ -144,16 +144,16 @@ bot.on ('message', msg=>
         case 'instaplay':
             bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
-        case 'n'://, 'NowPlaying', 'nowplaying':
+        case 'np'://, 'NowPlaying', 'nowplaying':
             bot.commands.get('NowPlaying').execute(msg, serverQueue);
             break;
-        case 's'://, 's', 'st':
+        case 'stop'://, 's', 'st':
             bot.commands.get('stop').execute(msg, serverQueue);
         break;
-        case 'sk'://, 'sk':
+        case 'skip'://, 'sk':
             bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
-        case 'playlis'://, 'pl', 'list', 'Playlist':
+        case 'playlist'://, 'pl', 'list', 'Playlist':
             bot.commands.get('list').execute(msg, serverQueue, queue, ytdl);
             break;
         case 'pause':
