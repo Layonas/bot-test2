@@ -109,10 +109,12 @@ bot.on ('message', msg=>
     }
 
     let args = msg.content.substring(prefix.length).split(" ");
-    // for(var i = 0; i < commandFiles.length; i++){
-    //     if(args[0] !== commandFiles[i].slice(0, commandFiles[i].length-3)) return msg.reply(`${args[0]} nėra komanda!`);
-    // }
-
+    var number = -1;
+     for(var i = 0; i < commandFiles.length; i++){
+        const command = require(`./commands/${commandFiles[i]}`);
+        if(command.name.toLowerCase() === args[0].toLowerCase()) number = i;
+     }
+     if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
 
     const serverQueue = queue.get(msg.guild.id);
 

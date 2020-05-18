@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'NowPlaying',
+    name: 'NP',
     description: 'Tells what is the song that is currently playing.',
     execute(msg, serverQueue){
         msg.channel.bulkDelete(1);
