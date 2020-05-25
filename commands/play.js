@@ -40,15 +40,21 @@ module.exports ={
                 try {
                     var video = await youtube.getVideo(url); // eslint-disable-line
                 } catch (err1) {
-                    console.log(err1 + 'Pirmas bandymas nepavyko!');
-                    try {
+                    try{
+                        var video = await youtube.getVideo(url); // eslint-disable-line
+                    }
+                    catch(error1){
+                        console.log(err1 + ' Tai ne URL! ');
+                        try {
                         var videos = await youtube.searchVideos(searchString, 1);
                         var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
                         console.log(`${video.duration.hours}:${video.duration.minutes}:${video.duration.seconds}`);
                     } catch (err) {
-                        console.error(err);
+                        console.log(err);
                         return msg.reply('Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!');
                     }
+                    }
+
                 }
 
             }
