@@ -156,7 +156,7 @@ bot.on ('message', msg=>
         case 'skip'://, 'sk':
             bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
-        case 'playlis'://, 'pl', 'list', 'Playlist':
+        case 'playlist'://, 'pl', 'list', 'Playlist':
             bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
             break;
         case 'pause':
