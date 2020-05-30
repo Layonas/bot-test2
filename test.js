@@ -143,36 +143,34 @@ bot.on ('message', msg=>
             else msg.reply('No.');
         break;
 
-        case 1:
+        //case 1:
+        case 2:
             bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
         break;
 
-        case 2:
+        //case 2:
+        case 111:
             bot.commands.get('elyga').execute(msg, args);
         break;
 
-        //case 4:
-        case 3:
+        case 4:
             bot.commands.get('help').execute(msg, args);
         break;
 
-        //case 5:
-        case 4:
+        case 5:
             bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
 
-        //case 6:
-        case 5:
+        case 6:
             bot.commands.get('kick').execute(msg, args);
         break;
 
-        //case 7:
-        case 6:
+        case 7:
             bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
         break;
 
         //case 8:
-        case 7:
+        case 1:
             bot.commands.get('np').execute(msg, serverQueue);
         break;
 
