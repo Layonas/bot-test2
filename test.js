@@ -151,55 +151,68 @@ bot.on ('message', msg=>
             bot.commands.get('elyga').execute(msg, args);
         break;
 
-        case 4:
+        //case 4:
+        case 3:
             bot.commands.get('help').execute(msg, args);
         break;
 
-        case 5:
+        //case 5:
+        case 4:
             bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
 
-        case 6:
+        //case 6:
+        case 5:
             bot.commands.get('kick').execute(msg, args);
         break;
 
-        case 7:
+        //case 7:
+        case 6:
             bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
         break;
 
-        case 8:
+        //case 8:
+        case 7:
             bot.commands.get('np').execute(msg, serverQueue);
         break;
 
-        case 9:
+        //case 9:
+        case 8:
             bot.commands.get('pause').execute(msg, queue, serverQueue);
         break;
 
-        case 10:
+        //case 10:
+        case 9:
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
         break;
 
-        case 11:
-            bot.commands.get('poll').execute(msg, args);
-        break;
+        // //case 11:
+        // case 10:
+        //     bot.commands.get('poll').execute(msg, args);
+        // break;
 
-        case 12:
+        //case 12:
+        case 10:
             bot.commands.get('resume').execute(msg, queue, serverQueue);
         break;
 
-        case 13:
+        //case 13:
+        case 11:
             holder.get('server').execute(msg, ping, RichEmbed);
         break;
 
-        case 14:
+        //case 14:
+        case 12:
             bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
 
-        case 15:
+        //case 15:
+        case 13:
             bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
         break;
 
-        case 16:
+        //case 16:
+        case 14:
             bot.commands.get('stop').execute(msg, serverQueue);
         break;
     }
