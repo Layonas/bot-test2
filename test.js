@@ -112,9 +112,11 @@ bot.on ('message', msg=>
     var number = -1;
      for(var i = 0; i < commandFiles.length; i++){
         const command = require(`./commands/${commandFiles[i]}`);
-        if(command.name.toLowerCase() === args[0].toLowerCase()) number = i;
+        if(command.alias.some(names =>{
+            return args[0].toLowerCase() === names.toLowerCase();
+        })) number = i+1;
      }
-     if(args[0].toLowerCase() === 'clear') number = 1;
+     if(args[0].toLowerCase() === 'clear') number = 0;
      if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
 
     const serverQueue = queue.get(msg.guild.id);
@@ -127,69 +129,11 @@ bot.on ('message', msg=>
     //     })
     // })
 
-
-    // var PlaySet = new Set();
-    // PlaySet = func.get('setPlacing').playSet;
-    // console.log(PlaySet);
-    // if (PlaySet.has(args[0].toLowerCase())) bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
-    //WORKS
-
     //let cmd = bot.commands.get(args[0]);  veiktu jeigu .execute() nebutu skirtingi
 
-    switch(args[0].toLowerCase())
-    {
-        case 'play'://, 'join', 'start', 'listen':
-            bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
-            break;
-        case 'splay':
-            bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
-        break;
-        case 'instaplay':
-            bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
-        break;
-        case 'np'://, 'NowPlaying', 'nowplaying':
-            bot.commands.get('np').execute(msg, serverQueue);
-            break;
-        case 'stop'://, 's', 'st':
-            bot.commands.get('stop').execute(msg, serverQueue);
-        break;
-        case 'skip'://, 'sk':
-            bot.commands.get('skip').execute(msg, serverQueue, args);
-        break;
-        case 'playlist'://, 'pl', 'list', 'Playlist':
-            bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
-            break;
-        case 'pause':
-            bot.commands.get('pause').execute(msg, queue, serverQueue);
-            break;
-        case 'resume':
-            bot.commands.get('resume').execute(msg, queue, serverQueue);
-            break;
+    switch(number){
 
-        case 'poll':
-             bot.commands.get('poll').execute(msg, args);
-            break;
-
-            case 'server':
-            holder.get('server').execute(msg, ping, RichEmbed);
-            break;
-            
-            case 'help':
-            bot.commands.get('help').execute(msg, args);
-            break;
-            case 'kick':
-                bot.commands.get('kick').execute(msg, args);
-            break;
-
-            case 'cooldown':
-                    bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
-            break;
-
-            case 'elyga':
-                    bot.commands.get('elyga').execute(msg, args);
-            break;
-            
-            case 'clear':
+        case 0:
             if (msg.author.username == "Layon")
             {
             if (!args[1]) return msg.reply('Please choose how much you want to delete');
@@ -197,9 +141,69 @@ bot.on ('message', msg=>
             msg.channel.bulkDelete(parseInt(args[1])+1);
             }
             else msg.reply('No.');
-            
-            break;
+        break;
+
+        case 1:
+            bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
+        break;
+
+        case 2:
+            bot.commands.get('elyga').execute(msg, args);
+        break;
+
+        case 4:
+            bot.commands.get('help').execute(msg, args);
+        break;
+
+        case 5:
+            bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
+        break;
+
+        case 6:
+            bot.commands.get('kick').execute(msg, args);
+        break;
+
+        case 7:
+            bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
+        break;
+
+        case 8:
+            bot.commands.get('np').execute(msg, serverQueue);
+        break;
+
+        case 9:
+            bot.commands.get('pause').execute(msg, queue, serverQueue);
+        break;
+
+        case 10:
+            bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
+        break;
+
+        case 11:
+            bot.commands.get('poll').execute(msg, args);
+        break;
+
+        case 12:
+            bot.commands.get('resume').execute(msg, queue, serverQueue);
+        break;
+
+        case 13:
+            holder.get('server').execute(msg, ping, RichEmbed);
+        break;
+
+        case 14:
+            bot.commands.get('skip').execute(msg, serverQueue, args);
+        break;
+
+        case 15:
+            bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
+        break;
+
+        case 16:
+            bot.commands.get('stop').execute(msg, serverQueue);
+        break;
     }
+
 });
 
 bot.login(token);
