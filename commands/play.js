@@ -1,5 +1,6 @@
 module.exports ={
     name: 'play',
+    alias: ['play', 'p', 'pla', 'plai'],
     description: 'Plays a song that a user inputs.',
     async execute(msg, args, ytdl, queue, serverQueue, youtube)
     {
@@ -72,9 +73,9 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         hours: video.duration.hours,
         minutes: video.duration.minutes,
         seconds: video.duration.seconds,
-        msgHours: msg.createdAt.getHours(),
-        msgMinutes: msg.createdAt.getMinutes(),
-        msgSeconds: msg.createdAt.getSeconds()
+        msgHours: null,
+        msgMinutes: null,
+        msgSeconds: null
     };
     
     if (!serverQueue) 
@@ -90,7 +91,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         console.log(`Queue has been made!`);
         queue.set(msg.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
-        queueConstruct.requester.push(msg.author.username);// kas pirmas papraso to visada raso
+        queueConstruct.requester.push(msg.author.username); 
     
         try {
             var connection = await voiceChannel.join();
@@ -122,13 +123,25 @@ async function play (guild, song){
 }
     const dispatcher = await serverQueue.connection.playStream(ytdl(song.url, {filter: "audioonly"}));
     dispatcher.on('end', () =>{
-         console.log('Song ended and shifted to the next one!');
+        console.log('Song ended and shifted to the next one!');
         serverQueue.songs.shift();
         serverQueue.requester.shift();
         play(guild, serverQueue.songs[0]);
     })
                 .on('error', error => console.error(error));
                 serverQueue.textChannel.send(`**${song.title}** pradėjo groti!`);
+                const filter = m => m.author.id === '672836310175711273';
+const collector = msg.channel.createMessageCollector(filter, { time: 3000 });
+
+collector.on('collect', m => {
+    console.log(`Got the time.`);
+    serverQueue.songs[0].msgHours = m.createdAt.getHours();
+    serverQueue.songs[0].msgMinutes = m.createdAt.getMinutes();
+    serverQueue.songs[0].msgSeconds = m.createdAt.getSeconds();
+});
+collector.on('end', collected => { // eslint-disable-line
+	console.log(`Shutting down!`);
+});
 }
-}
+    }
 };

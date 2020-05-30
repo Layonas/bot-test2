@@ -1,5 +1,6 @@
 module.exports = {
     name: 'help',
+    alias: ['help'],
     description: 'send all available commands',
     execute(msg, args){
 const DC = require('discord.js');

@@ -1,5 +1,6 @@
 module.exports = {
    name: 'playlist',
+   alias: ['playlist', 'pl', 'play list', 'list'],
    description: 'Full list of songs that are currently in the queue.',
    execute(msg, serverQueue, ytdl, queue) // eslint-disable-line
    {

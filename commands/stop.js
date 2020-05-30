@@ -1,5 +1,6 @@
 module.exports={
     name: 'stop',
+    alias: ['stop', 'st', 's', 'sto'],
     description: 'Stops the music that is being played with the bot.',
     execute(msg, serverQueue)
     {
@@ -12,4 +13,4 @@ module.exports={
         console.log('Forced Stop!');
         return msg.reply('Tu sustabdei muzikos grojima!');
     }
-}
+};

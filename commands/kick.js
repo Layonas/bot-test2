@@ -1,5 +1,6 @@
 module.exports = {
 name: 'kick',
+alias: ['kick'],
 description: 'Kicking a member for bad behaviour',
 execute (msg, args)
 {
@@ -38,4 +39,4 @@ execute (msg, args)
                 }
 }
 
-}
+};

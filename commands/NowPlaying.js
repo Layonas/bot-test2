@@ -1,5 +1,6 @@
 module.exports = {
     name: 'np',
+    alias: ['np', 'nowplaying', 'now', 'playing'],
     description: 'Tells what is the song that is currently playing.',
     execute(msg, serverQueue){
         msg.channel.bulkDelete(1);
@@ -18,6 +19,8 @@ module.exports = {
             h  = min / 60;
             ho = h.toString().slice(0,1);
             min = min - ho*60;
+         } else if(sekundes > 60){
+            min = sekundes / 60;
          }
          if (min >= 10) var m = min.toString().slice(0,2);
          else var m = min.toString().slice(0,1); // eslint-disable-line

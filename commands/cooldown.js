@@ -1,5 +1,6 @@
 module.exports = {
-    name: 'cooldown', 
+    name: 'cooldown',
+    alias: ['cooldown'], 
     description: 'Making a player timeout so he couldnt write messages till the time runs out.',
     execute(msg, args, CommandCooldown)
     {  

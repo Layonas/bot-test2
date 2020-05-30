@@ -1,5 +1,6 @@
 module.exports = {
     name: 'resume',
+    alias: ['resume'],
     description: 'Resumes the song that was paused.',
     execute(msg, queue, serverQueue){
         msg.channel.bulkDelete(1);
@@ -14,4 +15,4 @@ module.exports = {
         }
         else return msg.reply('Tu negali pratęsti dainos, nes jokia daina negroja!');
     }
-}
+};

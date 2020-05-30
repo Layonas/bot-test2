@@ -1,5 +1,6 @@
 module.exports = {
     name: 'pause',
+    alias: ['pause'],
     description: 'Pauses the song that is playing.',
    async execute(msg, queue, serverQueue){
         msg.channel.bulkDelete(1);
@@ -9,9 +10,9 @@ module.exports = {
         {
         await serverQueue.connection.dispatcher.pause();
         serverQueue.playing = false;
-        msg.reply('Tu pristabdei muziką!')
+        msg.reply('Tu pristabdei muziką!');
         return console.log('The song has been paused!');
         } 
         else return msg.reply('Tu negali pristabdyti muzikos, nes jokia muzika negroja!');
     }
-}
+};
