@@ -114,7 +114,7 @@ bot.on ('message', msg=>
         const command = require(`./commands/${commandFiles[i]}`);
         if(command.alias.some(names =>{
             return args[0].toLowerCase() === names.toLowerCase();
-        })) number = i+1;
+        })) number = command.name;
      }
      if(args[0].toLowerCase() === 'clear') number = 0;
      if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
@@ -143,8 +143,12 @@ bot.on ('message', msg=>
             else msg.reply('No.');
         break;
 
+        case 'volume':
+            bot.commands.get('volume').execute(msg, args, serverQueue);
+        break;
+
         //case 1:
-        case 2:
+        case 'cooldown':
             bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
         break;
 
@@ -153,34 +157,34 @@ bot.on ('message', msg=>
             bot.commands.get('elyga').execute(msg, args);
         break;
 
-        case 4:
+        case 'help':
             bot.commands.get('help').execute(msg, args);
         break;
 
-        case 5:
+        case 'instaplay':
             bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
         break;
 
-        case 6:
+        case 'kick':
             bot.commands.get('kick').execute(msg, args);
         break;
 
-        case 7:
+        case 'playlist':
             bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
         break;
 
         //case 8:
-        case 1:
+        case 'np':
             bot.commands.get('np').execute(msg, serverQueue);
         break;
 
         //case 9:
-        case 8:
+        case 'pause':
             bot.commands.get('pause').execute(msg, queue, serverQueue);
         break;
 
         //case 10:
-        case 9:
+        case 'play':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
         break;
 
@@ -190,27 +194,27 @@ bot.on ('message', msg=>
         // break;
 
         //case 12:
-        case 10:
+        case 'resume':
             bot.commands.get('resume').execute(msg, queue, serverQueue);
         break;
 
         //case 13:
-        case 11:
+        case 'server':
             holder.get('server').execute(msg, ping, RichEmbed);
         break;
 
         //case 14:
-        case 12:
+        case 'skip':
             bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
 
         //case 15:
-        case 13:
+        case 'splay':
             bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
         break;
 
         //case 16:
-        case 14:
+        case 'stop':
             bot.commands.get('stop').execute(msg, serverQueue);
         break;
     }
