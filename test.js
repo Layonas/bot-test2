@@ -131,7 +131,7 @@ bot.on ('message', msg=>
 
     //let cmd = bot.commands.get(args[0]);  veiktu jeigu .execute() nebutu skirtingi
 
-    switch(number){
+    switch(number.toLowerCase()){
 
         case 0:
             if (msg.author.username == "Layon")
