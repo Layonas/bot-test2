@@ -75,7 +75,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         seconds: video.duration.seconds,
         msgHours: null,
         msgMinutes: null,
-        msgSeconds: null
+        msgSeconds: null,
     };
     
     if (!serverQueue) 
@@ -86,7 +86,8 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
             requester: [],
             connection: null,
             songs: [],
-            playing: true
+            playing: true,
+            volume: 100,
         };
         console.log(`Queue has been made!`);
         queue.set(msg.guild.id, queueConstruct);
@@ -129,6 +130,7 @@ async function play (guild, song){
         play(guild, serverQueue.songs[0]);
     })
                 .on('error', error => console.error(error));
+    dispatcher.setVolume(serverQueue.volume/100);
                 serverQueue.textChannel.send(`**${song.title}** pradėjo groti!`);
                 const filter = m => m.author.id === '672836310175711273';
 const collector = msg.channel.createMessageCollector(filter, { time: 3000 });
