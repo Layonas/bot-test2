@@ -15,7 +15,7 @@ module.exports = {
 
         serverQueue.volume = args[1];
         serverQueue.connection.dispatcher.setVolume(serverQueue.volume/100);
-        msg.channel.send(`**${msg.author.username}** sekmingai pakeitėte dainos garsą.`)
+        msg.channel.send(`**${msg.author.username}** sekmingai pakeitėte dainos garsą.`);
 
         return;
     } 
