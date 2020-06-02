@@ -30,7 +30,8 @@ module.exports = {
             return msg.reply(`Dabar groja **${serverQueue.songs[0].title}**
 __Dainos nuoroda__ <${serverQueue.songs[0].url}>
 __Dainos ilgis__ ${serverQueue.songs[0].hours}h ${serverQueue.songs[0].minutes}min ${serverQueue.songs[0].seconds}s
-__Daina dar truks__ ${ho}h ${m}m ${sekundes}s`);
+__Daina dar truks__ ${ho}h ${m}m ${sekundes}s
+__Dainos garsas__ **${serverQueue.volume}**`);
     
 }
 };
