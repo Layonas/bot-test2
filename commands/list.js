@@ -17,7 +17,8 @@ module.exports = {
 Dabar yra **${serverQueue.songs.length}** dainų saraše!
 **__Dabar groja:__**  ${serverQueue.songs[0].title}
 **__Grojamos dainos linkas__** <${serverQueue.songs[0].url}>
-**__Dainą užsakė__** ${serverQueue.requester[0]}`);
+**__Dainą užsakė__** ${serverQueue.requester[0]}
+**__Dainos garsas__**  **${serverQueue.volume}**`);
                 return msg.channel.send(embed);                
         } catch (error) {
                 try {
@@ -31,7 +32,9 @@ Dabar yra **${serverQueue.songs.length}** dainų saraše!
 Dainų sąraše yra tik 30 dainų, tačiau tai ne visos!        
 Dabar yra **${serverQueue.songs.length}** dainų sąraše!
 **__Dabar groja:__**  ${holder[0].title}
-**__Dainą užsakė__** ${serverQueue.requester[0]}`); //paziureti ar eina index ideti
+**__Grojamos dainos linkas__** <${serverQueue.songs[0].url}>
+**__Dainą užsakė__** ${serverQueue.requester[0]}
+**__Dainos garsas__**  **${serverQueue.volume}**`); //paziureti ar eina index ideti
                         return msg.channel.send(embed);                        
                 } catch (err) {
                         console.error(err);
