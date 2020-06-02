@@ -6,7 +6,7 @@ module.exports = {
 const DC = require('discord.js');
 const owner = msg.guild.members.get('279665080000315393');
        if (!args[1]){
-        msg.reply('!server, !play, !splay, !instaplay, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown');
+        msg.reply('!server, !play, !splay, !instaplay, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown, !volume');
         msg.reply(`Dėl papildomos informacijos, kaip veikia komanda, prašome parašyti
 **!help <komandos_pavadinimas>**
 __Pavyzdys__ -- !help info`);
@@ -82,6 +82,12 @@ switch(args[1]){
         msg.reply(`Uždeda timeoutą nariui kanale ir padaro, kad jo žinutės būtu ištryntos pasirinktą laiko tarpą, laikas matuojamas sekundėmis
 **Naudojimas** __!cooldown @user <time>__
 **Pavyzdys** __!cooldown @Layon 10__`);
+    break;
+
+    case 'volume':
+        msg.reply(`Nustatomas muzikos grojimo garsas nuo 1 - 200:
+**Naudojimas**  __!volume <amount>__
+**Pavyzdys**  __!volume 100__`);
     break;
 }
 return;
