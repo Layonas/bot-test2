@@ -100,6 +100,11 @@ bot.on('message', msg=>
 
 bot.on ('message', msg=>
 {
+    let arg = msg.content.split(" ");
+
+    func.get('Rudeness').execute(arg, msg);
+    func.get('Attachments').execute(bot, msg);
+
     if (!msg.content.startsWith(prefix)) return;
 
     if(CommandCooldown.has(msg.author.id))
@@ -116,7 +121,7 @@ bot.on ('message', msg=>
             return args[0].toLowerCase() === names.toLowerCase();
         })) number = command.name;
      }
-     if(args[0].toLowerCase() === 'clear') number = 0;
+     if(args[0].toLowerCase() === 'clear') number = 'clear';
      if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
 
     const serverQueue = queue.get(msg.guild.id);
@@ -133,7 +138,7 @@ bot.on ('message', msg=>
 
     switch(number.toLowerCase()){
 
-        case 0:
+        case 'clear':
             if (msg.author.username == "Layon")
             {
             if (!args[1]) return msg.reply('Please choose how much you want to delete');
@@ -147,13 +152,11 @@ bot.on ('message', msg=>
             bot.commands.get('volume').execute(msg, args, serverQueue);
         break;
 
-        //case 1:
         case 'cooldown':
             bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
         break;
 
-        //case 2:
-        case 111:
+        case 'elyga':
             bot.commands.get('elyga').execute(msg, args);
         break;
 
@@ -173,47 +176,38 @@ bot.on ('message', msg=>
             bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
         break;
 
-        //case 8:
         case 'np':
             bot.commands.get('np').execute(msg, serverQueue);
         break;
 
-        //case 9:
         case 'pause':
             bot.commands.get('pause').execute(msg, queue, serverQueue);
         break;
 
-        //case 10:
         case 'play':
             bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
         break;
 
-        // //case 11:
-        // case 10:
-        //     bot.commands.get('poll').execute(msg, args);
-        // break;
+        case 'poll':
+            bot.commands.get('poll').execute(msg, args);
+        break;
 
-        //case 12:
         case 'resume':
             bot.commands.get('resume').execute(msg, queue, serverQueue);
         break;
 
-        //case 13:
         case 'server':
             holder.get('server').execute(msg, ping, RichEmbed);
         break;
 
-        //case 14:
         case 'skip':
             bot.commands.get('skip').execute(msg, serverQueue, args);
         break;
 
-        //case 15:
         case 'splay':
             bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
         break;
 
-        //case 16:
         case 'stop':
             bot.commands.get('stop').execute(msg, serverQueue);
         break;
