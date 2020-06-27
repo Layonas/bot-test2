@@ -17,7 +17,12 @@ module.exports = {
         };
     
         if(arg.includes('duhas') || arg.includes('duhai') || arg.includes('suka') || arg.includes('daunas') || arg.includes('daunai') || arg.includes('kekse') || arg.includes('jibanas') || arg.includes('pydaras') || arg.includes('kurwa')){
-            msg.reply(`vovo nusiramink biški.`);
+            {
+                var result = (Math.floor(Math.random() * 3) + 1); // eslint-disable-line
+                if (result === 1) msg.reply(`Jopštararai seniukasĄĄ`);
+                else if (result === 2) msg.reply(`I vėl bazarini ane??`);
+                else msg.reply(`vovo nusiramink biški.`);
+        }
         try{
             var respone =  await msg.channel.awaitMessages(filter , { // eslint-disable-line
             max: 6, // skaicius -1, tiek zinuciu bus gauta
