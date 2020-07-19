@@ -6,7 +6,7 @@ module.exports = {
         if (msg.attachments.size > 0){
             if(msg.attachments.forEach(files => {
                 if(files.url.toLowerCase().endsWith('.png') || files.url.toLowerCase().endsWith('.jpg') || files.url.toLowerCase().endsWith('.mp4') || files.url.toLowerCase().endsWith('.webm') || files.url.toLowerCase().endsWith('.jpeg') || files.url.toLowerCase().endsWith('.mp3')) {
-                    channel.send(`**${msg.author.username}**  išsiuntė - ${msg.createdAt}
+                    channel.send(`**${msg.author.username}**  išsiuntė - ${msg.createdAt} __+3h in LT__
 ${files.url}`);
 }}));
         }
