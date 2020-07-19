@@ -2,7 +2,7 @@ module.exports = {
     name: 'cooldown',
     alias: ['cooldown'], 
     description: 'Making a player timeout so he couldnt write messages till the time runs out.',
-    execute(msg, args, CommandCooldown)
+    execute(msg, args, CommandCooldown, Ctime)
     {  
     if (msg.author.username === 'Layon' || msg.author.username === 'TopperHarley') 
     {    
@@ -21,9 +21,9 @@ module.exports = {
                      }
                   else  {
                            const time = args[2];
-                           if (CommandCooldown.has(user))
+                           if (CommandCooldown.has(user.id))
                            {
-                               msg.reply('Vartotojas jau yra cooldown sąraše.');
+                               return msg.reply('Vartotojas jau yra cooldown sąraše.');
                            }
                            else
                            {
@@ -32,6 +32,7 @@ module.exports = {
                                console.log(user.id + ' Id was added to wait list.');
                                console.log(user.username + ' Šis žmogus pridėtas prie sąrašo.');
                            CommandCooldown.add(user.id);
+                           Ctime.push({ID: user.id, addHours: msg.createdAt.getHours(), addMinutes: msg.createdAt.getMinutes(), addSeconds: msg.createdAt.getSeconds(), length: time});
                            setTimeout(() => {
                             CommandCooldown.delete(user.id);
                            }, time*1000);
