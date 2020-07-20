@@ -1,5 +1,5 @@
 const {Client, RichEmbed} = require('discord.js');
-const {YOUTUBE_API_KEY, token} = require('./config.js');
+const {YOUTUBE_API_KEY, token, OwnerID} = require('./config.js');
 const Discord = require('discord.js');
 const ping = require('minecraft-server-util');
 const ytdl = require("ytdl-core");
@@ -11,6 +11,8 @@ const bot = new Client();
 const CommandCooldown = new Set();
 const queue = new Map();
 const youtube = new Youtube(YOUTUBE_API_KEY);
+
+var Ctime = [];
 
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -105,15 +107,14 @@ bot.on ('message', msg=>
     func.get('Rudeness').execute(arg, msg);
     func.get('Attachments').execute(bot, msg);
 
-    if (!msg.content.startsWith(prefix)) return;
-
-    if(CommandCooldown.has(msg.author.id))
-    {
-        console.log('Deleting message.');
-        return msg.channel.bulkDelete(1);
-    }
+    if (!msg.content.startsWith(prefix) && CommandCooldown.has(msg.author.id)) return msg.bulkDelete(1);
+    else if(!msg.content.startsWith(prefix)) return;
 
     let args = msg.content.substring(prefix.length).split(" ");
+
+    //---------------------------------------------------------------------
+    //Getting command alias and names
+    
     var number = -1;
      for(var i = 0; i < commandFiles.length; i++){
         const command = require(`./commands/${commandFiles[i]}`);
@@ -123,9 +124,22 @@ bot.on ('message', msg=>
      }
      if(args[0].toLowerCase() === 'clear') number = 'clear';
      if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
+     //--------------------------------------------------------------------
 
+     //--------------------------------------------------------------------
+     //Checking if a person is cooldowned
+    if(CommandCooldown.has(msg.author.id))
+    {
+        if(number !== 'removecooldown' || number !== 'cooldowncheck' || number === -1){
+        console.log('Deleting message.');
+        return msg.channel.bulkDelete(1);
+        }
+    }
+    //--------------------------------------------------------------------
     const serverQueue = queue.get(msg.guild.id);
 
+    //Logging on a local machine
+    //-------------------------------------------------------
     // var d = new Date();
     // fs.readFile('BotLogs.txt', (err, text) => {
     //     if (err) throw err;
@@ -133,11 +147,10 @@ bot.on ('message', msg=>
     //         if (error) throw error;
     //     })
     // })
-
-    //let cmd = bot.commands.get(args[0]);  veiktu jeigu .execute() nebutu skirtingi
-
+    //-------------------------------------------------------
+    
     switch(number.toLowerCase()){
-
+        
         case 'clear':
             if (msg.author.username == "Layon")
             {
@@ -153,7 +166,7 @@ bot.on ('message', msg=>
         break;
 
         case 'cooldown':
-            bot.commands.get('cooldown').execute(msg, args, CommandCooldown);
+            bot.commands.get('cooldown').execute(msg, args, CommandCooldown, Ctime);
         break;
 
         case 'elyga':
@@ -210,6 +223,14 @@ bot.on ('message', msg=>
 
         case 'stop':
             bot.commands.get('stop').execute(msg, serverQueue);
+        break;
+
+        case 'cooldowncheck':
+            bot.commands.get('CooldownCheck').execute(msg, args, CommandCooldown, OwnerID, Ctime);
+        break;
+
+        case 'removecooldown':
+            bot.commands.get('removeCooldown').execute(msg, args, CommandCooldown, OwnerID, Ctime);
         break;
     }
 
