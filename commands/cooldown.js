@@ -29,8 +29,8 @@ module.exports = {
                            {
                                
                                msg.channel.send (`Sėkmingai pridėtas vartotojas prie sąrašo. ${user.username}`);
-                               console.log(user.id + ' Id was added to wait list.');
-                               console.log(user.username + ' Šis žmogus pridėtas prie sąrašo.');
+                               console.log(user.id + ' -- Id was added to wait list.');
+                               console.log(user.username + ' -- Šis žmogus pridėtas prie sąrašo.');
                            CommandCooldown.add(user.id);
                            Ctime.push({ID: user.id, addHours: msg.createdAt.getHours(), addMinutes: msg.createdAt.getMinutes(), addSeconds: msg.createdAt.getSeconds(), length: time});
                            setTimeout(() => {
