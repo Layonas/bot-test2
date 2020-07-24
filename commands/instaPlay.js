@@ -85,7 +85,7 @@ await serverQueue.songs.splice(1, 0, song);
 await serverQueue.requester.splice(1, 0, msg.author.username);
 //console.log(serverQueue.songs);
 if (playlist) return;//console.log(serverQueue.songs.length);
-else return msg.channel.send(`**${song.title}** pridėta prie sąrašo!`);
+else return msg.channel.send(`**${song.title}** pridėta prie sąrašo, jos vieta **2**!`);
 }
 return undefined;
 }
