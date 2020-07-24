@@ -1,10 +1,10 @@
 module.exports ={
     name: 'play',
-    alias: ['play', 'p', 'pla', 'plai'],
+    alias: ['play', 'p', 'pla', 'plai', 'ggg'],
     description: 'Plays a song that a user inputs.',
     async execute(msg, args, ytdl, queue, serverQueue, youtube)
     {
-        msg.channel.bulkDelete(1);
+        await msg.channel.bulkDelete(1);
         const voiceChannel = msg.member.voiceChannel;
         if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
@@ -107,7 +107,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         await serverQueue.requester.push(msg.author.username);
         //console.log(serverQueue.songs);
         if (playlist) return;//console.log(serverQueue.songs.length);
-        else return msg.channel.send(`**${song.title}** pridėta prie sąrašo!`);
+        else return await msg.channel.send(`**${song.title}** pridėta prie sąrašo, jos vieta **${serverQueue.songs.length}**!`);
         }
 return undefined;
 }
