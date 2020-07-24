@@ -1,6 +1,6 @@
 module.exports ={
     name: 'play',
-    alias: ['play', 'p', 'pla', 'plai', 'ggg'],
+    alias: ['play', 'p', 'pla', 'plai'],
     description: 'Plays a song that a user inputs.',
     async execute(msg, args, ytdl, queue, serverQueue, youtube)
     {
