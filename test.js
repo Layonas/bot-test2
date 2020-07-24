@@ -148,7 +148,7 @@ bot.on ('message', msg=>
     //     })
     // })
     //-------------------------------------------------------
-    
+
     switch(number.toLowerCase()){
         
         case 'clear':
@@ -231,6 +231,10 @@ bot.on ('message', msg=>
 
         case 'removecooldown':
             bot.commands.get('removeCooldown').execute(msg, args, CommandCooldown, OwnerID, Ctime);
+        break;
+
+        case 'removesong':
+            bot.commands.get('RemoveSong').execute(msg, args, serverQueue, OwnerID);
         break;
     }
 
