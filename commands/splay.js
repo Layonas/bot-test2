@@ -3,7 +3,7 @@ module.exports = {
     alias: ['splay', 'select', 'sp', 'selectplay'],
     description: 'Selection of videos if the video name is just a random guess',
     async execute(msg, args, youtube, serverQueue, queue, ytdl){
-        msg.channel.bulkDelete(1);
+        await msg.channel.bulkDelete(1);
         const voiceChannel = msg.member.voiceChannel;
         if(msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
@@ -76,7 +76,7 @@ await serverQueue.songs.push(song);
 await serverQueue.requester.push(msg.author.username);
 //console.log(serverQueue.songs);
 if (playlist) return;//console.log(serverQueue.songs.length);
-else return msg.channel.send(`**${song.title}** pridėta prie sąrašo!`);
+else return msg.channel.send(`**${song.title}** pridėta prie sąrašo, jos vieta **${serverQueue.songs.length}**!`);
 }
 return undefined;
 }
