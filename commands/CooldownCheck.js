@@ -23,6 +23,6 @@ module.exports = {
             else return msg.reply(`${args[1]} nėra sąraše.`); 
         }
         else return msg.reply(`${args[1]} nėra šio kanalo narys.`);
-        }else msg.bulkDelete(1);
+        }else return msg.bulkDelete(1);
     } 
 };
