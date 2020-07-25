@@ -107,7 +107,7 @@ bot.on ('message', msg=>
     func.get('Rudeness').execute(arg, msg);
     func.get('Attachments').execute(bot, msg);
 
-    if (!msg.content.startsWith(prefix) && CommandCooldown.has(msg.author.id)) return msg.bulkDelete(1);
+    if (!msg.content.startsWith(prefix) && CommandCooldown.has(msg.author.id)) return msg.channel.bulkDelete(1);
     else if(!msg.content.startsWith(prefix)) return;
 
     let args = msg.content.substring(prefix.length).split(" ");
