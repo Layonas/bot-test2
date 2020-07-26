@@ -1,5 +1,5 @@
 const {Client, RichEmbed} = require('discord.js');
-const {YOUTUBE_API_KEY, token, OwnerID} = require('./config.js');
+const {YOUTUBE_API_KEY, token, OwnerID, BotID} = require('./config.js');
 const Discord = require('discord.js');
 const ping = require('minecraft-server-util');
 const ytdl = require("ytdl-core");
@@ -83,38 +83,34 @@ bot.on('guildDelete', guild =>{
     botOwner.send(`Bot has been removed from **${guild.name}** and id is: **${guild.id}**`);
 });
 
-bot.on('message', msg=>
-{
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//Main message catching
 
+//rasyti prie msg funkcijos
  // console.log(`${msg.createdAt.getHours()}:${msg.createdAt.getMinutes()}:${msg.createdAt.getSeconds()} `);  // Jei leidziamas per mano pc 
   //console.log(`${msg.createdAt.getHours()+3}:${msg.createdAt.getMinutes()}:${msg.createdAt.getSeconds()} `); // Jei leidziamas per Heroku
     // let cmd = bot.commands.get(msg.content.toLowerCase());
     // console.log(`${cmd}`);
     // if(cmd) cmd.run(msg);
     //veikia
-    switch (msg.content.toLowerCase()){
-        case 'hello':
-            bot.commands.get('hello').execute(msg);
-         break;      
 
-    }
-});
 
-bot.on ('message', msg=>
+bot.on ('message', async msg=>
 {
     let arg = msg.content.split(" ");
 
     func.get('Rudeness').execute(arg, msg);
     func.get('Attachments').execute(bot, msg);
+    func.get('hello').execute(msg);
 
-    if (!msg.content.startsWith(prefix) && CommandCooldown.has(msg.author.id)) return msg.channel.bulkDelete(1);
-    else if(!msg.content.startsWith(prefix)) return;
+    if (CommandCooldown.has(msg.author.id)) return await msg.channel.bulkDelete(1);
+    if (!msg.content.startsWith(prefix)) return;
 
     let args = msg.content.substring(prefix.length).split(" ");
 
     //---------------------------------------------------------------------
     //Getting command alias and names
-    
+    if(msg.author.id !== BotID){
     var number = -1;
      for(var i = 0; i < commandFiles.length; i++){
         const command = require(`./commands/${commandFiles[i]}`);
@@ -124,6 +120,7 @@ bot.on ('message', msg=>
      }
      if(args[0].toLowerCase() === 'clear') number = 'clear';
      if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
+    }
      //--------------------------------------------------------------------
 
      //--------------------------------------------------------------------
@@ -239,5 +236,6 @@ bot.on ('message', msg=>
     }
 
 });
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 bot.login(token);

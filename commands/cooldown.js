@@ -1,6 +1,6 @@
 module.exports = {
     name: 'cooldown',
-    alias: ['cooldown'], 
+    alias: ['cooldown', 'cool', 'c'], 
     description: 'Making a player timeout so he couldnt write messages till the time runs out.',
     execute(msg, args, CommandCooldown, Ctime)
     {  
@@ -35,7 +35,10 @@ module.exports = {
                            Ctime.push({ID: user.id, addHours: msg.createdAt.getHours(), addMinutes: msg.createdAt.getMinutes(), addSeconds: msg.createdAt.getSeconds(), length: time});
                            setTimeout(() => {
                             CommandCooldown.delete(user.id);
-                           }, time*1000);
+                            for(var i = 0; i < Ctime.length; i++){
+                                if(Ctime[i].ID === user.id) Ctime.splice(i, 1);
+                            }
+                           }, time*1000); // laikas sekundemis xD
 
                            }
                         }
