@@ -53,8 +53,6 @@ bot.on('ready', () =>{
     console.log('The bot is online. ');
     bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
 
-    console.log(process.env.ilgis);
-
     //////////////////////bot.guilds.map(guild => console.log(guild.name));
 
     // var d = new Date();
