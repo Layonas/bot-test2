@@ -16,7 +16,7 @@ let embed = new DC.RichEmbed()// eslint-disable-line
 .setTitle('Information')
 .setDescription(`Kūrėjas: **${owner.user.username}**
 Boto pavadinimas: **${msg.guild.members.get('672836310175711273').user.username}**
-Versija: **1.0.3**`); 
+Versija: **1.1.0**`); 
         msg.channel.send(embed);
        } 
 
