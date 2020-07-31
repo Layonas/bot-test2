@@ -105,11 +105,11 @@ bot.on('guildDelete', guild =>{
 
 bot.on ('message', async msg=>
 {
-    let arg = msg.content.split(" ");
+    let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
-    func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID);
     func.get('Statistics').execute(msg, args, BotID, stats);
+    func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID);
     func.get('Rudeness').execute(arg, msg);
     func.get('Attachments').execute(bot, msg);
     func.get('hello').execute(msg);
