@@ -43,6 +43,7 @@ module.exports = {
         stats = rows;
 
         // Removing the information from the table so that new information could be added
+        // place it above the update query because it would be a waste to always delete it, might throw an error if spammed
         await client.query('DELETE FROM users').then(res => {console.log('Deleted the table');}).catch(err => {console.error(err);}); //eslint-disable-line
 
         // Checking for the information and making so it would be just a object of json type
@@ -99,6 +100,7 @@ module.exports = {
         if(userStats.CurrentXp >= userStats.Next_Level_At){
             userStats.CurrentXp -= userStats.Next_Level_At;
             userStats.level++;
+            userStats.Next_Level_At = 3 * Math.pow(userStats.level, 2) + 100 * userStats.level + 100;
             msg.channel.send(`**${msg.author.username} pasiekė ${userStats.level} lygį!**`);
         }
         
@@ -107,7 +109,7 @@ module.exports = {
         userStats.Last_message = Date.now();
     }
 
-        //await jsonfile.writeFileSync(`./functions/JsonFiles/stats2.json`, stats, { spaces: 2}); 
+        //await jsonfile.writeFileSync(`./functions/JsonFiles/stats.json`, stats, { spaces: 2}); // uncomment this then run and see all the info in the database
 
         //Experimenting with database
         //------------------------------------------------------------------------------------------------------------------------------------------------------------
