@@ -131,6 +131,10 @@ module.exports = {
         case 'removesong':
             bot.commands.get('RemoveSong').execute(msg, args, serverQueue, OwnerID);
         break;
+
+        case 'profile':
+            bot.commands.get('profile').execute(msg, args, BotID);
+        break;
     }
     }
 };
