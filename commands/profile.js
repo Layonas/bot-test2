@@ -66,7 +66,7 @@ module.exports = {
             var serverStats =  stats[msg.guild.id]; //eslint-disable-line
             var userStats = serverStats[msg.author.id]; //eslint-disable-line
 
-            msg.reply(`Tavo lygis yra **${userStats.level}**`);
+            msg.reply(`Tavo lygis yra **${userStats.level}**, tau trūksta dar **${userStats.xpToNextLevel}** iki kito lygio!`);
 
             return client.end();
         }else if(args[1].toLowerCase() === 'update' || args[1].toLowerCase() === '-u'){
