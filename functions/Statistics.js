@@ -42,10 +42,6 @@ module.exports = {
         const { rows } = await client.query('SELECT data FROM users');
         stats = rows;
 
-        // Removing the information from the table so that new information could be added
-        // place it above the update query because it would be a waste to always delete it, might throw an error if spammed
-        await client.query('DELETE FROM users').then(res => {console.log('Deleted the table');}).catch(err => {console.error(err);}); //eslint-disable-line
-
         // Checking for the information and making so it would be just a object of json type
         var new_stats = JSON.stringify(stats);
         if(new_stats.length > 10) stats = JSON.parse(new_stats.slice(9, new_stats.length-2));
@@ -117,6 +113,14 @@ module.exports = {
         //Get (data) , delete content , readd data
 
         //var text = jsonfile.readFileSync('./functions/JsonFiles/stats.json');
+
+        // Removing the information from the table so that new information could be added
+        // place it above the update query because it would be a waste to always delete it, might throw an error if spammed
+        await client.query('DELETE FROM users').then(res => {console.log('Deleted the table');}).catch(err => {console.error(err);}); //eslint-disable-line
+
+        //await client.query('UPDATE users SET data = VALUES($1)', [stats]).then(console.log('Works')).catch(e => console.log(e));
+
+        //console.log(stats);
 
         //Updating the values in the database
         await client.query(`INSERT INTO users(data) VALUES($1)`, [stats]).then(res => {console.log('Added succesfully');}).catch(err => {console.log('eik nx');}); // eslint-disable-line

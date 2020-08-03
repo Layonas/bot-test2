@@ -112,11 +112,16 @@ module.exports = {
                 return client.end();
             }
 
-                photo.photo = args[2];
+                if(args[2].startsWith('https') && args[2].endsWith(`.jpg`) || args[2].startsWith('https') && args[2].endsWith(`.png`) || args[2].startsWith('https') && args[2].endsWith(`.gif`)) photo.photo = args[2];
+                else {
+                    msg.reply(`Netinkama nuoroda.`);
+                    return client.end();
+                }
 
                 await client.query('DELETE FROM photos');
-                await client.query('INSERT INTO photos(data) VALUES($1)', [guild]).then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));  
+                await client.query('INSERT INTO photos(data) VALUES($1)', [guild]).then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
                 
+                await msg.channel.bulkDelete(1);
                 msg.reply('Jūsų nuotrauka atnaujinta.');
 
                 //jsonfile.writeFileSync('./functions/JsonFiles/photos.json', guild, {spaces: 5});
