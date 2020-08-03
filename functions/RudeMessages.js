@@ -15,8 +15,13 @@ module.exports = {
                 } 
             }
         };
+
+        let msg1 = [];
+        arg.forEach(element => {
+            msg1 = element.toLowerCase();
+        });
     
-        if(arg.includes('duhas') || arg.includes('duhai') || arg.includes('suka') || arg.includes('daunas') || arg.includes('daunai') || arg.includes('kekse') || arg.includes('jibanas') || arg.includes('pydaras') || arg.includes('kurwa')){
+        if(msg1.includes('duhas') || msg1.includes('duhai') || msg1.includes('suka') || msg1.includes('daunas') || msg1.includes('daunai') || msg1.includes('kekse') || msg1.includes('jibanas') || msg1.includes('pydaras') || msg1.includes('kurwa')){
             {
                 var result = (Math.floor(Math.random() * 3) + 1); // eslint-disable-line
                 if (result === 1) msg.reply(`Jopštararai seniukasĄĄ`);
