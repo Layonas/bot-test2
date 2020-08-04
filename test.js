@@ -63,8 +63,8 @@ bot.on('ready', () =>{
     // })
     // })
  
-    func.get('checking').execute(bot);
-
+    //func.get('checking').execute(bot);
+    //closed this function because its not relevant anymore
 });
 
 // When a person joins a server
@@ -108,7 +108,7 @@ bot.on ('message', async msg=>
     let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
-    await func.get('Statistics').execute(msg, args, BotID, stats);
+    await func.get('Statistics').execute(msg, args, BotID, stats, bot);
     func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID);
     func.get('Rudeness').execute(arg, msg);
     func.get('Attachments').execute(bot, msg);
