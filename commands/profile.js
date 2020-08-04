@@ -33,9 +33,9 @@ module.exports = {
 
                     // Getting data about user photo
                     var { rows } = await client.query('SELECT data FROM photos'); // eslint-disable-line
-                    var guild = rows;
-                    if(JSON.stringify(guild).length < 10) guild = {};
-                    else guild = JSON.parse(JSON.stringify(guild).slice(9, JSON.stringify(guild).length-2));
+                    var guild = rows[0].data;
+                    // if(JSON.stringify(guild).length < 10) guild = {};
+                    // else guild = JSON.parse(JSON.stringify(guild).slice(9, JSON.stringify(guild).length-2));
                     //---------------------------------------------------------------
         
                     if(msg.guild.id in guild === false) guild[msg.guild.id] = {
@@ -51,8 +51,7 @@ module.exports = {
                         user_id: msg.author.id,
                         photo: 'https://i.pinimg.com/474x/64/89/35/64893517cd0fad84c451c85b135ee091.jpg'
                     };
-                    await client.query('DELETE FROM photos');
-                    await client.query('INSERT INTO photos(data) VALUES($1)', [guild]).then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
+                    await client.query("UPDATE photos SET data'" + JSON.stringify(guild) + "'").then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
                 }
         
                     var photo = user[msg.author.id];
@@ -104,8 +103,12 @@ module.exports = {
             if (args[2].toLowerCase() === 'remove' || args[2].toLowerCase() === '-r' || args[2].toLowerCase() === 'r' || args[2].toLowerCase() === 're' || args[2].toLowerCase() === 'rem'){
 
                 photo.photo = '';
-                await client.query('DELETE FROM photos');
-                await client.query('INSERT INTO photos(data) VALUES($1)', [guild]).then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
+                
+                await client.query("UPDATE photos SET data = '" + JSON.stringify(guild) + "'").then(console.log('Done')).catch(err => {
+                    console.log(err);
+                    msg.reply('Atsiprašome kažkas nepavyko.');
+                    return client.end();
+                });
 
                 msg.reply('Jūsų nuotrauka pašalinta');
 
@@ -118,13 +121,15 @@ module.exports = {
                     return client.end();
                 }
 
-                await client.query('DELETE FROM photos');
-                await client.query('INSERT INTO photos(data) VALUES($1)', [guild]).then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
-                
+                await client.query("UPDATE photos SET data = '" + JSON.stringify(guild) + "'").then(console.log('Done')).catch(err => {
+                    msg.reply('Atsiprašome kažkas nepavyko.');
+                    console.log(err);
+                    return client.end();
+                });
+
                 await msg.channel.bulkDelete(1);
                 msg.reply('Jūsų nuotrauka atnaujinta.');
 
-                //jsonfile.writeFileSync('./functions/JsonFiles/photos.json', guild, {spaces: 5});
 
             return client.end();
         }else {
