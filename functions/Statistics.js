@@ -124,38 +124,133 @@ module.exports = {
         // Updating the json file
         await client.query("UPDATE users SET data = '" + JSON.stringify(stats) + "'").then(res => {console.log('Added succesfully');}).catch(err => {bot.users.get('279665080000315393').send(`${err}`);console.log(err);}); // eslint-disable-line
 
-        //Experimenting with database
-        //------------------------------------------------------------------------------------------------------------------------------------------------------------
-        //Somehow fix from creating more than one ID numbers
-        //Get (data) , delete content , readd data
-
         //var text = jsonfile.readFileSync('./functions/JsonFiles/stats.json');
-
-        // Removing the information from the table so that new information could be added
-        // place it above the update query because it would be a waste to always delete it, might throw an error if spammed
-
-        // changed the update of json file in database if it work fine for some time I will delete these comments
-
-    //     try {
-    //         await client.query('DELETE FROM users').then(res => {console.log('Deleted the table');}).catch(err => {console.error(err);}); //eslint-disable-line
-    //         await client.query("UPDATE users SET data = '" + JSON.stringify(stats) + "'").then(res => {console.log('Added succesfully');}).catch(err => {console.log(err);}); // eslint-disable-line
-    //    } catch (error) {
-    //         try {
-    //         await client.query('DELETE FROM users').then(res => {console.log('Deleted the table');}).catch(err => {console.error(err);}); //eslint-disable-line
-    //         await client.query(`INSERT INTO users(data) VALUES($1)`, [stats]).then(res => {console.log('Added succesfully');}).catch(err => {console.log('eik nx');}); // eslint-disable-line
-    //         } catch (error1) {
-    //             console.error(error1);
-    //         }
-    //    }
-        
-        //await client.query(`SELECT jasonb_concat(${xp.rows[0].data}, ${stats})`).then(console.log('Works')).catch(e => console.log(e));
-
-        //Updating the values in the database
         
         //jsonfile.writeFileSync(`./functions/JsonFiles/stats1.json`, rows, { spaces: 2});
 
         client.end();
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Creating and adding roles to people who have met certain level requirements
+
+    const guild = bot.guilds.get('543848190995333152');
+
+    if(userStats.level >= 5 && userStats.level < 10){
+        if(!guild.roles.find(r => r.name === 'Crook'))
+        {
+        await guild.createRole({
+            name: 'Crook',
+            color: '#FF0000',
+            position: 2,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Crook')).catch(err => console.log(err));
+        }
+        guild.members.get(msg.author.id).addRole(guild.roles.find(r => r.name === 'Crook'));
+    }
+
+    if(userStats.level >= 10 && userStats.level < 15){
+        if(!guild.roles.find(r => r.name === 'Pawn'))
+        {
+        await guild.createRole({
+            name: 'Pawn',
+            color: '#FF0070',
+            hoist: true,
+            position: 8,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Pawn')).catch(err => console.log(err));
+        }
+
+        const member = guild.members.get(msg.author.id);
+        if(member.roles.find(r => r.name === 'Crook')){
+            member.removeRole(member.roles.find(r => r.name === 'Crook'));
+        }
+        member.addRole(guild.roles.find(r => r.name === 'Pawn'));
+    }
+
+    if(userStats.level >= 15 && userStats.level < 20){
+        if(!guild.roles.find(r => r.name === 'Worker'))
+        {
+        await guild.createRole({
+            name: 'Worker',
+            color: '#FF00E8',
+            hoist: true,
+            position: 8,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Worker')).catch(err => console.log(err));
+        }
+
+        const member = guild.members.get(msg.author.id);
+        if(member.roles.find(r => r.name === 'Pawn')){
+            member.removeRole(member.roles.find(r => r.name === 'Pawn'));
+        }
+        member.addRole(guild.roles.find(r => r.name === 'Worker'));
+    }
+
+    if(userStats.level === 21){
+        if(!guild.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas'))
+        {
+        await guild.createRole({
+            name: 'Išlaikytas lietuvių egzaminas',
+            color: '#9E00FF',
+            hoist: true,
+            position: 8,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Išlaikytas lietuvių egzaminas')).catch(err => console.log(err));
+        }
+
+        const member = guild.members.get(msg.author.id);
+        if(member.roles.find(r => r.name === 'Worker')){
+            member.removeRole(member.roles.find(r => r.name === 'Worker'));
+        }
+        member.addRole(guild.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas'));
+    }
+
+    if(userStats.level === 22){
+        if(!guild.roles.find(r => r.name === 'Gali dirbti mokytoju'))
+        {
+        await guild.createRole({
+            name: 'Gali dirbti mokytoju',
+            color: '#5100FF',
+            hoist: true,
+            position: 8,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Gali dirbti mokytoju')).catch(err => console.log(err));
+        }
+
+        const member = guild.members.get(msg.author.id);
+        if(member.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas')){
+            member.removeRole(member.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas'));
+        }
+        member.addRole(guild.roles.find(r => r.name === 'Gali dirbti mokytoju'));
+    }
+
+    if(userStats.level === 23){
+        if(!guild.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum'))
+        {
+        await guild.createRole({
+            name: 'Kažkada norėjai būti didžėjum',
+            color: '#000FFF',
+            hoist: true,
+            position: 8,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Kažkada norėjai būti didžėjum')).catch(err => console.log(err));
+        }
+
+        const member = guild.members.get(msg.author.id);
+        if(member.roles.find(r => r.name === 'Gali dirbti mokytoju')){
+            member.removeRole(member.roles.find(r => r.name === 'Gali dirbti mokytoju'));
+        }
+        member.addRole(guild.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum'));
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         return;
     }
