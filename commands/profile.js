@@ -4,9 +4,10 @@ module.exports = {
     description: 'Lets people see what level and other stuff they have like xp from the database',
     async execute(msg, args, BotID){
         //---------------------------------------------------------
-        const { RichEmbed } = require('discord.js');
+        const { RichEmbed, Attachment } = require('discord.js');
         const { Client } = require('pg');
         const jsonfile = require('jsonfile'); // eslint-disable-line
+        const jimp = require('jimp');
         //---------------------------------------------------------
 
         //---------------------------------------------------------
@@ -49,7 +50,8 @@ module.exports = {
                     user[msg.author.id] = {
                         name: msg.author.username,
                         user_id: msg.author.id,
-                        photo: 'https://i.pinimg.com/474x/64/89/35/64893517cd0fad84c451c85b135ee091.jpg'
+                        photo: 'https://i.pinimg.com/474x/64/89/35/64893517cd0fad84c451c85b135ee091.jpg',
+                        embed: true
                     };
                     await client.query("UPDATE photos SET data'" + JSON.stringify(guild) + "'").then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
                 }
@@ -60,9 +62,7 @@ module.exports = {
              //---------------------------------------------------------------
             // Getting statistic about player expierience
             var { rows } = await client.query('SELECT data FROM users'); //eslint-disable-line
-            var stats = rows;
-            var new_stats = JSON.stringify(stats);
-            stats = await JSON.parse(new_stats.slice(9, new_stats.length-2));
+            var stats = rows[0].data;
             //---------------------------------------------------------------
 
             var serverStats =  stats[msg.guild.id];
@@ -70,6 +70,9 @@ module.exports = {
 
         if(!args[1]){
 
+            if(photo.photo.endsWith('.gif') || photo.embed === true){
+            //-------------------------------------------------------------------------------------------------------------------------
+            // Making an Embed
             var embed = new RichEmbed()
             .setImage(photo.photo)
             .setAuthor(msg.author.username)
@@ -80,9 +83,38 @@ module.exports = {
             .addField('Tavo dabartinis lygis yra: ', userStats.level, true)
             .addField('Iki kito lygio tau trūksta: ', userStats.xpToNextLevel, true)
             .setFooter('Tu gali pakeisti arba pašalinti didžiają nuotrauką! ', msg.guild.members.get(BotID).user.avatarURL);
+            //-------------------------------------------------------------------------------------------------------------------------
 
             msg.channel.send(embed);
+
             return client.end();
+            }
+
+            //---------------------------------------------------------------------------------------------------------------------------
+            // Loading in prefered image of a user and applying cover on to it
+            jimp.read(photo.photo, async (err, image) => {
+                if(err) throw err;
+                //------------------------------------
+                var percentage = userStats.CurrentXp * 100 / userStats.Next_Level_At;
+                var text = `${Math.floor(percentage)}%`;
+                //------------------------------------
+                var font = await jimp.loadFont('./stuff/font.fnt');
+                var font1 = await jimp.loadFont('./stuff/pepsi.fnt');
+                var level_font = await jimp.loadFont('./stuff/level_font.fnt');
+                var profile_image = await jimp.read(msg.author.avatarURL);
+                var background = await jimp.read('./stuff/photoFrame.png');
+                var line = await jimp.read('./stuff/purple.jpg');
+                line.resize(percentage * 1.77, 14).opacity(0.75);
+                profile_image.resize(80, 80);
+                background.opacity(0.6).composite(line, 130, 21).composite(profile_image, 15, 15).print(font, 210, 20, text ,100 , 8).print(font1, 180, -2, msg.author.username).print(font, 185, 37, `${userStats.CurrentXp}/${userStats.Next_Level_At}`).print(level_font, 152, 40, `Level ${userStats.level}`);
+                image
+                .resize(480, 270)
+                .composite(background, 20, 20)
+                .getBufferAsync(jimp.MIME_GIF).then(pic => {let attachment = new Attachment(pic, 'test.gif'); msg.channel.send(attachment);}).catch(err => console.log(err));
+            });
+
+            return client.end();
+
         } else if(args[1].toLowerCase() === 'xp'){
 
             msg.reply(`Tu dabar turi **${userStats.CurrentXp}**, iš viso turi **${userStats.OverallXp}**`);
@@ -100,7 +132,21 @@ module.exports = {
                 return client.end();
             }
 
-            if (args[2].toLowerCase() === 'remove' || args[2].toLowerCase() === '-r' || args[2].toLowerCase() === 'r' || args[2].toLowerCase() === 're' || args[2].toLowerCase() === 'rem'){
+            else if(args[2].toLowerCase() === 'embed'){
+                if(args[3].toLowerCase() === 'true' || args[3].toLowerCase() === 'treu' || args[3].toLowerCase() === 't' || args[3].toLowerCase() === 'tru') photo.embed = true;
+                else if(args[3].toLowerCase() === 'false' || args[3].toLowerCase() === 'fal' || args[3].toLowerCase() === 'f' || args[3].toLowerCase() === 'fals' || args[3].toLowerCase() === 'flase') photo.embed = false;
+
+                await client.query("UPDATE photos SET data = '" + JSON.stringify(guild) + "'").then(console.log('Done')).catch(err => {
+                    msg.reply('Atsiprašome kažkas nepavyko.');
+                    console.log(err);
+                    return client.end();
+                });
+
+                msg.reply('Embed išjungtas.');
+                return client.end();
+            }
+
+            else if (args[2].toLowerCase() === 'remove' || args[2].toLowerCase() === '-r' || args[2].toLowerCase() === 'r' || args[2].toLowerCase() === 're' || args[2].toLowerCase() === 'rem'){
 
                 photo.photo = '';
                 
@@ -115,7 +161,7 @@ module.exports = {
                 return client.end();
             }
 
-                if(args[2].startsWith('https') && args[2].endsWith(`.jpg`) || args[2].startsWith('https') && args[2].endsWith(`.png`) || args[2].startsWith('https') && args[2].endsWith(`.gif`)) photo.photo = args[2];
+            else if(args[2].startsWith('https') && args[2].endsWith(`.jpg`) || args[2].startsWith('https') && args[2].endsWith(`.png`) || args[2].startsWith('https') && args[2].endsWith(`.gif`)) photo.photo = args[2];
                 else {
                     msg.reply(`Netinkama nuoroda.`);
                     return client.end();
