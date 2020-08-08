@@ -142,7 +142,7 @@ module.exports = {
         await guild.createRole({
             name: 'Crook',
             color: '#FF0000',
-            position: 2,
+            position: 8,
             permissions: ['SEND_MESSAGES'],
             mentionable: true
         }).then(console.log('Created role Crook')).catch(err => console.log(err));
@@ -157,7 +157,7 @@ module.exports = {
             name: 'Pawn',
             color: '#FF0070',
             hoist: true,
-            position: 8,
+            position: 9,
             permissions: ['SEND_MESSAGES'],
             mentionable: true
         }).then(console.log('Created role Pawn')).catch(err => console.log(err));
@@ -177,7 +177,7 @@ module.exports = {
             name: 'Worker',
             color: '#FF00E8',
             hoist: true,
-            position: 8,
+            position: 10,
             permissions: ['SEND_MESSAGES'],
             mentionable: true
         }).then(console.log('Created role Worker')).catch(err => console.log(err));
@@ -197,7 +197,7 @@ module.exports = {
             name: 'Išlaikytas lietuvių egzaminas',
             color: '#9E00FF',
             hoist: true,
-            position: 8,
+            position: 11,
             permissions: ['SEND_MESSAGES'],
             mentionable: true
         }).then(console.log('Created role Išlaikytas lietuvių egzaminas')).catch(err => console.log(err));
@@ -217,7 +217,7 @@ module.exports = {
             name: 'Gali dirbti mokytoju',
             color: '#5100FF',
             hoist: true,
-            position: 8,
+            position: 12,
             permissions: ['SEND_MESSAGES'],
             mentionable: true
         }).then(console.log('Created role Gali dirbti mokytoju')).catch(err => console.log(err));
@@ -237,7 +237,7 @@ module.exports = {
             name: 'Kažkada norėjai būti didžėjum',
             color: '#000FFF',
             hoist: true,
-            position: 8,
+            position: 13,
             permissions: ['SEND_MESSAGES'],
             mentionable: true
         }).then(console.log('Created role Kažkada norėjai būti didžėjum')).catch(err => console.log(err));
