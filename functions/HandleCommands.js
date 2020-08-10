@@ -64,8 +64,8 @@ module.exports = {
             bot.commands.get('cooldown').execute(msg, args, CommandCooldown, Ctime);
         break;
 
-        case 'elyga':
-            bot.commands.get('elyga').execute(msg, args);
+        case 'spam':
+            bot.commands.get('spam').execute(msg, args);
         break;
 
         case 'help':
