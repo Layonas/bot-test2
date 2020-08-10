@@ -150,6 +150,7 @@ module.exports = {
             }
 
             else if(args[2].toLowerCase() === 'embed'){
+                if(!args[3]) return msg.reply(`Statusas **${photo.embed}**`);
                 if(args[3].toLowerCase() === 'true' || args[3].toLowerCase() === 'treu' || args[3].toLowerCase() === 't' || args[3].toLowerCase() === 'tru') photo.embed = true;
                 else if(args[3].toLowerCase() === 'false' || args[3].toLowerCase() === 'fal' || args[3].toLowerCase() === 'f' || args[3].toLowerCase() === 'fals' || args[3].toLowerCase() === 'flase') photo.embed = false;
 
