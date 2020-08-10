@@ -68,6 +68,9 @@ module.exports = {
             var serverStats =  stats[msg.guild.id];
             var userStats = serverStats[msg.author.id];
 
+            // Var for holding the earlier photo
+            var check = photo.photo;
+
         if(!args[1]){
 
             if(photo.photo.endsWith('.gif') || photo.embed === true){
@@ -110,7 +113,7 @@ module.exports = {
                 image
                 .resize(480, 270)
                 .composite(background, 20, 20)
-                .getBufferAsync(jimp.MIME_GIF).then(pic => {let attachment = new Attachment(pic, 'test.gif'); msg.channel.send(attachment);}).catch(err => console.log(err));
+                .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new Attachment(pic, 'test.png'); msg.channel.send(attachment);}).catch(err => console.log(err));
             });
 
             return client.end();
@@ -132,6 +135,20 @@ module.exports = {
                 return client.end();
             }
 
+            else if(args[2].toLowerCase() === 'pc'){
+                await msg.reply('Turi 15 sek idėti nuotrauką!');
+
+                const filter = m => {
+                    if(msg.author.id === m.author.id){
+                        if(m.attachments.size === 1){
+                        m.attachments.forEach( file => photo.photo = file.url);
+                    } else m.reply('Turite pridėti nuotrauką.');
+                }
+                };
+
+                await msg.channel.awaitMessages(filter, {max: 6, time: 15000});
+            }
+
             else if(args[2].toLowerCase() === 'embed'){
                 if(args[3].toLowerCase() === 'true' || args[3].toLowerCase() === 'treu' || args[3].toLowerCase() === 't' || args[3].toLowerCase() === 'tru') photo.embed = true;
                 else if(args[3].toLowerCase() === 'false' || args[3].toLowerCase() === 'fal' || args[3].toLowerCase() === 'f' || args[3].toLowerCase() === 'fals' || args[3].toLowerCase() === 'flase') photo.embed = false;
@@ -142,7 +159,7 @@ module.exports = {
                     return client.end();
                 });
 
-                msg.reply('Embed išjungtas.');
+                msg.reply(`Embed Pakeistas. Statusas **${photo.embed}**`);
                 return client.end();
             }
 
@@ -173,8 +190,10 @@ module.exports = {
                     return client.end();
                 });
 
-                await msg.channel.bulkDelete(1);
+                if(check !== photo.photo){
+                    if(args[2].toLowerCase() !== 'pc') await msg.channel.bulkDelete(1);
                 msg.reply('Jūsų nuotrauka atnaujinta.');
+            } else msg.reply('Nuotrauka liko tokia pati.');
 
 
             return client.end();
