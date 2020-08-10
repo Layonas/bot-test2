@@ -135,6 +135,10 @@ module.exports = {
         case 'profile':
             bot.commands.get('profile').execute(msg, args, BotID);
         break;
+
+        case 'levelrole':
+            bot.commands.get('levelRole').execute(msg, args, OwnerID);
+        break;
     }
     }
 };
