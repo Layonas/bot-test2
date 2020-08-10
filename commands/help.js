@@ -6,7 +6,7 @@ module.exports = {
 const DC = require('discord.js');
 const owner = msg.guild.members.get('279665080000315393');
        if (!args[1]){
-        msg.reply('!server, !play, !splay, !instaplay, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown, !volume');
+        msg.reply('!server, !play, !splay, !instaplay, !stop, !skip, !playlist, !np, !pause, !resume, !kick, !cooldown, !volume, !profile, !rs, !levelRole');
         msg.reply(`Dėl papildomos informacijos, kaip veikia komanda, prašome parašyti
 **!help <komandos_pavadinimas>**
 __Pavyzdys__ -- !help info`);
@@ -16,7 +16,7 @@ let embed = new DC.RichEmbed()// eslint-disable-line
 .setTitle('Information')
 .setDescription(`Kūrėjas: **${owner.user.username}**
 Boto pavadinimas: **${msg.guild.members.get('672836310175711273').user.username}**
-Versija: **1.1.5**`); 
+Versija: **1.1.6**`); 
         msg.channel.send(embed);
        } 
 
@@ -89,7 +89,35 @@ switch(args[1]){
 **Naudojimas**  __!volume <amount>__
 **Pavyzdys**  __!volume 100__`);
     break;
-}
+
+    case 'profile':
+        msg.reply(`Pažiūri kiek laiko turi cooldown.
+*Papildomos profiliaus komandos*:
+**!profile level**
+**!profile xp**
+**!profile update** --- __*!profile update <URL.png>*__  --- __*!profile update remove*__  ---  __*!profile update pc*__  ---  __*!profile update embed <State(True or False)>*__
+**!profile**`);
+    break;
+
+    case 'rs':
+        msg.reply(`Pašaliną dainą iš sąrašo.
+**Naudojimas** __!rs <number>__`);
+    break;
+
+    case 'levelRole':
+        msg.reply(`Dabar yra:
+__Crook__ *5-10lvl*
+__Pawn__ *10-15lvl*
+__Worker__ *15-20lvl*
+__Išlaikytas lietuvių egzaminas__ *21lvl*
+__Gali dirbti mokytoju__ *22lvl*
+__Kažkada norėjai būti didžėjum__ *23lvl*
+__Normalus__ *24lvl*
+__Chad__ *25lvl*
+**Jei nori pasiūlyti roliu rašyk !levelRole <Pavadinimas (jei ne vienas žodis vietoj tarpo dėk _  - pvz *juodas_pirneas*)> <Lygis>**`);
+    break;
+    }
+
 return;
 }
 };
