@@ -1,7 +1,7 @@
 module.exports = {
     name: 'Rudeness',
     description: 'Sends messages back to user who swears.',
-    async execute(arg, msg, CommandCooldown, Ctime){
+    async execute(arg, msg, CommandCooldown, Ctime, Owner, BotID){
         const random = require('random');
 
         const filter1 = msg2 => msg2.author.id !== '672836310175711273';
@@ -10,6 +10,8 @@ module.exports = {
         arg.forEach(element => {
             msg1 = element.toLowerCase();
         });
+
+        if(msg.author.id === Owner || msg.author.id === BotID) return;
     
         if(msg1.includes('duhas') || msg1.includes('duhai') || msg1.includes('suka') || msg1.includes('daunas') || msg1.includes('daunai') || msg1.includes('kekse') || msg1.includes('jibanas') || msg1.includes('pydaras') || msg1.includes('kurwa')){
             {
