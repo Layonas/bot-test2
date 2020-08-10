@@ -250,6 +250,46 @@ module.exports = {
         member.addRole(guild.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum'));
     }
 
+    if(userStats.level === 24){
+        if(!guild.roles.find(r => r.name === 'Normalus'))
+        {
+        await guild.createRole({
+            name: 'Normalus',
+            color: '#0068FF',
+            hoist: true,
+            position: 14,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Normalus')).catch(err => console.log(err));
+        }
+
+        const member = guild.members.get(msg.author.id);
+        if(member.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum')){
+            member.removeRole(member.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum'));
+        }
+        member.addRole(guild.roles.find(r => r.name === 'Normalus'));
+    }
+
+    if(userStats.level === 24){
+        if(!guild.roles.find(r => r.name === 'Chad'))
+        {
+        await guild.createRole({
+            name: 'Chad',
+            color: '#00C5FF',
+            hoist: true,
+            position: 15,
+            permissions: ['SEND_MESSAGES'],
+            mentionable: true
+        }).then(console.log('Created role Chad')).catch(err => console.log(err));
+        }
+
+        const member = guild.members.get(msg.author.id);
+        if(member.roles.find(r => r.name === 'Normalus')){
+            member.removeRole(member.roles.find(r => r.name === 'Normalus'));
+        }
+        member.addRole(guild.roles.find(r => r.name === 'Chad'));
+    }
+
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         return;
