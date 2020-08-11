@@ -95,7 +95,7 @@ module.exports = {
 
             //---------------------------------------------------------------------------------------------------------------------------
             // Loading in prefered image of a user and applying cover on to it
-            jimp.read(photo.photo, async (err, image) => {
+            await jimp.read(photo.photo, async (err, image) => {
                 if(err) throw err;
                 //------------------------------------
                 var percentage = userStats.CurrentXp * 100 / userStats.Next_Level_At;
@@ -114,7 +114,7 @@ module.exports = {
                 .resize(480, 270)
                 .composite(background, 20, 20)
                 .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new Attachment(pic, 'test.png'); msg.channel.send(attachment);}).catch(msg.reply('Prisidėkite nuotrauką.'));
-            });
+            }).catch(msg.reply('Įvyko klaida!'));
 
             return client.end();
 
