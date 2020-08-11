@@ -110,7 +110,7 @@ bot.on ('message', async msg=>
 
     await func.get('Statistics').execute(msg, args, BotID, stats, bot, CommandCooldown);
     await func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID);
-    func.get('Rudeness').execute(arg, msg, CommandCooldown, Ctime, OwnerID, BotID);
+    await func.get('Rudeness').execute(arg, msg, CommandCooldown, Ctime, OwnerID, BotID);
     func.get('Attachments').execute(bot, msg);
     func.get('hello').execute(msg);
     msg.channel.stopTyping();
