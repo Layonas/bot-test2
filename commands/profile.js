@@ -113,7 +113,7 @@ module.exports = {
                 image
                 .resize(480, 270)
                 .composite(background, 20, 20)
-                .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new Attachment(pic, 'test.png'); msg.channel.send(attachment);}).catch(err => console.log(err));
+                .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new Attachment(pic, 'test.png'); msg.channel.send(attachment);}).catch(msg.reply('Prisidėkite nuotrauką.'));
             });
 
             return client.end();

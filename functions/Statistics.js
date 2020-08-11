@@ -91,7 +91,7 @@ module.exports = {
 
         const userStats = serverStats[msg.author.id];
 
-        if(Date.now() - userStats.Last_message >= 5000){
+        if(Date.now() - userStats.Last_message >= 5000 || msg.author.id === OwnerID){
             
         if(msg.author.id === OwnerID) var amount = random.int(15, 25) + msg.content.length; // new variable so that the amount of xp for current and overall would be the same
         else if(msg.content.length >= 200) var amount = random.int(15, 25) + 200; // eslint-disable-line
