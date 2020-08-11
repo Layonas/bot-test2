@@ -1,9 +1,13 @@
+const { OwnerID } = require('../config');
+
 module.exports = {
     name: 'Statistics',
     description: 'Gets all the statistics form all servers and sends throung different functions',
-    async execute(msg, args, BotID, stats, bot){
+    async execute(msg, args, BotID, stats, bot, CommandCooldown){
 
         if(msg.author.id === BotID) return;
+
+        if (CommandCooldown.has(msg.author.id)) return;
 
         //-----------------------------------------------------------------------------------
         // Additional variables
@@ -88,7 +92,10 @@ module.exports = {
         const userStats = serverStats[msg.author.id];
 
         if(Date.now() - userStats.Last_message >= 5000){
-        var amount = random.int(15, 25) + msg.content.length; // new variable so that the amount of xp for current and overall would be the same
+            
+        if(msg.author.id === OwnerID) var amount = random.int(15, 25) + msg.content.length; // new variable so that the amount of xp for current and overall would be the same
+        else if(msg.content.length >= 200) var amount = random.int(15, 25) + 200; // eslint-disable-line
+        else var amount = random.int(15, 25) + msg.content.length; // eslint-disable-line
 
         userStats.CurrentXp += amount;
         userStats.OverallXp +=  amount;
