@@ -118,7 +118,7 @@ module.exports = {
 
             return client.end();
 
-        } else if(args[1].toLowerCase() === 'xp'){
+        } else if(args[1].toLowerCase() === 'xp' || args[1].toLowerCase() === 'exp'){
 
             msg.reply(`Tu dabar turi **${userStats.CurrentXp}**, iš viso turi **${userStats.OverallXp}**`);
 
