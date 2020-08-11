@@ -97,7 +97,7 @@ module.exports = {
             //---------------------------------------------------------------------------------------------------------------------------
             // Loading in prefered image of a user and applying cover on to it
             await jimp.read(photo.photo, async (err, image) => {
-                if(err) throw err;
+                if(err) return msg.reply('Įvyko klaida!');
                 //------------------------------------
                 var percentage = userStats.CurrentXp * 100 / userStats.Next_Level_At;
                 var text = `${Math.floor(percentage)}%`;
