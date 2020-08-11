@@ -105,16 +105,10 @@ bot.on('guildDelete', guild =>{
 
 bot.on ('message', async msg=>
 {
-    // const guild = bot.guilds.get('543848190995333152');
-    // guild.createRole({
-    //     name: 'asd',
-    //     permissions: ['EXTERNAL_EMOJIS']
-    // })
-
     let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
-    await func.get('Statistics').execute(msg, args, BotID, stats, bot);
+    await func.get('Statistics').execute(msg, args, BotID, stats, bot, CommandCooldown);
     await func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID);
     func.get('Rudeness').execute(arg, msg, CommandCooldown, Ctime, OwnerID, BotID);
     func.get('Attachments').execute(bot, msg);
