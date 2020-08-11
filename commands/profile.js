@@ -70,6 +70,7 @@ module.exports = {
 
             // Var for holding the earlier photo
             var check = photo.photo;
+            
 
         if(!args[1]){
 
@@ -113,8 +114,8 @@ module.exports = {
                 image
                 .resize(480, 270)
                 .composite(background, 20, 20)
-                .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new Attachment(pic, 'test.png'); msg.channel.send(attachment);}).catch(msg.reply('Prisidėkite nuotrauką.'));
-            }).catch(msg.reply('Įvyko klaida!'));
+                .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new Attachment(pic, 'test.png'); msg.channel.send(attachment);}).catch( err => {if(err) return msg.reply('Prisidėkite nuotrauką.');});
+            }).catch(err => {if(err) return msg.reply('Įvyko klaida!');});
 
             return client.end();
 
