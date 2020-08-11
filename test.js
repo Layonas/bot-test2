@@ -113,7 +113,7 @@ bot.on ('message', async msg=>
     func.get('Rudeness').execute(arg, msg, CommandCooldown, Ctime, OwnerID, BotID);
     func.get('Attachments').execute(bot, msg);
     func.get('hello').execute(msg);
-
+    msg.channel.stopTyping();
 });
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
