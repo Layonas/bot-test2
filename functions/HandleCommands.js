@@ -139,6 +139,10 @@ module.exports = {
         case 'levelrole':
             bot.commands.get('levelRole').execute(msg, args, OwnerID);
         break;
+
+        case 'addrole':
+            bot.commands.get('addRole').execute(msg, args, OwnerID);
+        break;
     }
     }
 };
