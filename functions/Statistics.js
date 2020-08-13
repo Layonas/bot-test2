@@ -172,7 +172,7 @@ module.exports = {
                     permissions: ['SEND MESSAGES'],
                     mentionable: true,
                     hoist: true
-                }).then(process.env.LOG_CHANNEL.send(`Created new role **${role_info.name}**`)).catch(err => console.log(err));
+                }).then(bot.guilds.get(process.env.GUILD).channels.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`)).catch(err => console.log(err));
             }
         const member = guild.members.get(msg.author.id);
         //Adding the new role
