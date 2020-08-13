@@ -1,6 +1,6 @@
 module.exports={
     name: 'stop',
-    alias: ['stop', 'st', 's', 'sto'],
+    alias: ['stop', 'st', 's', 'sto', 'ds'],
     description: 'Stops the music that is being played with the bot.',
     execute(msg, serverQueue)
     {

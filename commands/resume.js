@@ -1,6 +1,8 @@
 module.exports = {
     name: 'resume',
     alias: ['resume'],
+    usage: '!<alias>',
+    example: '!resume',
     description: 'Resumes the song that was paused.',
     execute(msg, queue, serverQueue){
         msg.channel.bulkDelete(1);

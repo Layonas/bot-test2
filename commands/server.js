@@ -1,6 +1,8 @@
 module.exports = {
     name: 'server',
     alias: ['server'],
+    usage: '!<alias>',
+    example: '!server',
     description: 'Mc server checker.',
     execute(msg, ping, RichEmbed){
         if (msg.author.username === 'AdvancingBot1') return;
@@ -17,7 +19,6 @@ module.exports = {
                 .setColor(0x3AFF00)
                 .setThumbnail(msg.author.avatarURL);
                 
-
             msg.channel.send(Embed);
 
         });

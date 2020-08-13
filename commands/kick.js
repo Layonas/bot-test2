@@ -1,6 +1,8 @@
 module.exports = {
 name: 'kick',
 alias: ['kick'],
+usage: '!<alias> <@tag>',
+example: '!kick @eligijus',
 description: 'Kicking a member for bad behaviour',
 execute (msg, args)
 {

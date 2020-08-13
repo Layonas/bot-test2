@@ -1,6 +1,9 @@
 module.exports = {
     name: 'volume',
     alias: ['vol', 'volume', 'v', 'vo', 'volum'],
+    usage: '!<alias> <number>',
+    example: '!volume 50',
+    description: 'Sets the volume of the songs that are being played',
     execute(msg, args, serverQueue){
         msg.channel.bulkDelete(1);
         const voiceChannel = msg.member.voiceChannel;

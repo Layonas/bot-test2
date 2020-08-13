@@ -1,6 +1,8 @@
 module.exports = {
     name: 'instaPlay',
     alias: ['instaPlay', 'ip', 'insta'],
+    usage: '!<alias> <song_url or song_name>',
+    example: '!instaplay robinzonas',
     description: 'Adds a song second in the queue no matter the length of a queue',
     async execute(msg, args, ytdl, queue, youtube){
         msg.channel.bulkDelete(1);

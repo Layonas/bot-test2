@@ -1,6 +1,8 @@
 module.exports = {
     name: 'np',
     alias: ['np', 'nowplaying', 'now', 'playing'],
+    usage: '!<alias>',
+    example: '!nowplaying',
     description: 'Tells what is the song that is currently playing.',
     execute(msg, serverQueue){
         msg.channel.bulkDelete(1);

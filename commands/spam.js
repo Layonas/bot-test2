@@ -1,6 +1,8 @@
 module.exports = {
     name: 'spam',
     alias: ['spam'],
+    usage: '!<alias> <@tag> <times> <message>',
+    example: '!spam @eligijus 10 atsiliepk velniaz',
     description: 'Spams messages that user says',
    async execute(msg, args){
        if(msg.author.username !== 'Layon') return msg.reply('Pisk nx');

@@ -1,6 +1,9 @@
 module.exports = {
     name: 'CooldownCheck',
     alias: ['cc', 'cooldowncheck', 'checkcooldown', 'checkc', 'ColldownCheck'],
+    usage: '!<alias> <@tag>',
+    example: '!CooldownCheck @eligijus',
+    description: 'Check how much time does a specified user has left on cooldown',
     execute(msg, args, CommandCooldown, OwnerID, Ctime){
 
         const user = msg.mentions.users.first();

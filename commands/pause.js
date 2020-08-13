@@ -1,6 +1,8 @@
 module.exports = {
     name: 'pause',
     alias: ['pause'],
+    usage: '!<alias>',
+    example: '!pause',
     description: 'Pauses the song that is playing.',
    async execute(msg, queue, serverQueue){
         msg.channel.bulkDelete(1);

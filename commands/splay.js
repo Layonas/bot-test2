@@ -1,6 +1,8 @@
 module.exports = {
     name: 'splay',
     alias: ['splay', 'select', 'sp', 'selectplay'],
+    usage: '!<alias> song_name',
+    example: '!selectplay robinzonas',
     description: 'Selection of videos if the video name is just a random guess',
     async execute(msg, args, youtube, serverQueue, queue, ytdl){
         await msg.channel.bulkDelete(1);

@@ -1,6 +1,8 @@
 module.exports = {
     name: 'skip',
     alias: ['skip', 'sk', 'ski'],
+    usage: '!<alias>',
+    example: '!skip',
     description: 'Skips the current song to the next song in queue.',
     async execute(msg, serverQueue, args){
         msg.channel.bulkDelete(1);

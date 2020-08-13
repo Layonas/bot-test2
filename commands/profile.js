@@ -1,6 +1,10 @@
 module.exports = {
     name: 'profile',
     alias: ['profile', 'prof'],
+    usage: '!<alias> (optional) <function> (optional) <link || function> (optional) <mode || image>',
+    example: `!profile
+!profile update || level || xp -- https://image.jpg
+!profile update embed true || false`,
     description: 'Lets people see what level and other stuff they have like xp from the database',
     async execute(msg, args, BotID){
         //---------------------------------------------------------

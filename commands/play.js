@@ -1,6 +1,8 @@
 module.exports ={
     name: 'play',
     alias: ['play', 'p', 'pla', 'plai'],
+    usage: '!<alias> <song_name || song_url>',
+    example: '!play some random song',
     description: 'Plays a song that a user inputs.',
     async execute(msg, args, ytdl, queue, serverQueue, youtube)
     {

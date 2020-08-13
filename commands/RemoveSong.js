@@ -1,6 +1,8 @@
 module.exports = {
 name: 'RemoveSong',
 alias: ['rs','removesong','removes','songremove'],
+usage: '!<alias> (optional) <index>',
+example: '!removesong 2',
 description: 'Removes a specific song form a playlist you just have to choose it',
 async execute(msg, args, serverQueue, OwnerID){
 

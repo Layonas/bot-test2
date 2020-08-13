@@ -1,6 +1,8 @@
 module.exports = {
     name: 'cooldown',
-    alias: ['cooldown', 'cool', 'c'], 
+    alias: ['cooldown', 'cool', 'c'],
+    usage: '!<alias> <@tag> <time>',
+    example: '!cooldown @eligijus 120', 
     description: 'Making a player timeout so he couldnt write messages till the time runs out.',
     execute(msg, args, CommandCooldown, Ctime)
     {  
