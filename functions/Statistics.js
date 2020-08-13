@@ -169,7 +169,7 @@ module.exports = {
                     name: role_info.name,
                     color: role_info.color,
                     position: role_info.position,
-                    permissions: ['SEND MESSAGES'],
+                    permissions: ['SEND_MESSAGES'],
                     mentionable: true,
                     hoist: true
                 }).then(bot.guilds.get(process.env.GUILD).channels.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`)).catch(err => console.log(err));
