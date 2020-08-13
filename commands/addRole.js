@@ -1,7 +1,7 @@
 module.exports = {
     name: 'addRole',
     alias: ['addRole', 'aR', 'Roleadd', 'ar', 'arole', 'ARole', 'Arole', 'addrole'],
-    usage: `!<alias> <name> <min_level> <max_level> <color> <position>`,
+    usage: `!<alias> <name> <min_level> <max_level> <color>`,
     example: '!addRole',
     description: 'Adds a role to the database and auto updates the bot with new roles.',
     async execute(msg, args, OwnerID){
@@ -73,13 +73,13 @@ module.exports = {
             setting.max_level = 0;
             setting.min_level = args[2];
             setting.color = args[3];
-            setting.position = args[4];
+            setting.position = msg.guild.roles.size-8;
         } else {
             setting.name = Role_name;
             setting.min_level = args[2];
             setting.max_level = args[3];
             setting.color = args[4];
-            setting.position = args[5];
+            setting.position = msg.guild.roles.size-8;
         }   
 
         // one time use to push existing roles to DB
