@@ -133,9 +133,9 @@ module.exports = {
 
         //var text = jsonfile.readFileSync('./functions/JsonFiles/stats.json');
         
-        //jsonfile.writeFileSync(`./functions/JsonFiles/stats1.json`, rows, { spaces: 2});
+        //jsonfile.writeFileSync(`./functions/JsonFiles/stats1.json`, stats, { spaces: 2});
 
-        client.end();
+        
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -143,161 +143,49 @@ module.exports = {
 
     const guild = bot.guilds.get('543848190995333152');
 
-    if(userStats.level >= 5 && userStats.level < 10){
-        if(!guild.roles.find(r => r.name === 'Crook'))
-        {
-        await guild.createRole({
-            name: 'Crook',
-            color: '#FF0000',
-            position: 8,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Crook')).catch(err => console.log(err));
-        }
-        guild.members.get(msg.author.id).addRole(guild.roles.find(r => r.name === 'Crook'));
-    }
+    //----------------------------------------------------------
+    // Getting new role info
+    var role_data = await client.query('SELECT * FROM Roles');
 
-    if(userStats.level >= 10 && userStats.level < 15){
-        if(!guild.roles.find(r => r.name === 'Pawn'))
-        {
-        await guild.createRole({
-            name: 'Pawn',
-            color: '#FF0070',
-            hoist: true,
-            position: 9,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Pawn')).catch(err => console.log(err));
-        }
+    var Roles = role_data.rows[0].roles;
+    //----------------------------------------------------------
 
+    client.end();
+
+    //-----------------------------------------------------------------------------------
+    // One time role checker for upcoming and gained levels
+
+    if(userStats.level in Roles){
+        var role_info = Roles[userStats.level];
+        var previous_role_index; // number of previous role (the spot in an Object array)
+        
+        Object.keys(Roles).forEach((level, index) => {
+            if(parseInt(level) === userStats.level) previous_role_index = index-1;
+        }); // return the number
+        var previous_role_array = Object.keys(Roles); // array of roles but not an object
+        var previous_role = Roles[previous_role_array[previous_role_index]]; //Maybe gets the full object of the previous role
+            if(!guild.roles.find(r => r.name === role_info.name)){
+                await guild.createRole({
+                    name: role_info.name,
+                    color: role_info.color,
+                    position: role_info.position,
+                    permissions: ['SEND MESSAGES'],
+                    mentionable: true,
+                    hoist: true
+                }).then(process.env.LOG_CHANNEL.send(`Created new role **${role_info.name}**`)).catch(err => console.log(err));
+            }
         const member = guild.members.get(msg.author.id);
-        if(member.roles.find(r => r.name === 'Crook')){
-            member.removeRole(member.roles.find(r => r.name === 'Crook'));
-        }
-        member.addRole(guild.roles.find(r => r.name === 'Pawn'));
+        //Adding the new role
+        if(!member.roles.find(r => r.name === role_info.name)) member.addRole(guild.roles.find(r => r.name ===  role_info.name));
+
+        var member_role_previous = member.roles.find(r => r.name === previous_role.name);
+        // removing the previous role
+        if (member_role_previous) member.removeRole(member_role_previous);
+        
+        // Deleting the role if there is no user in it
+        if(guild.roles.find(r => r.name === previous_role.name) !== null && guild.roles.find(r => r.name === previous_role.name).members.size === 0) guild.roles.find(r => r.name === previous_role.name).delete();
+
     }
-
-    if(userStats.level >= 15 && userStats.level < 20){
-        if(!guild.roles.find(r => r.name === 'Worker'))
-        {
-        await guild.createRole({
-            name: 'Worker',
-            color: '#FF00E8',
-            hoist: true,
-            position: 10,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Worker')).catch(err => console.log(err));
-        }
-
-        const member = guild.members.get(msg.author.id);
-        if(member.roles.find(r => r.name === 'Pawn')){
-            member.removeRole(member.roles.find(r => r.name === 'Pawn'));
-        }
-        member.addRole(guild.roles.find(r => r.name === 'Worker'));
-    }
-
-    if(userStats.level === 21){
-        if(!guild.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas'))
-        {
-        await guild.createRole({
-            name: 'Išlaikytas lietuvių egzaminas',
-            color: '#9E00FF',
-            hoist: true,
-            position: 11,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Išlaikytas lietuvių egzaminas')).catch(err => console.log(err));
-        }
-
-        const member = guild.members.get(msg.author.id);
-        if(member.roles.find(r => r.name === 'Worker')){
-            member.removeRole(member.roles.find(r => r.name === 'Worker'));
-        }
-        member.addRole(guild.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas'));
-    }
-
-    if(userStats.level === 22){
-        if(!guild.roles.find(r => r.name === 'Gali dirbti mokytoju'))
-        {
-        await guild.createRole({
-            name: 'Gali dirbti mokytoju',
-            color: '#5100FF',
-            hoist: true,
-            position: 12,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Gali dirbti mokytoju')).catch(err => console.log(err));
-        }
-
-        const member = guild.members.get(msg.author.id);
-        if(member.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas')){
-            member.removeRole(member.roles.find(r => r.name === 'Išlaikytas lietuvių egzaminas'));
-        }
-        member.addRole(guild.roles.find(r => r.name === 'Gali dirbti mokytoju'));
-    }
-
-    if(userStats.level === 23){
-        if(!guild.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum'))
-        {
-        await guild.createRole({
-            name: 'Kažkada norėjai būti didžėjum',
-            color: '#000FFF',
-            hoist: true,
-            position: 13,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Kažkada norėjai būti didžėjum')).catch(err => console.log(err));
-        }
-
-        const member = guild.members.get(msg.author.id);
-        if(member.roles.find(r => r.name === 'Gali dirbti mokytoju')){
-            member.removeRole(member.roles.find(r => r.name === 'Gali dirbti mokytoju'));
-        }
-        member.addRole(guild.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum'));
-    }
-
-    if(userStats.level === 24){
-        if(!guild.roles.find(r => r.name === 'Normalus'))
-        {
-        await guild.createRole({
-            name: 'Normalus',
-            color: '#0068FF',
-            hoist: true,
-            position: 14,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Normalus')).catch(err => console.log(err));
-        }
-
-        const member = guild.members.get(msg.author.id);
-        if(member.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum')){
-            member.removeRole(member.roles.find(r => r.name === 'Kažkada norėjai būti didžėjum'));
-        }
-        member.addRole(guild.roles.find(r => r.name === 'Normalus'));
-    }
-
-    if(userStats.level === 24){
-        if(!guild.roles.find(r => r.name === 'Chad'))
-        {
-        await guild.createRole({
-            name: 'Chad',
-            color: '#00C5FF',
-            hoist: true,
-            position: 15,
-            permissions: ['SEND_MESSAGES'],
-            mentionable: true
-        }).then(console.log('Created role Chad')).catch(err => console.log(err));
-        }
-
-        const member = guild.members.get(msg.author.id);
-        if(member.roles.find(r => r.name === 'Normalus')){
-            member.removeRole(member.roles.find(r => r.name === 'Normalus'));
-        }
-        member.addRole(guild.roles.find(r => r.name === 'Chad'));
-    }
-
-    //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         return;
     }
