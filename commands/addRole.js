@@ -70,7 +70,7 @@ module.exports = {
 
         if(isNaN(args[3])){
             setting.name = Role_name;
-            setting.max_level = 0;
+            setting.max_level = args[2];
             setting.min_level = args[2];
             setting.color = args[3];
             setting.position = msg.guild.roles.size-8;
