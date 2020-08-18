@@ -154,6 +154,7 @@ module.exports = {
 
     //-----------------------------------------------------------------------------------
     // One time role checker for upcoming and gained levels
+    // Need to read roles and get their positions the slice of unnesecery and calculate the position than is needed to be
 
     if(userStats.level in Roles){
         var role_info = Roles[userStats.level];
@@ -175,18 +176,73 @@ module.exports = {
                 }).then(bot.guilds.get(process.env.GUILD).channels.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`)).catch(err => console.log(err));
             }
         const member = guild.members.get(msg.author.id);
-        //Adding the new role
-        if(!member.roles.find(r => r.name === role_info.name)) member.addRole(guild.roles.find(r => r.name ===  role_info.name));
 
         var member_role_previous = member.roles.find(r => r.name === previous_role.name);
         // removing the previous role
-        if (member_role_previous) member.removeRole(member_role_previous);
+        if (member_role_previous) member.removeRole(member_role_previous);        
         
         // Deleting the role if there is no user in it
         if(guild.roles.find(r => r.name === previous_role.name) !== null && guild.roles.find(r => r.name === previous_role.name).members.size === 0) guild.roles.find(r => r.name === previous_role.name).delete();
+
+        var All_roles = {};
+        GetRolePostition(All_roles, guild, Roles);
+        var keys = Object.keys(All_roles);
+        keys.forEach(name =>{
+            if(guild.roles.find(r => r.name === name)) guild.roles.find(r => r.name === name).setRolePosition(name, All_roles[name].position);
+        });
+
+        //Adding the new role
+        if(!member.roles.find(r => r.name === role_info.name)) member.addRole(guild.roles.find(r => r.name ===  role_info.name));
+
+       
+        
 
     }
 
         return;
     }
-};
+};  
+
+
+async function GetRolePostition(All_roles, guild, Roles){
+    guild.roles.forEach(roles => {
+
+       if(roles.name !== 'Feldwebel' && roles.name !== 'Fallschirmjäger' && roles.name !== 'Funker' && roles.name !== 'Gebirgsjäger' && roles.name !== 'Grenadier' && roles.name !== 'Panzergrenadier' && roles.name !== 'Tанкист' && roles.name !== 'AdvancingBot1'){
+        if(roles.name in All_roles === false && roles.name !== undefined) {
+            All_roles[roles.name] = {
+            name: roles.name,
+            level: 0,
+            position: 0
+        };
+    }        
+        if(All_roles[roles.name].name === '@everyone') {All_roles[roles.name].level = 0; All_roles[roles.name].position = 1;}
+        if(All_roles[roles.name].name === 'Sanitäterin') {All_roles[roles.name].level = 1; All_roles[roles.name].position = 2;}
+        if(All_roles[roles.name].name === 'Reichsleiter') {All_roles[roles.name].level = 2; All_roles[roles.name].position = 3;}
+        if(All_roles[roles.name].name === 'Sturmpionier') {All_roles[roles.name].level = 3; All_roles[roles.name].position = 4;}
+        if(All_roles[roles.name].name === 'Artillerist') {All_roles[roles.name].level = 4; All_roles[roles.name].position = 5;}
+        if(All_roles[roles.name].name === 'Botting') {All_roles[roles.name].level = 4.2; All_roles[roles.name].position = 6;}
+        if(All_roles[roles.name].name === 'GEIMERIAI') {All_roles[roles.name].level = 4.5; All_roles[roles.name].position = 7;}        
+        
+        Object.keys(Roles).forEach(level => {
+            if(Roles[level].name === All_roles[roles.name].name) All_roles[roles.name].level = level;
+        });        
+        
+    }
+        
+    });
+
+    var keys = Object.keys(All_roles).sort((a, b) => {return All_roles[a].level - All_roles[b].level;});
+    var unfinished_roles = {};
+    keys.forEach(name =>{
+        if(name in unfinished_roles === false) unfinished_roles[name] = All_roles[name];
+    });
+    
+
+    var length = keys.length;
+
+    for (let i = 0; i < length; i++) {
+      unfinished_roles[keys[i]].position = i+1;
+    }
+    All_roles = unfinished_roles;
+    return;
+}
