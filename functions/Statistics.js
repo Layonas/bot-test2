@@ -187,8 +187,8 @@ module.exports = {
         var All_roles = {};
         GetRolePostition(All_roles, guild, Roles);
         var keys = Object.keys(All_roles);
-        keys.forEach(name =>{
-            if(guild.roles.find(r => r.name === name)) guild.roles.find(r => r.name === name).setRolePosition(name, All_roles[name].position);
+        keys.forEach(async name =>{
+            if(guild.roles.find(r => r.name === name)) await guild.setRolePosition(guild.roles.find(r => r.name === name), All_roles[name].position).catch(err => {if(err) return;});
         });
 
         //Adding the new role
