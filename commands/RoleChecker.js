@@ -30,7 +30,7 @@ module.exports = {
         .setTitle('Roles')
         .setFooter('More roles can be added so you can suggest with !lr <name> <level>', msg.guild.members.get(process.env.USER_BOT).user.avatarURL)
         .setColor('RANDOM')
-        .setDescription(`${Roles.map((roles) => `**${Role_info[roles].name}** nuo **${Role_info[roles].min_level}** lygio **${Role_info[roles].color}**`).join('\n')}`)
+        .setDescription(`${Roles.map((roles) => `**${Role_info[roles].name}** nuo **${Role_info[roles].min_level}** iki **${Role_info[roles].max_level}** lygio **${Role_info[roles].color}**`).join('\n')}`)
         .setAuthor(msg.guild.members.get(process.env.USER_OWNER).user.username, msg.guild.members.get(process.env.USER_OWNER).user.avatarURL);
 
 
