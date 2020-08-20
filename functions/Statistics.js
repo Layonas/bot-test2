@@ -173,7 +173,18 @@ module.exports = {
                     permissions: ['SEND_MESSAGES'],
                     mentionable: true,
                     hoist: true
-                }).then(bot.guilds.get(process.env.GUILD).channels.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`)).catch(err => console.log(err));
+                }).then(() => {
+                    bot.guilds.get(process.env.GUILD).channels.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`);
+
+                    var All_roles = {};
+                    GetRolePostition(All_roles, guild, Roles);
+                    var keys = Object.keys(All_roles);
+                    //console.log(All_roles);
+                    keys.forEach(async name =>{
+                        if(guild.roles.find(r => r.name === name)) await guild.setRolePosition(guild.roles.find(r => r.name === name), All_roles[name].position)/*.then(console.log(`Changed (${name}) position to (${All_roles[name].position})`))*/.catch(err => {if(err) return;});
+                    });
+                    
+                }).catch(err => console.log(err));
             }
         const member = guild.members.get(msg.author.id);
 
@@ -183,14 +194,6 @@ module.exports = {
         
         // Deleting the role if there is no user in it
         if(guild.roles.find(r => r.name === previous_role.name) !== null && guild.roles.find(r => r.name === previous_role.name).members.size === 0) guild.roles.find(r => r.name === previous_role.name).delete();
-
-        var All_roles = {};
-        GetRolePostition(All_roles, guild, Roles);
-        var keys = Object.keys(All_roles);
-        //console.log(All_roles);
-        keys.forEach(async name =>{
-            if(guild.roles.find(r => r.name === name)) await guild.setRolePosition(guild.roles.find(r => r.name === name), All_roles[name].position)/*.then(console.log(`Changed (${name}) position to (${All_roles[name].position})`))*/.catch(err => {if(err) return;});
-        });
 
         //Adding the new role
         if(!member.roles.find(r => r.name === role_info.name)) member.addRole(guild.roles.find(r => r.name ===  role_info.name));
