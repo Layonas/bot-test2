@@ -17,10 +17,18 @@ module.exports = {
             }
             else a++;
 
-            var user = msg.mentions.users.first();
-            var message = args.slice(3).join(' ');
+            try {
+                var user = msg.mentions.users.first();
+                var message = args.slice(3).join(' ');
+    
+                msg.channel.send(`<@${user.id}> ${message}!`);
+            } catch (error) {
+                var role = msg.mentions.roles.first(); // eslint-disable-line
+                var message = args.slice(3).join(' '); // eslint-disable-line
+    
+                msg.channel.send(`<@&${role.id}> ${message}!`);
+            }
 
-            msg.channel.send(`<@${user.id}> ${message}!`);
         }
 }
 };
