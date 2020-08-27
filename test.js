@@ -75,6 +75,11 @@ bot.on("guildMemberAdd", member =>{
 
     channel.send(`Sveikas ${member}, sveikinu prisijungus prie mūsų serverio!`);
 
+    if(member.guild.id === process.env.GUILD){
+        const role = member.guild.roles.find(role => role.name === 'Žmogas');
+        member.addRole(role);
+    }
+
 });
 
 //when bot joins a new server
