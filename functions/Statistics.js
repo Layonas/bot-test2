@@ -91,6 +91,8 @@ module.exports = {
 
         const userStats = serverStats[msg.author.id];
 
+        const  previous_level = userStats.level;
+
         if(Date.now() - userStats.Last_message >= 5000 || msg.author.id === OwnerID){
             
         if(msg.author.id === OwnerID) var amount = random.int(15, 25) + msg.content.length; // new variable so that the amount of xp for current and overall would be the same
@@ -124,6 +126,7 @@ module.exports = {
         userStats.Last_message = Date.now();
     }
 
+        const current_level = userStats.level;
         //await jsonfile.writeFileSync(`./functions/JsonFiles/stats.json`, stats, { spaces: 2}); // uncomment this then run and see all the info in the database
 
         //console.log(stats);
@@ -142,6 +145,7 @@ module.exports = {
     // Creating and adding roles to people who have met certain level requirements
 
     const guild = bot.guilds.get('543848190995333152');
+    if(msg.guild.id !== guild.id) return client.end();
 
     //----------------------------------------------------------
     // Getting new role info
@@ -155,13 +159,13 @@ module.exports = {
     //-----------------------------------------------------------------------------------
     // One time role checker for upcoming and gained levels
     // Need to read roles and get their positions the slice of unnesecery and calculate the position than is needed to be
-
+    if(previous_level === current_level) return;
     if(userStats.level in Roles){
         var role_info = Roles[userStats.level];
         var previous_role_index; // number of previous role (the spot in an Object array)
         
         Object.keys(Roles).forEach((level, index) => {
-            if(parseInt(level) === userStats.level) previous_role_index = index-1;
+            if(parseInt(level) === userStats.level && index !== 1) previous_role_index = index-1;
         }); // return the number
         var previous_role_array = Object.keys(Roles); // array of roles but not an object
         var previous_role = Roles[previous_role_array[previous_role_index]]; //Maybe gets the full object of the previous role
