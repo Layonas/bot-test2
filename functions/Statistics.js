@@ -143,7 +143,6 @@ module.exports = {
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Creating and adding roles to people who have met certain level requirements
-
     const guild = bot.guilds.get('543848190995333152');
     if(msg.guild.id !== guild.id) return client.end();
 
@@ -159,6 +158,7 @@ module.exports = {
     //-----------------------------------------------------------------------------------
     // One time role checker for upcoming and gained levels
     // Need to read roles and get their positions the slice of unnesecery and calculate the position than is needed to be
+    
     if(previous_level === current_level) return;
     if(userStats.level in Roles){
         var role_info = Roles[userStats.level];
@@ -195,12 +195,15 @@ module.exports = {
         var member_role_previous = member.roles.find(r => r.name === previous_role.name);
         // removing the previous role
         if (member_role_previous) member.removeRole(member_role_previous);        
-        
-        // Deleting the role if there is no user in it
-        if(guild.roles.find(r => r.name === previous_role.name) !== null && guild.roles.find(r => r.name === previous_role.name).members.size === 0) guild.roles.find(r => r.name === previous_role.name).delete();
 
         //Adding the new role
-        if(!member.roles.find(r => r.name === role_info.name)) member.addRole(guild.roles.find(r => r.name ===  role_info.name));
+        if(!member.roles.find(r => r.name === role_info.name)) member.addRole(guild.roles.find(r => r.name ===  role_info.name)).then(()=>{
+            // removing all roles with 0 members in them 
+            guild.roles.forEach(role =>{
+                if(role.position < guild.roles.find(r => r.name === 'AdvancingBot1').position && role.name !== '@everyone')
+               if(role.members.size === 0) guild.roles.find(r => r.name === previous_role.name).delete();
+            });
+        });
 
        
         
