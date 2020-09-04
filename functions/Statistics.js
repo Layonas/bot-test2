@@ -194,14 +194,14 @@ module.exports = {
 
         var member_role_previous = member.roles.find(r => r.name === previous_role.name);
         // removing the previous role
-        if (member_role_previous) member.removeRole(member_role_previous);        
-
+        if (member_role_previous) member.removeRole(member_role_previous); 
+    
         //Adding the new role
-        if(!member.roles.find(r => r.name === role_info.name)) member.addRole(guild.roles.find(r => r.name ===  role_info.name)).then(()=>{
+        if(!member.roles.find(r => r.name === role_info.name)) await member.addRole(guild.roles.find(r => r.name ===  role_info.name)).then(()=>{
             // removing all roles with 0 members in them 
             guild.roles.forEach(role =>{
                 if(role.position < guild.roles.find(r => r.name === 'AdvancingBot1').position && role.name !== '@everyone')
-               if(role.members.size === 0) guild.roles.find(r => r.name === previous_role.name).delete();
+               if(role.members.size === 0) role.delete();
             });
         });
 
