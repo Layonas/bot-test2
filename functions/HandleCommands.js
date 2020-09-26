@@ -147,6 +147,10 @@ module.exports = {
         case 'rolechecker':
             bot.commands.get('RoleChecker').execute(msg);
         break;
+
+        case 'restart':
+            bot.commands.get('restart').execute(msg, args, OwnerID, bot);
+        break;
     }
     }
 };
