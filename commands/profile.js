@@ -203,7 +203,27 @@ module.exports = {
 
 
             return client.end();
-        }else {
+        }
+        else if(args[1].startsWith('<@!')){
+            try {
+                const userCheck = serverStats[msg.mentions.users.first().id];
+                const embed = new RichEmbed()
+                .setAuthor(msg.author.username, msg.author.avatarURL)
+                .setColor('RANDOM')
+                .setFooter(`Tikrinta: ${msg.createdAt.getHours()+3 + ':' + msg.createdAt.getMinutes() + ':' + msg.createdAt.getSeconds()}`, msg.guild.members.get(BotID).user.avatarURL)
+                .setThumbnail(msg.guild.members.get(msg.mentions.users.first().id).user.avatarURL)
+                .setTitle(`Informacija apie **${msg.mentions.users.first().username}**`)
+                .addField('Vardas', userCheck.name, true)
+                .addField('Lygis', userCheck.level, true)
+                .addBlankField(true)
+                .addField('Visas XP', userCheck.OverallXp, true)
+                .addField('Išsiųsta žinučių', userCheck.MessagesSent, true);
+                await msg.channel.send(embed);
+            } catch (error) {
+                msg.reply('Įvyko klaida. Pabandykite iš naujo.');
+            }
+        }
+        else {
             msg.reply('Netinkamai suformuota komanda!');
             return client.end();
         }
