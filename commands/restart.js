@@ -10,7 +10,7 @@ module.exports = {
         //if I were to run the bot on local machine
         if(!args[1]) return msg.reply(`Neteisingas vartojimas, pažiūrėk pavyzdį ---> ${this.example}`);
         if(msg.author.id !== OwnerID) {
-            await msg.guild.members.get(OwnerID).send(`${msg.author.username} request to restart the bot.`);
+            await msg.guild.members.get(OwnerID).send(`**${msg.author.username}** request to restart the bot.`);
             return msg.reply('Prašymas išsiųstas');
         }
         
