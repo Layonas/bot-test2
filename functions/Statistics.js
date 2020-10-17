@@ -8,7 +8,7 @@ module.exports = {
         if(msg.author.id === BotID) return;
 
         if (CommandCooldown.has(msg.author.id)) return;
-
+        
         //-----------------------------------------------------------------------------------
         // Additional variables
         const fs = require('fs'); //eslint-disable-line
@@ -154,6 +154,9 @@ module.exports = {
     //----------------------------------------------------------
 
     client.end();
+    
+    // var All_roles = {};
+    // await GetRolePostition(All_roles, guild, Roles);
 
     //-----------------------------------------------------------------------------------
     // One time role checker for upcoming and gained levels
@@ -199,9 +202,14 @@ module.exports = {
         //Adding the new role
         if(!member.roles.find(r => r.name === role_info.name)) await member.addRole(guild.roles.find(r => r.name ===  role_info.name)).then(()=>{
             // removing all roles with 0 members in them 
-            guild.roles.forEach(role =>{
-                if(role.position < guild.roles.find(r => r.name === 'AdvancingBot1').position && role.name !== '@everyone')
-               if(role.members.size === 0) role.delete();
+            guild.roles.forEach(async role =>{
+            if(role.position < guild.roles.find(r => r.name === 'AdvancingBot1').position && role.name !== '@everyone')
+            {
+               if(role.members.size === 0){ 
+                   await guild.channels.find(c => c.name === 'logs').send(`**${role.name}** role got deleted.`);
+                   await role.delete();
+               }
+            }
             });
         });
 
@@ -255,5 +263,15 @@ async function GetRolePostition(All_roles, guild, Roles){
       unfinished_roles[keys[i]].position = i;
     }
     All_roles = unfinished_roles;
+
+
+   var a = "";
+
+         Object.keys(All_roles).forEach(async level => {
+            a.concat(`\n**${All_roles[level].name}**`, ` position is **${All_roles[level].position}**.`);
+        });
+
+        await guild.channels.find(c => c.name === 'logs').send(`Roles are sorted: ${a}`);
+
     return;
 }
