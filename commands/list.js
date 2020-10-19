@@ -6,11 +6,13 @@ module.exports = {
    description: 'Full list of songs that are currently in the queue.',
    execute(msg, serverQueue, ytdl, queue) // eslint-disable-line
    {
-        var PlayListLenght;
-        serverQueue.songs.foreach(song => {
-                PlayListLenght += song.hours*3600 + song.minutes*60 + song.seconds;
-        });
-
+        var PlayListLenght = 0;
+        for(var i = 0; i < serverQueue.songs.length; i++)
+        {
+            PlayListLenght += serverQueue.songs[i].hours*3600 + serverQueue.songs[i].minutes*60+serverQueue.songs[i].seconds;    
+        }
+        var PlayListLenghtMinutes = Math.round(PlayListLenght/60, 2); 
+        var PlayListLenghtseconds = Math.round(PlayListLenght - Math.round(PlayListLenght/60)*60); 
         msg.channel.bulkDelete(1);
         const Discord = require('discord.js');
         if(!serverQueue) return msg.reply('Šiuo metu niekas negroja.');
@@ -26,7 +28,7 @@ Dabar yra **${serverQueue.songs.length}** dainų saraše!
 **__Grojamos dainos linkas__** <${serverQueue.songs[0].url}>
 **__Dainą užsakė__** ${serverQueue.requester[0]}
 **__Dainos garsas__**  **${serverQueue.volume}**
-**__Apytiksli trukmė__**  **${PlayListLenght/60 + 'min' + PlayListLenght/3600 + 's'}**`);
+**__Apytiksli trukmė__**  **${PlayListLenghtMinutes + 'min ' + PlayListLenghtseconds + 's'}**`);
                 return msg.channel.send(embed);                
         } catch (error) {
                 try {
