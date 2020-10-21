@@ -234,13 +234,14 @@ async function GetRolePostition(All_roles, guild, Roles){
             position: 0
         };
     }        
-        if(All_roles[roles.name].name === '@everyone') {All_roles[roles.name].level = 0; All_roles[roles.name].position = 1;}
-        if(All_roles[roles.name].name === 'Sanitäterin') {All_roles[roles.name].level = 1; All_roles[roles.name].position = 2;}
-        if(All_roles[roles.name].name === 'Reichsleiter') {All_roles[roles.name].level = 2; All_roles[roles.name].position = 3;}
-        if(All_roles[roles.name].name === 'Sturmpionier') {All_roles[roles.name].level = 3; All_roles[roles.name].position = 4;}
-        if(All_roles[roles.name].name === 'Artillerist') {All_roles[roles.name].level = 4; All_roles[roles.name].position = 5;}
-        if(All_roles[roles.name].name === 'Botting') {All_roles[roles.name].level = 4.2; All_roles[roles.name].position = 6;}
-        if(All_roles[roles.name].name === 'GEIMERIAI') {All_roles[roles.name].level = 4.5; All_roles[roles.name].position = 7;}        
+        if(All_roles[roles.name].name === '@everyone') {All_roles[roles.name].level = 0.1; All_roles[roles.name].position = 1;}
+        if(All_roles[roles.name].name === 'Yuuki') {All_roles[roles.name].level = 0.2; All_roles[roles.name].position = 2;}
+        if(All_roles[roles.name].name === 'Sanitäterin') {All_roles[roles.name].level = 1; All_roles[roles.name].position = 3;}
+        if(All_roles[roles.name].name === 'Reichsleiter') {All_roles[roles.name].level = 2; All_roles[roles.name].position = 4;}
+        if(All_roles[roles.name].name === 'Sturmpionier') {All_roles[roles.name].level = 3; All_roles[roles.name].position = 5;}
+        if(All_roles[roles.name].name === 'Artillerist') {All_roles[roles.name].level = 4; All_roles[roles.name].position = 6;}
+        if(All_roles[roles.name].name === 'Botting') {All_roles[roles.name].level = 4.2; All_roles[roles.name].position = 7;}
+        if(All_roles[roles.name].name === 'GEIMERIAI') {All_roles[roles.name].level = 4.5; All_roles[roles.name].position = 8;}        
         
         Object.keys(Roles).forEach(level => {
             if(Roles[level].name === All_roles[roles.name].name) All_roles[roles.name].level = level;
@@ -268,9 +269,8 @@ async function GetRolePostition(All_roles, guild, Roles){
    var a = "";
 
          Object.keys(All_roles).forEach(async level => {
-            a.concat(`\n**${All_roles[level].name}**`, ` position is **${All_roles[level].position}**.`);
-        });
-
+            a = a.concat(`\n**${All_roles[level].name}**`, ` position is **${All_roles[level].position}**.`);
+        }); 
         await guild.channels.find(c => c.name === 'logs').send(`Roles are sorted: ${a}`);
 
     return;
