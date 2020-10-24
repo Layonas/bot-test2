@@ -204,7 +204,7 @@ module.exports = {
 
             return client.end();
         }
-        else if(args[1].startsWith('<@!' || args[1].startsWith('<@'))){
+        else if(msg.mentions.users.first() && !args[2]){
             try {
                 const userCheck = serverStats[msg.mentions.users.first().id];
                 const embed = new RichEmbed()
