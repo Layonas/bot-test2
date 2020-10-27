@@ -47,7 +47,7 @@ module.exports ={
                         var video = await youtube.getVideo(url); // eslint-disable-line
                     }
                     catch(error1){
-                        console.log(err1 + ' Tai ne URL! ');
+                        //console.log(err1 + ' Tai ne URL! ');
                         try {
                         var videos = await youtube.searchVideos(searchString, 1);
                         var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
@@ -92,7 +92,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
             volume: 100,
         };
         console.log(`Queue has been made!`);
-        queue.set(msg.guild.id, queueConstruct);
+        await queue.set(msg.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
         queueConstruct.requester.push(msg.author.username); 
     
@@ -117,7 +117,7 @@ return undefined;
 
 
 async function play (guild, song){
-    const serverQueue = queue.get(guild.id);
+    const serverQueue = await queue.get(guild.id);
             
     if (!song){
     await serverQueue.voiceChannel.leave();
