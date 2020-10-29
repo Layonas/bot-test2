@@ -8,18 +8,32 @@ module.exports = {
        if(msg.author.username !== 'Layon') return msg.reply('Pisk nx');
        var a = 1;
        var limit = args[2];
+       var limit1 = args[1];
        var attack =  setInterval(spam, 3000);
 
         async function spam() {
-            if(a >= limit) 
+            if(a >= limit || a >= limit1) 
             {
                 clearInterval(attack);
             }
             else a++;
 
+            if(!isNaN(args[1]))
+            {
+                try {
+
+                    var message = args.slice(2).join(' ');
+                    msg.channel.send(message);
+                } catch (error) {
+                    msg.channel.send('Plese check how you spelled it');
+                    clearInterval(attack);
+                }
+                
+            }
+            else{
             try {
                 var user = msg.mentions.users.first();
-                var message = args.slice(3).join(' ');
+                var message = args.slice(3).join(' ');// eslint-disable-line
     
                 msg.channel.send(`<@${user.id}> ${message}!`);
             } catch (error) {
@@ -28,6 +42,7 @@ module.exports = {
     
                 msg.channel.send(`<@&${role.id}> ${message}!`);
             }
+        }
 
         }
 }
