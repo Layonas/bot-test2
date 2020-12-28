@@ -2,8 +2,7 @@ module.exports = {
     name: 'HandleCommands',
     description: 'Handles all commands that are presented to the bot so that the main test.js would look cleaner',
     async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID){
-
-    if (CommandCooldown.has(msg.author.id)) return await msg.channel.bulkDelete(1);
+        
     if (!msg.content.startsWith(prefix)) return;
 
     //---------------------------------------------------------------------
@@ -150,6 +149,11 @@ module.exports = {
 
         case 'restart':
             bot.commands.get('restart').execute(msg, args, OwnerID, bot);
+        break;
+
+        //check command
+        case 'roledeletion':
+            bot.commands.get('RoleDeletion').execute(bot, OwnerID, process.env.GUILD, msg);
         break;
     }
     }

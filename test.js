@@ -113,6 +113,8 @@ bot.on ('message', async msg=>
     let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
+    if (CommandCooldown.has(msg.author.id)) return await msg.Delete(0);
+
     await func.get('Statistics').execute(msg, args, BotID, stats, bot, CommandCooldown);
     await func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID);
     await func.get('Rudeness').execute(arg, msg, CommandCooldown, Ctime, OwnerID, BotID);
