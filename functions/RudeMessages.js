@@ -4,7 +4,7 @@ module.exports = {
     async execute(arg, msg, CommandCooldown, Ctime, Owner, BotID){
         const random = require('random');
 
-        if(msg.startsWith('!')) return;
+        if(msg.content.startsWith('!')) return;
 
         const filter1 = msg2 => msg2.author.id !== '672836310175711273';
 
