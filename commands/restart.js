@@ -10,12 +10,12 @@ module.exports = {
         //if I were to run the bot on local machine
         if(!args[1]) return msg.reply(`Neteisingas vartojimas, pažiūrėk pavyzdį ---> ${this.example}`);
         if(msg.author.id !== OwnerID) {
-            await msg.guild.members.get(OwnerID).send(`**${msg.author.username}** request to restart the bot.`);
+            await msg.guild.members.cache.get(OwnerID).send(`**${msg.author.username}** request to restart the bot.`);
             return msg.reply('Prašymas išsiųstas');
         }
         
         if(args[1].toLowerCase() === 'self'){
-            const owner =  msg.guild.members.get(OwnerID);
+            const owner =  msg.guild.members.cache.get(OwnerID);
             await owner.send(`Bot restart is **commencing**.`).then(await bot.destroy()).then(await bot.login(token)).then(owner.send(`Bot restart is **complete**.`));
         }
 

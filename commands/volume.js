@@ -6,7 +6,7 @@ module.exports = {
     description: 'Sets the volume of the songs that are being played',
     execute(msg, args, serverQueue){
         msg.channel.bulkDelete(1);
-        const voiceChannel = msg.member.voiceChannel;
+        const voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');

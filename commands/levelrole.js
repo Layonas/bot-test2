@@ -15,8 +15,8 @@ module.exports = {
         var role = args[1].replace(/_/gi, ' ');
         msg.channel.send(`Ačiū už jūsų bendradarbiavimą, **${role}** pridėta peržiūrėjimui.`);
 
-        if(!args[3]) return msg.guild.members.get(OwnerID).send(`Naują rolę pasiūlė ***${msg.author.username}*** Rolės pavadinimas **${role}** Rolės lygis **${args[2]}**`);
-        else if(!isNaN(args[3]))return msg.guild.members.get(OwnerID).send(`Naują rolę pasiūlė ***${msg.author.username}*** Rolės pavadinimas **${role}** Rolės lygis nuo **${args[2]}** iki **${args[3]}**`);
+        if(!args[3]) return msg.guild.members.cache.get(OwnerID).send(`Naują rolę pasiūlė ***${msg.author.username}*** Rolės pavadinimas **${role}** Rolės lygis **${args[2]}**`);
+        else if(!isNaN(args[3]))return msg.guild.members.cache.get(OwnerID).send(`Naują rolę pasiūlė ***${msg.author.username}*** Rolės pavadinimas **${role}** Rolės lygis nuo **${args[2]}** iki **${args[3]}**`);
         else msg.reply('Neteisingai suformuluota komanda!');
     }
 };

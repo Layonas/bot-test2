@@ -1,4 +1,4 @@
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'RoleChecker',
@@ -25,7 +25,7 @@ module.exports = {
         var Roles = [];
         Object.keys(Role_info).forEach(role => Roles.push(role));
 
-        let embed = new RichEmbed()
+        let embed = new MessageEmbed()
         .setThumbnail(msg.author.avatarURL)
         .setTitle('Roles')
         .setFooter('More roles can be added so you can suggest with !lr <name> <level>', msg.guild.members.get(process.env.USER_BOT).user.avatarURL)

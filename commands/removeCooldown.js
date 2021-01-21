@@ -13,7 +13,7 @@ execute(msg, args, CommandCooldown, OwnerID, Ctime){
     if(msg.author.id === OwnerID){
         if(!args[1]) {
             msg.reply('Prašome pasirinkti ką norite išmesti iš sąrašo. __Tai turi būti tagintas žmogus **@**__');
-            let embed = new Discord.RichEmbed()
+            let embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTitle(`Užrakinti žmonės`)
             .setThumbnail('https://i1.sndcdn.com/artworks-000516782226-xsqnhj-t500x500.jpg')

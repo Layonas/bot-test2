@@ -8,7 +8,7 @@ module.exports = {
     description: 'Lets people see what level and other stuff they have like xp from the database',
     async execute(msg, args, BotID){
         //---------------------------------------------------------
-        const { RichEmbed, Attachment } = require('discord.js');
+        const { MessageEmbed, Attachment } = require('discord.js');
         const { Client } = require('pg');
         const jsonfile = require('jsonfile'); // eslint-disable-line
         const jimp = require('jimp');
@@ -81,12 +81,12 @@ module.exports = {
             if(photo.photo.endsWith('.gif') || photo.embed === true){
             //-------------------------------------------------------------------------------------------------------------------------
             // Making an Embed
-            var embed = new RichEmbed()
+            var embed = new MessageEmbed()
             .setImage(photo.photo)
             .setAuthor(msg.author.username)
             .setColor('RANDOM')
             .setTitle('Informacija apie tave')
-            .setThumbnail(msg.author.avatarURL)
+            .setThumbnail(msg.author.avatarURL())
             .addField('Dabartinis XP: ', userStats.CurrentXp, true).addField('Visas XP: ', userStats.OverallXp, true)
             .addField('Tavo dabartinis lygis yra: ', userStats.level, true)
             .addField('Iki kito lygio tau trūksta: ', userStats.xpToNextLevel, true)
@@ -207,19 +207,20 @@ module.exports = {
         else if(msg.mentions.users.first() && !args[2]){
             try {
                 const userCheck = serverStats[msg.mentions.users.first().id];
-                const embed = new RichEmbed()
+                const embed = new MessageEmbed()
                 .setAuthor(msg.author.username, msg.author.avatarURL)
                 .setColor('RANDOM')
-                .setFooter(`Tikrinta: ${msg.createdAt.getHours()+3 + ':' + msg.createdAt.getMinutes() + ':' + msg.createdAt.getSeconds()}`, msg.guild.members.get(BotID).user.avatarURL)
-                .setThumbnail(msg.guild.members.get(msg.mentions.users.first().id).user.avatarURL)
+                .setFooter(`Tikrinta: ${msg.createdAt.getHours()+3 + ':' + msg.createdAt.getMinutes() + ':' + msg.createdAt.getSeconds()}`, msg.guild.members.cache.get(BotID).user.avatarURL)
+                .setThumbnail(msg.guild.members.cache.get(msg.mentions.users.first().id).user.avatarURL())
                 .setTitle(`Informacija apie **${msg.mentions.users.first().username}**`)
                 .addField('Vardas', userCheck.name, true)
                 .addField('Lygis', userCheck.level, true)
-                .addBlankField(true)
                 .addField('Visas XP', userCheck.OverallXp, true)
-                .addField('Išsiųsta žinučių', userCheck.MessagesSent, true);
+                .addField('Išsiųsta žinučių', userCheck.MessagesSent, true)
+                .addField('Žinučių ilgis nuo *2021-01-18* ', userCheck.MessageLength, true);
                 await msg.channel.send(embed);
             } catch (error) {
+                console.log(error);
                 msg.reply('Įvyko klaida. Pabandykite iš naujo.');
             }
         }

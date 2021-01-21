@@ -1,10 +1,13 @@
 require('dotenv').config();
-const {Client, RichEmbed} = require('discord.js');
-const {YOUTUBE_API_KEY, token, OwnerID, BotID} = require('./config.js');
+const {Client, MessageEmbed} = require('discord.js');
 const Discord = require('discord.js');
 const ping = require('minecraft-server-util');
 const ytdl = require("ytdl-core");
 const Youtube = require('simple-youtube-api');
+
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+const OwnerID = process.env.USER_OWNER;
+const BotID = process.env.USER_BOT;
 
 const prefix = '!';
 
@@ -15,6 +18,7 @@ const youtube = new Youtube(YOUTUBE_API_KEY);
 
 var Ctime = [];
 var stats = {};
+const botOwner = bot.users.cache.get('279665080000315393');
 
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -51,47 +55,36 @@ for(const file of FunctionFiles)
 // Bot is ready to work
 bot.on('ready', () =>{
     console.log('The bot is online. ');
-    bot.user.setActivity('Layon.', {type: 'LISTENING'}).catch(console.error);
-
-    //////////////////////bot.guilds.map(guild => console.log(guild.name));
-
-    // var d = new Date();
-    // fs.readFile('BotLogs.txt', (error, text) =>{
-    //             if(error) throw error;
-    //         fs.writeFile('BotLogs.txt', `${text}\n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ] The bot went Online!`, (err) => {
-    //     if (err) throw err;
-    // })
-    // })
- 
-    //func.get('checking').execute(bot);
-    //closed this function because its not relevant anymore
+    bot.user.setActivity('Porn with Layon;).', {type: 'WATCHING'}).catch(console.error);
+    
+    //Reading guilds that bot is currently in
+    //bot.guilds.cache.map(guild => console.log(guild.name));
 });
 
 // When a person joins a server
 bot.on("guildMemberAdd", member =>{
 
-    const channel = member.guild.channels.find(channel => channel.name === "memes-pls");
+    const channel = member.guild.channels.cache.get('772550965232140338');
     if (!channel) return;
 
     channel.send(`Sveikas ${member}, sveikinu prisijungus prie mūsų serverio!`);
 
-    if(member.guild.id === process.env.GUILD){
-        const role = member.guild.roles.find(role => role.name === 'Žmogas');
-        member.addRole(role);
-    }
+    const role = member.guild.roles.cache.get('748097420256215070');
+    if(!role)
+    return botOwner.send(`There is no role with id *748097420256215070*, or the code line **const role = member.guild.roles.cache.get('748097420256215070');** doesnt work`);
+
+    member.addRole(role);
 
 });
 
 //when bot joins a new server
 bot.on('guildCreate', guild =>{
     const ID = guild.id;
-    const botOwner = bot.users.get('279665080000315393');
     botOwner.send(`Bot has been added to a new guild **${guild.name}** and id is: **${ID}**`);
 });
 
 //when a bot is kicked from a server
 bot.on('guildDelete', guild =>{
-    const botOwner = bot.users.get('279665080000315393');
     botOwner.send(`Bot has been removed from **${guild.name}** and id is: **${guild.id}**`);
 });
 
@@ -110,18 +103,19 @@ bot.on('guildDelete', guild =>{
 
 bot.on ('message', async msg=>
 {
+    
     let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
-    if (CommandCooldown.has(msg.author.id)) return await msg.delete(1);
+    if (CommandCooldown.has(msg.author.id)) return await msg.delete({timeout: 1});
 
-    await func.get('Statistics').execute(msg, args, BotID, stats, bot, CommandCooldown);
-    await func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID);
+    await func.get('Statistics').execute(msg, args, BotID, stats, bot, OwnerID);
+    await func.get('HandleCommands').execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID);
     await func.get('Rudeness').execute(arg, msg, CommandCooldown, Ctime, OwnerID, BotID);
-    func.get('Attachments').execute(bot, msg);
-    func.get('hello').execute(msg);
+    await func.get('Attachments').execute(bot, msg);
+    await func.get('hello').execute(msg);
     msg.channel.stopTyping();
 });
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-bot.login(token);
+bot.login(process.env.TOKEN);

@@ -7,7 +7,7 @@ module.exports = {
     execute(msg, args){
 //----------------------------------------------------------------
 const DC = require('discord.js');
-const owner = msg.guild.members.get('279665080000315393');
+const owner = msg.guild.members.cache.get(process.env.USER_USER_OWNER);
 const fs = require('fs');
 var CommandFiles = [];
 //----------------------------------------------------------------
@@ -16,30 +16,28 @@ var CommandFiles = [];
             for (const files of commandFiles){
                 CommandFiles.push(files.slice(0, files.length-3));
             }
-
-             
             
-       if (!args[1]){
+    if (!args[1]){
         msg.reply(CommandFiles.join(', '));
         msg.reply(`Dėl papildomos informacijos, kaip veikia komanda, prašome parašyti
 **!help <komandos_pavadinimas>**
 __Pavyzdys__ -- !help info`);
 
-let embed = new DC.RichEmbed()// eslint-disable-line
+let embed = new DC.MessageEmbed()// eslint-disable-line
 .setColor('BLUE')
 .setThumbnail(owner.user.avatarURL)
 .setTitle('Information')
 .setDescription(`Kūrėjas: **${owner.user.username}**
-Boto pavadinimas: **${msg.guild.members.get('672836310175711273').user.username}**
-Versija: **1.3.5**`); 
-        msg.channel.send(embed);
+Boto pavadinimas: **${msg.guild.members.cache.get(process.env.USER_BOT).user.username}**
+Versija: **2.0.0**`); 
+    msg.channel.send(embed);
 
-       }
+}
 
     const command = require(`./${args[1]}.js`);
-    let embed = new DC.RichEmbed()
+    let embed = new DC.MessageEmbed()
     .setColor('RANDOM')
-    .setFooter('Komandų informacija gali keistis!', msg.guild.members.get('672836310175711273').user.avatarURL)
+    .setFooter('Komandų informacija gali keistis!', msg.guild.members.cache.get(process.env.USER_BOT).user.avatarURL)
     .setAuthor(owner.user.username, owner.user.avatarURL)
     .setThumbnail(msg.author.avatarURL)
     .addField('Pavadinimas: ', command.name)

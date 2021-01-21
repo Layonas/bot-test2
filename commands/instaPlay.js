@@ -5,8 +5,8 @@ module.exports = {
     example: '!instaplay robinzonas',
     description: 'Adds a song second in the queue no matter the length of a queue',
     async execute(msg, args, ytdl, queue, youtube){
-        msg.channel.bulkDelete(1);
-        const voiceChannel = msg.member.voiceChannel;
+        await msg.delete({timeout: 3000});
+        const voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
@@ -95,22 +95,22 @@ return undefined;
 
 
 async function play (guild, song){
-const serverQueue = queue.get(guild.id);
+    const serverQueue = queue.get(guild.id);
     
-if (!song){
-await serverQueue.voiceChannel.leave();
-queue.delete(guild.id);
-return;
-}
-const dispatcher = await serverQueue.connection.playStream(ytdl(song.url, {filter: "audioonly"}));
-dispatcher.on('end', () =>{
- console.log('Song ended and shifted to the next one!');
-serverQueue.songs.shift();
-serverQueue.requester.shift();
-play(guild, serverQueue.songs[0]);
-})
-        .on('error', error => console.error(error));
-        serverQueue.textChannel.send(`**${song.title}** pradėjo groti!`);
-}
+    if (!song){
+        await serverQueue.voiceChannel.leave();
+        queue.delete(guild.id);
+        return;
     }
+    const dispatcher = await serverQueue.connection.play(ytdl(song.url, {filter: "audioonly"}));
+    dispatcher.on('end', () =>{
+    console.log('Song ended and shifted to the next one!');
+    serverQueue.songs.shift();
+    serverQueue.requester.shift();
+    play(guild, serverQueue.songs[0]);
+    })
+            .on('error', error => console.error(error));
+            serverQueue.textChannel.send(`**${song.title}** pradėjo groti!`);
+    }
+        }
 };

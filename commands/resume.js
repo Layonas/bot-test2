@@ -4,10 +4,10 @@ module.exports = {
     usage: '!<alias>',
     example: '!resume',
     description: 'Resumes the song that was paused.',
-    execute(msg, queue, serverQueue){
-        msg.channel.bulkDelete(1);
-        if(!msg.member.voiceChannel) return msg.reply('Tu turi būti **Music** kalbėjimo kanale, kad galėtum pratęsti pristabdytą dainą!');
-        if(msg.member.voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Tu turi būti **Music** kanale!');
+    async execute(msg, queue, serverQueue){
+        await msg.delete({timeout: 3000});
+        if(!msg.member.voice.channel) return msg.reply('Tu turi būti **Music** kalbėjimo kanale, kad galėtum pratęsti pristabdytą dainą!');
+        if(msg.member.voice.channel.name.toLowerCase() !== 'music') return msg.reply('Tu turi būti **Music** kanale!');
         if(serverQueue && !serverQueue.playing)
         {
         serverQueue.connection.dispatcher.resume();

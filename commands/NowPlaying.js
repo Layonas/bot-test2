@@ -1,21 +1,21 @@
 module.exports = {
-    name: 'np',
-    alias: ['np', 'nowplaying', 'now', 'playing'],
-    usage: '!<alias>',
-    example: '!nowplaying',
-    description: 'Tells what is the song that is currently playing.',
-    execute(msg, serverQueue){
-        msg.channel.bulkDelete(1);
-        var Hours = new Date();
-        var minutes = new Date();
-        var seconds = new Date();
-        var sekundes;
-        var min = 0;
-        var h = 0;
-        if(!serverQueue) return msg.reply('Dabar niekas negroja!');
+   name: 'np',
+   alias: ['np', 'nowplaying', 'now', 'playing'],
+   usage: '!<alias>',
+   example: '!nowplaying',
+   description: 'Tells what is the song that is currently playing.',
+   async execute(msg, serverQueue){
+      await msg.delete({timeout: 3000});
+      var Hours = new Date();
+      var minutes = new Date();
+      var seconds = new Date();
+      var sekundes;
+      var min = 0;
+      var h = 0;
+      if(!serverQueue) return msg.reply('Dabar niekas negroja!');
 
-        sekundes = (serverQueue.songs[0].msgHours + serverQueue.songs[0].hours - Hours.getHours()) * 3600 + (serverQueue.songs[0].msgMinutes + serverQueue.songs[0].minutes - minutes.getMinutes()) * 60 + (serverQueue.songs[0].msgSeconds + serverQueue.songs[0].seconds - seconds.getSeconds()) ;
-        var ho = 0;
+      sekundes = (serverQueue.songs[0].msgHours + serverQueue.songs[0].hours - Hours.getHours()) * 3600 + (serverQueue.songs[0].msgMinutes + serverQueue.songs[0].minutes - minutes.getMinutes()) * 60 + (serverQueue.songs[0].msgSeconds + serverQueue.songs[0].seconds - seconds.getSeconds()) ;
+      var ho = 0;
          if(sekundes > 3600){
             min = sekundes / 60;
             h  = min / 60;

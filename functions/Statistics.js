@@ -1,13 +1,9 @@
-const { OwnerID } = require('../config');
-
 module.exports = {
     name: 'Statistics',
-    description: 'Gets all the statistics form all servers and sends throung different functions',
-    async execute(msg, args, BotID, stats, bot, CommandCooldown){
+    description: 'Gets all the statistics form all servers and sends through different functions',
+    async execute(msg, args, BotID, stats, bot, OwnerID){
 
         if(msg.author.id === BotID) return;
-
-        if (CommandCooldown.has(msg.author.id)) return;
         
         //-----------------------------------------------------------------------------------
         // Additional variables
@@ -34,37 +30,19 @@ module.exports = {
             data json NOT NULL
         )`;
 
-        await client.query(createTableusers).then(res => {console.log('Succesfully created new table users');}).catch(err => {console.error(err);}); //eslint-disable-line
-
-        // Checking if stats.json exists
-        // Have to change to check if there is something on the database
-        // if(fs.existsSync(`./functions/JsonFiles/stats1.json`)){
-        //     stats = jsonfile.readFileSync('./functions/JsonFiles/stats1.json');
-        // } 
+        await client.query(createTableusers).catch(err => {console.error(err);}); //eslint-disable-line
 
         // Getting information about all previous levels
         const { rows } = await client.query('SELECT * FROM users');
-        //let xp = await client.query('SELECT data FROM users');
-        //stats = xp.rows[0].data;
-
-        //console.log(rows);
 
         try {
             stats = rows[0].data;
         }catch(err){
             stats = {};
         }
-
-        //console.log(stats);
-
-        // Checking for the information and making so it would be just a object of json type
-        // var new_stats = JSON.stringify(stats);
-        // if(new_stats.length > 10) stats = JSON.parse(new_stats.slice(9, new_stats.length-2));
-        // else stats = {};  
         
-
         //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // If there were no previous guild or user in the stats.json file then they are added to it with additional information that should automaticly update
+        // If there were no previous guild or user in the database then they are added to it with additional information that should automaticly update
         if(msg.guild.id in stats === false){
             stats[msg.guild.id] = {
                 name: msg.guild.name,
@@ -85,6 +63,7 @@ module.exports = {
                 xpToNextLevel: 0,
                 MessagesSent: 0,
                 Last_message: 0,
+                MessageLength: 0,
             };
         }
         //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -124,6 +103,10 @@ module.exports = {
         userStats.xpToNextLevel = (3 * Math.pow(userStats.level, 2) + 100 * userStats.level + 100) - userStats.CurrentXp;
 
         userStats.Last_message = Date.now();
+
+        if(!userStats.MessageLength)
+            userStats.MessageLength = msg.content.length;
+        else userStats.MessageLength += msg.content.length; 
     }
 
         const current_level = userStats.level;
@@ -132,7 +115,7 @@ module.exports = {
         //console.log(stats);
 
         // Updating the json file
-        await client.query("UPDATE users SET data = '" + JSON.stringify(stats) + "'").then(res => {console.log('Added succesfully');}).catch(err => {bot.users.get('279665080000315393').send(`${err}`);console.log(err);}); // eslint-disable-line
+        await client.query("UPDATE users SET data = '" + JSON.stringify(stats) + "'").then(res => {console.log('Added succesfully');}).catch(err => {bot.users.get(OwnerID).send(`There has been an error with updating database : ${err}`);console.log(err);}); // eslint-disable-line
 
         //var text = jsonfile.readFileSync('./functions/JsonFiles/stats.json');
         
@@ -143,7 +126,7 @@ module.exports = {
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Creating and adding roles to people who have met certain level requirements
-    const guild = bot.guilds.get('543848190995333152');
+    const guild = bot.guilds.cache.get('543848190995333152');
     if(msg.guild.id !== guild.id) return client.end();
 
     //----------------------------------------------------------
@@ -160,7 +143,7 @@ module.exports = {
 
     //-----------------------------------------------------------------------------------
     // One time role checker for upcoming and gained levels
-    // Need to read roles and get their positions the slice of unnesecery and calculate the position than is needed to be
+    // Need to read roles and get their positions the slice of unnecessary and calculate the position than is needed to be
     
     if(previous_level === current_level) return;
     if(userStats.level in Roles){
@@ -172,8 +155,8 @@ module.exports = {
         }); // return the number
         var previous_role_array = Object.keys(Roles); // array of roles but not an object
         var previous_role = Roles[previous_role_array[previous_role_index]]; //Maybe gets the full object of the previous role
-            if(!guild.roles.find(r => r.name === role_info.name)){
-                await guild.createRole({
+            if(!guild.roles.cache.find(r => r.name === role_info.name)){
+                await guild.roles.create({
                     name: role_info.name,
                     color: role_info.color,
                     position: role_info.position,
@@ -181,52 +164,38 @@ module.exports = {
                     mentionable: true,
                     hoist: true
                 }).then(async () => {
-                    bot.guilds.get(process.env.GUILD).channels.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`);
+                    bot.guilds.cache.get(process.env.GUILD).channels.cache.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`);
 
                     var All_roles = {};
                     await GetRolePostition(All_roles, guild, Roles);
                     var keys = Object.keys(All_roles);
                     //console.log(All_roles);
                     await keys.forEach(async name =>{
-                        if(guild.roles.find(r => r.name === name)) await guild.setRolePosition(guild.roles.find(r => r.name === name), All_roles[name].position)/*.then(console.log(`Changed (${name}) position to (${All_roles[name].position})`))*/.catch(err => {if(err) return;});
+                        if(guild.roles.cache.find(r => r.name === name)) await guild.setRolePosition(guild.roles.cache.find(r => r.name === name), All_roles[name].position)/*.then(console.log(`Changed (${name}) position to (${All_roles[name].position})`))*/.catch(err => {if(err) return;});
                     });
                     
                 }).catch(err => console.log(err));
             }
-        const member = guild.members.get(msg.author.id);
+        const member = guild.members.cache.get(msg.author.id);
 
-        var member_role_previous = member.roles.find(r => r.name === previous_role.name);
+        var member_role_previous = member.roles.cache.find(r => r.name === previous_role.name);
         // removing the previous role
-        if (member_role_previous) member.removeRole(member_role_previous); 
+        if (member_role_previous) member.roles.remove(member_role_previous); 
     
         //Adding the new role
-        if(!member.roles.find(r => r.name === role_info.name)) await member.addRole(guild.roles.find(r => r.name ===  role_info.name)).then(()=>{
-            // removing all roles with 0 members in them 
-            guild.roles.forEach(async role =>{
-            if(role.position < guild.roles.find(r => r.name === 'AdvancingBot1').position && role.name !== '@everyone')
-            {
-               if(role.members.size === 0){ 
-                   await guild.channels.find(c => c.name === 'logs').send(`**${role.name}** role got deleted.`);
-                   await role.delete();
-               }
-            }
-            });
+        if(!member.roles.cache.find(r => r.name === role_info.name)) await member.roles.add(guild.roles.cache.find(r => r.name ===  role_info.name)).then(()=>{
+            msg.channel.send('*' + msg.author.username + '*' + ' has been promoted to: **'+ role_info.name +'**');
         });
-
-       
-        
-
     }
-
         return;
     }
 };  
 
 
 async function GetRolePostition(All_roles, guild, Roles){
-    guild.roles.forEach(roles => {
+    guild.roles.cache.forEach(roles => {
 
-       if(roles.name !== 'Feldwebel' && roles.name !== 'Fallschirmjäger' && roles.name !== 'Funker' && roles.name !== 'Gebirgsjäger' && roles.name !== 'Grenadier' && roles.name !== 'Panzergrenadier' && roles.name !== 'Tанкист' && roles.name !== 'AdvancingBot1'){
+        if(roles.name !== 'Feldwebel' && roles.name !== 'Fallschirmjäger' && roles.name !== 'Funker' && roles.name !== 'Gebirgsjäger' && roles.name !== 'Grenadier' && roles.name !== 'Panzergrenadier' && roles.name !== 'Tанкист' && roles.name !== 'AdvancingBot1'){
         if(roles.name in All_roles === false && roles.name !== undefined) {
             All_roles[roles.name] = {
             name: roles.name,
@@ -261,17 +230,17 @@ async function GetRolePostition(All_roles, guild, Roles){
     var length = keys.length;
 
     for (let i = 0; i < length; i++) {
-      unfinished_roles[keys[i]].position = i;
+    unfinished_roles[keys[i]].position = i;
     }
     All_roles = unfinished_roles;
 
 
-   var a = "";
+    var a = "";
 
-         Object.keys(All_roles).forEach(async level => {
+        Object.keys(All_roles).forEach(async level => {
             a = a.concat(`\n**${All_roles[level].name}**`, ` position is **${All_roles[level].position}**.`);
         }); 
-        await guild.channels.find(c => c.name === 'logs').send(`Roles are sorted: ${a}`);
+        await guild.channels.cache.find(c => c.name === 'logs').send(`Roles are sorted: ${a}`);
 
     return;
 }

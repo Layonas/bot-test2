@@ -1,7 +1,7 @@
 module.exports = {
     name: 'HandleCommands',
     description: 'Handles all commands that are presented to the bot so that the main test.js would look cleaner',
-    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, RichEmbed, holder, OwnerID){
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID){
         
     if (!msg.content.startsWith(prefix)) return;
 
@@ -20,16 +20,6 @@ module.exports = {
     }
      //--------------------------------------------------------------------
 
-     //--------------------------------------------------------------------
-     //Checking if a person is cooldowned
-    if(CommandCooldown.has(msg.author.id))
-    {
-        if(number !== 'removecooldown' || number !== 'cooldowncheck' || number === -1){
-        console.log('Deleting message.');
-        return msg.channel.bulkDelete(1);
-        }
-    }
-    //--------------------------------------------------------------------
     const serverQueue = queue.get(msg.guild.id);
 
     //Logging on a local machine
@@ -104,7 +94,7 @@ module.exports = {
         break;
 
         case 'server':
-            holder.get('server').execute(msg, ping, RichEmbed);
+            holder.get('server').execute(msg, ping, MessageEmbed);
         break;
 
         case 'skip':

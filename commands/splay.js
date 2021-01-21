@@ -5,8 +5,8 @@ module.exports = {
     example: '!selectplay robinzonas',
     description: 'Selection of videos if the video name is just a random guess',
     async execute(msg, args, youtube, serverQueue, queue, ytdl){
-        await msg.channel.bulkDelete(1);
-        const voiceChannel = msg.member.voiceChannel;
+        await msg.delete({timeout: 3000});
+        const voiceChannel = msg.member.voice.channel;
         if(msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
         if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
@@ -93,8 +93,8 @@ await serverQueue.voiceChannel.leave();
 queue.delete(guild.id);
 return;
 }
-const dispatcher = await serverQueue.connection.playStream(ytdl(song.url, {filter: "audioonly"}));
-dispatcher.on('end', () =>{
+const dispatcher = await serverQueue.connection.play(ytdl(song.url, {filter: "audioonly"}));
+dispatcher.on('finish', () =>{
  console.log('Song ended and shifted to the next one!');
 serverQueue.songs.shift();
 serverQueue.requester.shift();
