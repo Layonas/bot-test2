@@ -25,7 +25,7 @@ __Pavyzdys__ -- !help info`);
 
 let embed = new DC.MessageEmbed()// eslint-disable-line
 .setColor('BLUE')
-.setThumbnail(owner.user.avatarURL)
+.setThumbnail(owner.user.avatarURL())
 .setTitle('Information')
 .setDescription(`Kūrėjas: **${owner.user.username}**
 Boto pavadinimas: **${msg.guild.members.cache.get(process.env.USER_BOT).user.username}**
@@ -37,9 +37,9 @@ Versija: **2.0.0**`);
     const command = require(`./${args[1]}.js`);
     let embed = new DC.MessageEmbed()
     .setColor('RANDOM')
-    .setFooter('Komandų informacija gali keistis!', msg.guild.members.cache.get(process.env.USER_BOT).user.avatarURL)
-    .setAuthor(owner.user.username, owner.user.avatarURL)
-    .setThumbnail(msg.author.avatarURL)
+    .setFooter('Komandų informacija gali keistis!', msg.guild.members.cache.get(process.env.USER_BOT).user.avatarURL())
+    .setAuthor(owner.user.username, owner.user.avatarURL())
+    .setThumbnail(msg.author.avatarURL())
     .addField('Pavadinimas: ', command.name)
     .addField('Alias: ', command.alias.join(', '))
     .addField('Naudojimas', command.usage)

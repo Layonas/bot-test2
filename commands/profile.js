@@ -90,7 +90,7 @@ module.exports = {
             .addField('Dabartinis XP: ', userStats.CurrentXp, true).addField('Visas XP: ', userStats.OverallXp, true)
             .addField('Tavo dabartinis lygis yra: ', userStats.level, true)
             .addField('Iki kito lygio tau trūksta: ', userStats.xpToNextLevel, true)
-            .setFooter('Tu gali pakeisti arba pašalinti didžiają nuotrauką! ', msg.guild.members.get(BotID).user.avatarURL);
+            .setFooter('Tu gali pakeisti arba pašalinti didžiają nuotrauką! ', msg.guild.members.cache.get(BotID).user.avatarURL());
             //-------------------------------------------------------------------------------------------------------------------------
 
             msg.channel.send(embed);
@@ -109,7 +109,7 @@ module.exports = {
                 var font = await jimp.loadFont('./stuff/font.fnt');
                 var font1 = await jimp.loadFont('./stuff/pepsi.fnt');
                 var level_font = await jimp.loadFont('./stuff/level_font.fnt');
-                var profile_image = await jimp.read(msg.author.avatarURL);
+                var profile_image = await jimp.read(msg.author.avatarURL());
                 var background = await jimp.read('./stuff/photoFrame.png');
                 var line = await jimp.read('./stuff/purple.jpg');
                 line.resize(percentage * 1.77, 14).opacity(0.75);
@@ -208,9 +208,9 @@ module.exports = {
             try {
                 const userCheck = serverStats[msg.mentions.users.first().id];
                 const embed = new MessageEmbed()
-                .setAuthor(msg.author.username, msg.author.avatarURL)
+                .setAuthor(msg.author.username, msg.author.avatarURL())
                 .setColor('RANDOM')
-                .setFooter(`Tikrinta: ${msg.createdAt.getHours()+3 + ':' + msg.createdAt.getMinutes() + ':' + msg.createdAt.getSeconds()}`, msg.guild.members.cache.get(BotID).user.avatarURL)
+                .setFooter(`Tikrinta: ${msg.createdAt.getHours()+3 + ':' + msg.createdAt.getMinutes() + ':' + msg.createdAt.getSeconds()}`, msg.guild.members.cache.get(BotID).user.avatarURL())
                 .setThumbnail(msg.guild.members.cache.get(msg.mentions.users.first().id).user.avatarURL())
                 .setTitle(`Informacija apie **${msg.mentions.users.first().username}**`)
                 .addField('Vardas', userCheck.name, true)
