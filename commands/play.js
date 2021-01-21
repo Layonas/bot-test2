@@ -14,7 +14,7 @@ module.exports ={
         }
         else{
             if(!msg.guild.members.cache.get(process.env.USER_BOT).voice.channel){
-                voiceChannel = msg.guild.channels.cache.get('543848191435603979');
+                voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
             }
         }
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinima arba dainos nuorodą!');
