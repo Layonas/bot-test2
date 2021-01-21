@@ -4,6 +4,8 @@ module.exports = {
     async execute(arg, msg, CommandCooldown, Ctime, Owner, BotID){
         const random = require('random');
 
+        if(msg.startsWith('!')) return;
+
         const filter1 = msg2 => msg2.author.id !== '672836310175711273';
 
         var Hate1 = ['Jopštararai seniukas!!','I vėl bazarini ane??','Vovo nusiramink biški.','Ramiakas.','Toli neskrisi su tokiais žodžiais.','Eik minecrafta atsipalaidavimui.','Lola judėk geriau nei čia keikies.','Reikia pachilinti seniuk.','Stop raging brather.'];
