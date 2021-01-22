@@ -19,13 +19,14 @@ module.exports = {
                 await msg.channel.startTyping();
                 await msg.channel.send(Hate1[result]);
                 await msg.channel.stopTyping();
-        } 
+        }else return; 
         
         try{
             var respone =  await msg.channel.awaitMessages(filter1 , { 
             max: 6, // skaicius -1, tiek zinuciu bus gauta
             maxMatches: 5,
             time: 5000,
+            errors: ['time'],
         });
         
     }catch(e){
