@@ -8,7 +8,7 @@ module.exports = {
     description: 'Lets people see what level and other stuff they have like xp from the database',
     async execute(msg, args, BotID){
         //---------------------------------------------------------
-        const { MessageEmbed, Attachment } = require('discord.js');
+        const { MessageEmbed, MessageAttachment } = require('discord.js');
         const { Client } = require('pg');
         const jsonfile = require('jsonfile'); // eslint-disable-line
         const jimp = require('jimp');
@@ -106,19 +106,19 @@ module.exports = {
                 var percentage = userStats.CurrentXp * 100 / userStats.Next_Level_At;
                 var text = `${Math.floor(percentage)}%`;
                 //------------------------------------
-                var font = await jimp.loadFont('./stuff/font.fnt');
-                var font1 = await jimp.loadFont('./stuff/pepsi.fnt');
-                var level_font = await jimp.loadFont('./stuff/level_font.fnt');
-                var profile_image = await jimp.read(msg.author.avatarURL());
-                var background = await jimp.read('./stuff/photoFrame.png');
-                var line = await jimp.read('./stuff/purple.jpg');
+                var font = await jimp.loadFont('./stuff/font.fnt').catch(e => console.log('error loading font.fnt' + e));
+                var font1 = await jimp.loadFont('./stuff/pepsi.fnt').catch(e => console.log('error loading pepsi.fnt' + e));
+                var level_font = await jimp.loadFont('./stuff/level_font.fnt').catch(e => console.log('error loading level_font.fnt' + e));
+                var profile_image = await jimp.read(msg.author.avatarURL({format: 'png'})).catch(e => console.log('error reading author avatar photo ' + e));
+                var background = await jimp.read('./stuff/photoFrame.png').catch(e => console.log('error reading photoframe.png' + e));
+                var line = await jimp.read('./stuff/purple.jpg').catch(e => console.log('error reading purple.png' + e));
                 line.resize(percentage * 1.77, 14).opacity(0.75);
                 profile_image.resize(80, 80);
                 background.opacity(0.6).composite(line, 130, 21).composite(profile_image, 15, 15).print(font, 210, 20, text ,100 , 8).print(font1, 180, -2, msg.author.username).print(font, 185, 37, `${userStats.CurrentXp}/${userStats.Next_Level_At}`).print(level_font, 152, 40, `Level ${userStats.level}`);
                 image
                 .resize(480, 270)
                 .composite(background, 20, 20)
-                .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new Attachment(pic, 'test.png'); msg.channel.send(attachment);}).catch( err => {if(err) return msg.reply('Prisidėkite nuotrauką.');});
+                .getBufferAsync(jimp.MIME_PNG).then(pic => {let attachment = new MessageAttachment(pic, 'test.png'); msg.channel.send(attachment);}).catch( err => {if(err) return console.log(err);});
             }).catch(err => {if(err) return msg.reply('Įvyko klaida!');});
 
             return client.end();
