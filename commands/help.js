@@ -7,7 +7,7 @@ module.exports = {
     execute(msg, args){
 //----------------------------------------------------------------
 const DC = require('discord.js');
-const owner = msg.guild.members.cache.get(process.env.USER_USER_OWNER);
+const owner = msg.guild.members.cache.get(process.env.USER_OWNER);
 const fs = require('fs');
 var CommandFiles = [];
 //----------------------------------------------------------------
@@ -29,7 +29,7 @@ let embed = new DC.MessageEmbed()// eslint-disable-line
 .setTitle('Information')
 .setDescription(`Kūrėjas: **${owner.user.username}**
 Boto pavadinimas: **${msg.guild.members.cache.get(process.env.USER_BOT).user.username}**
-Versija: **2.0.0**`); 
+Versija: **2.0.1**`); 
     msg.channel.send(embed);
 
 }
