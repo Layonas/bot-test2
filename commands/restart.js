@@ -5,7 +5,6 @@ module.exports = {
     example: '!restart self',
     description: 'Restarts the bot or a specified command',
     async execute(msg, args, OwnerID, bot){
-        const { token } = require('../config.js');
         //No need to restart the commands because when pushing to github bot automatically restarts with new commands or tweaks done -- restart command would only benefit
         //if I were to run the bot on local machine
         if(!args[1]) return msg.reply(`Neteisingas vartojimas, pažiūrėk pavyzdį ---> ${this.example}`);
@@ -16,7 +15,7 @@ module.exports = {
         
         if(args[1].toLowerCase() === 'self'){
             const owner =  msg.guild.members.cache.get(OwnerID);
-            await owner.send(`Bot restart is **commencing**.`).then(await bot.destroy()).then(await bot.login(token)).then(owner.send(`Bot restart is **complete**.`));
+            await owner.send(`Bot restart is **commencing**.`).then(await bot.destroy()).then(await bot.login(process.env.TOKEN)).then(owner.send(`Bot restart is **complete**.`));
         }
 
     }
