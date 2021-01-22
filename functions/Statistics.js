@@ -157,12 +157,15 @@ module.exports = {
         var previous_role = Roles[previous_role_array[previous_role_index]]; //Maybe gets the full object of the previous role
             if(!guild.roles.cache.find(r => r.name === role_info.name)){
                 await guild.roles.create({
-                    name: role_info.name,
-                    color: role_info.color,
-                    position: role_info.position,
-                    permissions: ['SEND_MESSAGES'],
-                    mentionable: true,
-                    hoist: true
+                    data: {
+                        name: role_info.name,
+                        color: role_info.color,
+                        position: role_info.position,
+                        permissions: ['SEND_MESSAGES'],
+                        mentionable: true,
+                        hoist: true
+                    },
+                    reason: `${msg.author.username} leveled up and now can have a new role.`,
                 }).then(async () => {
                     bot.guilds.cache.get(process.env.GUILD).channels.cache.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`);
 
@@ -170,8 +173,8 @@ module.exports = {
                     await GetRolePostition(All_roles, guild, Roles);
                     var keys = Object.keys(All_roles);
                     //console.log(All_roles);
-                    await keys.forEach(async name =>{
-                        if(guild.roles.cache.find(r => r.name === name)) await guild.setRolePosition(guild.roles.cache.find(r => r.name === name), All_roles[name].position)/*.then(console.log(`Changed (${name}) position to (${All_roles[name].position})`))*/.catch(err => {if(err) return;});
+                    keys.forEach(async name =>{
+                        if(guild.roles.cache.find(r => r.name === name)) await guild.setRolePositions([{role: guild.roles.cache.find(r => r.name === name).id, position: All_roles[name].position}])/*.then(console.log(`Changed (${name}) position to (${All_roles[name].position})`))*/.catch(err => {if(err) return;});
                     });
                     
                 }).catch(err => console.log(err));
@@ -184,7 +187,7 @@ module.exports = {
     
         //Adding the new role
         if(!member.roles.cache.find(r => r.name === role_info.name)) await member.roles.add(guild.roles.cache.find(r => r.name ===  role_info.name)).then(()=>{
-            msg.channel.send('*' + msg.author.username + '*' + ' has been promoted to: **'+ role_info.name +'**');
+            msg.channel.send('**' + msg.author.username + '**' + ' has been promoted to: **'+ role_info.name +'**');
         });
     }
         return;
