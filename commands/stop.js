@@ -6,7 +6,7 @@ module.exports={
     description: 'Stops the music that is being played with the bot.',
     async execute(msg, serverQueue)
     {
-        await msg.delete({timeout: 3000});
+        msg.delete({timeout: 3000});
         if(msg.author.id === process.env.USER_OWNER) {
             serverQueue.songs = [];
             if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();

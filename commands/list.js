@@ -13,7 +13,7 @@ module.exports = {
         }
         var PlayListLenghtMinutes = Math.round(PlayListLenght/60, 2); 
         var PlayListLenghtseconds = Math.round(PlayListLenght - Math.round(PlayListLenght/60)*60,2); 
-        await msg.delete({timeout: 3000});
+        msg.delete({timeout: 3000});
         const Discord = require('discord.js');
         if(!serverQueue) return msg.reply('Šiuo metu niekas negroja.');
 

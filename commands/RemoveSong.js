@@ -6,7 +6,7 @@ example: '!removesong 2',
 description: 'Removes a specific song form a playlist you just have to choose it',
 async execute(msg, args, serverQueue, OwnerID){
 
-    await msg.delete({timeout: 3000});
+    msg.delete({timeout: 3000});
     //-------------------------------------------------------------------------------------------------------
     //Checking if a user is legal to use the command
     const voiceChannel = msg.member.voice.channel;

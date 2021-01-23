@@ -6,7 +6,7 @@ module.exports ={
     description: 'Plays a song that a user inputs.',
     async execute(msg, args, ytdl, queue, serverQueue, youtube)
     {
-        await msg.delete({timeout: 3000});
+        msg.delete({timeout: 3000});
         var voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){
             if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');

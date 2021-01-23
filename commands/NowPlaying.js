@@ -5,7 +5,7 @@ module.exports = {
    example: '!nowplaying',
    description: 'Tells what is the song that is currently playing.',
    async execute(msg, serverQueue){
-      await msg.delete({timeout: 3000});
+      msg.delete({timeout: 3000});
       var Hours = new Date();
       var minutes = new Date();
       var seconds = new Date();
@@ -34,6 +34,5 @@ __Dainos nuoroda__ <${serverQueue.songs[0].url}>
 __Dainos ilgis__ ${serverQueue.songs[0].hours}h ${serverQueue.songs[0].minutes}min ${serverQueue.songs[0].seconds}s
 __Daina dar truks__ ${ho}h ${m}m ${sekundes}s
 __Dainos garsas__ **${serverQueue.volume}**`);
-    
 }
 };

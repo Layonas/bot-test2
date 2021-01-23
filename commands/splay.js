@@ -5,7 +5,7 @@ module.exports = {
     example: '!selectplay robinzonas',
     description: 'Selection of videos if the video name is just a random guess',
     async execute(msg, args, youtube, serverQueue, queue, ytdl){
-        await msg.delete({timeout: 3000});
+        msg.delete({timeout: 3000});
         const voiceChannel = msg.member.voice.channel;
         if(msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');

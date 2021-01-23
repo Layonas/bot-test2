@@ -5,7 +5,7 @@ module.exports = {
     example: '!instaplay robinzonas',
     description: 'Adds a song second in the queue no matter the length of a queue',
     async execute(msg, args, ytdl, queue, youtube){
-        await msg.delete({timeout: 3000});
+        msg.delete({timeout: 3000});
         const voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
@@ -103,7 +103,7 @@ async function play (guild, song){
         return;
     }
     const dispatcher = await serverQueue.connection.play(ytdl(song.url, {filter: "audioonly"}));
-    dispatcher.on('end', () =>{
+    dispatcher.on('finish', () =>{
     console.log('Song ended and shifted to the next one!');
     serverQueue.songs.shift();
     serverQueue.requester.shift();

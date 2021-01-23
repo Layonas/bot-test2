@@ -5,7 +5,7 @@ module.exports = {
     example: '!skip',
     description: 'Skips the current song to the next song in queue.',
     async execute(msg, serverQueue, args){
-        await msg.delete({timeout: 3000});
+        msg.delete({timeout: 3000});
         if(!msg.member.voice.channel) return msg.reply('Tu negali praleisti muzikos, nes nesi kalbėjimo kanale!');
         if(msg.member.voice.channel.id !== process.env.MUSIC_CHANNEL) return msg.reply('Tu turi būti **Music** kanale!');
         if(!serverQueue) return msg.reply('Nėra dainų, kurias būtu galima praleisti!');

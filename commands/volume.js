@@ -5,7 +5,7 @@ module.exports = {
     example: '!volume 50',
     description: 'Sets the volume of the songs that are being played',
     execute(msg, args, serverQueue){
-        msg.channel.bulkDelete(1);
+        msg.delete({timeout: 3000});
         const voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
