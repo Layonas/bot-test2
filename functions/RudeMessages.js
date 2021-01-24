@@ -21,7 +21,7 @@ module.exports = {
             {
                     console.log('Hate speech detected');
                     flag = true;
-                    var result = (random.int(0, Hate1.length)); // eslint-disable-line
+                    var result = (random.int(0, Hate1.length-1)); // eslint-disable-line
                     msg.channel.startTyping();
                     await msg.channel.send(Hate1[result]);
                     await msg.channel.stopTyping();
@@ -49,7 +49,7 @@ module.exports = {
             var msg3 = m.content.toLowerCase();
             if(msg3.match(/eik nx|pashol|pashol nx|pisk nx|pisk|atsipisk/gi))
             if(msg.author.id === m.author.id){
-                var num = random.int(0, Hate2.length);
+                var num = random.int(0, Hate2.length-1);
                 await m.reply(Hate2[num]);
                 if(num === 0) {
                     var response2 = await m.channel.awaitMessages(msg5 => m.author.id === msg5.author.id, { max: 3, time: 4000});
