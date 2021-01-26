@@ -22,7 +22,7 @@ ${videos.map((val, index) => `**${++index}** ${val.title}`).join('\n')}
 __Prašome pasirinkti vaizdo įraša, kurį norite leisti, prašome atrašyti su skaičiumi nuo 1 iki 10!__`);
             try {
                 var respone = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
-                    maxMatches: 1,
+                    max: 1,
                     time: 10000,
                     errors: ['time']
                 });
