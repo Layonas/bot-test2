@@ -21,14 +21,14 @@ module.exports = {
             
             try {
                 var videos = await youtube.searchVideos(searchString, 10);
-                msg.channel.send(`__***Song selection!***__
+                await msg.channel.send(`__***Song selection!***__
 ${videos.map((val, index) => `**${++index}** ${val.title}`).join('\n')}
                 
 __Prašome pasirinkti vaizdo įraša, kurį norite leisti, prašome atrašyti su skaičiumi nuo 1 iki 10!__`);
 
 try {
     var respone = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
-        maxMatches: 1,
+        max: 1,
         time: 10000,
         errors: ['time']
     });
@@ -38,6 +38,7 @@ try {
     return msg.channel.send('Nebuvo teisingai pasirinktas skaičius arba išseko laikas!');    
 }
         const videoIndex = parseInt(respone.first().content);
+        console.log(respone.first().content);
         var video  = await youtube.getVideoByID(videos[videoIndex - 1].id); // eslint-disable-line
             } catch (err) {
                 console.error(err);
