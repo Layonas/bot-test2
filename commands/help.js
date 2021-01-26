@@ -29,7 +29,7 @@ let embed = new DC.MessageEmbed()// eslint-disable-line
 .setTitle('Information')
 .setDescription(`Kūrėjas: **${owner.user.username}**
 Boto pavadinimas: **${msg.guild.members.cache.get(process.env.USER_BOT).user.username}**
-Versija: **2.0.1**`); 
+Versija: **2.0.5**`); 
     msg.channel.send(embed);
 
 }
