@@ -31,7 +31,7 @@ async execute(msg, args, serverQueue, OwnerID){
                 // Getting the response about which song to remove
                 try {
                     var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < serverQueue.songs.length && msg.author.id === msg2.author.id, {
-                        maxMatches: 1,
+                        max: 1,
                         time: 10000,
                         errors: ['time']
                     });
@@ -68,7 +68,7 @@ Dabar yra **${serverQueue.songs.length}** dainų sąraše!`);
                     //Catch if the user wants to see page 2 etc. or to remove a song
                     try {
                         var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content <= 30 && msg.author.id === msg2.author.id, { // eslint-disable-line
-                            maxMatches: 1,
+                            max: 1,
                             time: 10000,
                             errors: ['time']
                         });
