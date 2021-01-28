@@ -4,9 +4,10 @@ module.exports={
     usage: '!<alias>',
     example: '!stop',
     description: 'Stops the music that is being played with the bot.',
-    async execute(msg, serverQueue)
+    async execute(msg, serverQueue, queue)
     {
         msg.delete({timeout: 3000});
+        serverQueue = await queue.get(msg.guild.id);
         if(msg.author.id === process.env.USER_OWNER) {
             serverQueue.songs = [];
             if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
@@ -18,6 +19,7 @@ module.exports={
         if(!serverQueue) return msg.reply('Nėra ką stabdyti, nes muzika negroja!');
         serverQueue.songs = [];
         serverQueue.connection.dispatcher.end();
+        if(await queue.get(msg.guild.id)) queue.delete(msg.guild.id);
         console.log('Forced Stop!');
         return msg.reply('Tu sustabdei muzikos grojima!');
     }
