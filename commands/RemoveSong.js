@@ -23,7 +23,7 @@ async execute(msg, args, serverQueue, OwnerID){
             msg.channel.send(`Pasirinkite, kurią dainą norite pašalinti,`);
                 let embed = new Discord.MessageEmbed()
                 .setColor('RANDOM')
-                .setThumbnail(msg.author.avatarURL)
+                .setThumbnail(msg.author.avatarURL())
                 .setDescription(`__**Playlist'as**__
                 ${serverQueue.songs.map((song, index) => `**+${index+1}** ${song.title}`).join('\n')}`);
                 await msg.channel.send(embed);
@@ -44,7 +44,7 @@ async execute(msg, args, serverQueue, OwnerID){
                 //-------------------------------------------------------------------------------------------------------
                 //Removes a song from a queue
                 var remove = parseInt(response.first().content);
-                response.first().channel.send(`${response.user.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
+                response.first().channel.send(`${response.first().author.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
                 return await serverQueue.songs.splice(remove-1, 1);
                 //-------------------------------------------------------------------------------------------------------
 
@@ -56,7 +56,7 @@ async execute(msg, args, serverQueue, OwnerID){
                         let holder = serverQueue.songs.slice(0, 30);
                         let embed = new Discord.MessageEmbed()
                         .setColor('RANDOM')
-                        .setThumbnail(msg.author.avatarURL)
+                        .setThumbnail(msg.author.avatarURL())
                         .setDescription(`__**Playlist'as**__
                         ${holder.map((song, index) => `**+${index+1}** ${song.title}`).join('\n')}
 
@@ -79,7 +79,7 @@ Dabar yra **${serverQueue.songs.length}** dainų sąraše!`);
                         //-------------------------------------------------------------------------------------------------------
                         //Removes a song from a queue
                         var remove = parseInt(response.first().content); // eslint-disable-line
-                        if (response.first().author.id !== OwnerID) response.first().channel.send(`${response.user.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
+                        if (response.first().author.id !== OwnerID) response.first().channel.send(`${response.first().author.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
                         return await serverQueue.songs.splice(remove-1, 1);
                         //-------------------------------------------------------------------------------------------------------
                 
