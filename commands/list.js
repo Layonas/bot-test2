@@ -20,7 +20,7 @@ module.exports = {
         if(serverQueue.songs.length < 20){
                 let embed = new Discord.MessageEmbed()
                 .setColor('RANDOM')
-                .setThumbnail(msg.author.avatarURL)
+                .setThumbnail(msg.author.avatarURL())
                 .setDescription(`__**Playlist'as**__
                 ${serverQueue.songs.map((song, index) => `**+${index+1}** ${song.title}`).join('\n')}
 
@@ -36,7 +36,7 @@ Dabar yra **${serverQueue.songs.length}** dainų saraše!
                         let holder = serverQueue.songs.slice(0, 20);
                         let embed = new Discord.MessageEmbed()
                         .setColor('RANDOM')
-                        .setThumbnail(msg.author.avatarURL)
+                        .setThumbnail(msg.author.avatarURL())
                         .setDescription(`__**Playlist'as**__
                         ${holder.map((song, index) => `**+${index+1}** ${song.title}`).join('\n')}
 
