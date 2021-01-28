@@ -106,7 +106,7 @@ module.exports = {
         break;
 
         case 'stop':
-            bot.commands.get('stop').execute(msg, serverQueue);
+            bot.commands.get('stop').execute(msg, serverQueue, queue);
         break;
 
         case 'cooldowncheck':
