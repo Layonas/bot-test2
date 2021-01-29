@@ -108,6 +108,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         }
 
     } else{
+        if(!serverQueue.connection) serverQueue.connection = await voiceChannel.join();
         await serverQueue.songs.push(song);
         await serverQueue.requester.push(msg.author.username);
         //console.log(serverQueue.songs);
