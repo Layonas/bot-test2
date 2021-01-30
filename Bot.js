@@ -18,7 +18,6 @@ const youtube = new Youtube(YOUTUBE_API_KEY);
 
 var Ctime = [];
 var stats = {};
-const botOwner = bot.users.cache.get('279665080000315393');
 
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -62,29 +61,31 @@ bot.on('ready', () =>{
 });
 
 // When a person joins a server
-bot.on("guildMemberAdd", member =>{
+bot.on("guildMemberAdd", async member =>{
 
-    const channel = member.guild.channels.cache.get('772550965232140338');
-    if (!channel) return;
+    const channel = bot.guilds.cache.get('543848190995333152').channels.cache.get('772550965232140338');
+    if (!channel) return console.log('No channel.');
 
-    channel.send(`Sveikas ${member}, sveikinu prisijungus prie mūsų serverio!`);
+    await channel.send(`Sveikas ${member}, sveikinu prisijungus prie mūsų serverio!`);
 
     const role = member.guild.roles.cache.get('748097420256215070');
     if(!role)
-    return botOwner.send(`There is no role with id *748097420256215070*, or the code line **const role = member.guild.roles.cache.get('748097420256215070');** doesnt work`);
+    return;
 
-    member.addRole(role);
+    member.roles.add(role);
 
 });
 
 //when bot joins a new server
 bot.on('guildCreate', guild =>{
     const ID = guild.id;
+    const botOwner = bot.users.cache.get(process.env.USER_OWNER);
     botOwner.send(`Bot has been added to a new guild **${guild.name}** and id is: **${ID}**`);
 });
 
 //when a bot is kicked from a server
 bot.on('guildDelete', guild =>{
+    const botOwner = bot.users.cache.get(process.env.USER_OWNER);
     botOwner.send(`Bot has been removed from **${guild.name}** and id is: **${guild.id}**`);
 });
 
@@ -103,7 +104,7 @@ bot.on('guildDelete', guild =>{
 
 bot.on ('message', async msg=>
 {
-    
+
     let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
