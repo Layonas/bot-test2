@@ -54,7 +54,7 @@ for(const file of FunctionFiles)
 // Bot is ready to work
 bot.on('ready', () =>{
     console.log('The bot is online. ');
-    bot.user.setActivity('Porn with Layon;).', {type: 'WATCHING'}).catch(console.error);
+    bot.user.setActivity('Porn Simulation.', {type: 'PLAYING'}).catch(console.error);
     
     //Reading guilds that bot is currently in
     //bot.guilds.cache.map(guild => console.log(guild.name));
