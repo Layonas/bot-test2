@@ -54,7 +54,7 @@ for(const file of FunctionFiles)
 // Bot is ready to work
 bot.on('ready', () =>{
     console.log('The bot is online. ');
-    bot.user.setActivity(`with ${bot.users.cache.get('366702124505235456').username}`, {type: 'PLAYING'}).catch(console.error);
+    bot.user.setActivity(`with ${bot.guilds.cache.get(process.env.GUILD).members.cache.get('366702124505235456').displayName}`, {type: 'PLAYING'}).catch(console.error);
     
     //Reading guilds that bot is currently in
     //bot.guilds.cache.map(guild => console.log(guild.name));
@@ -63,7 +63,7 @@ bot.on('ready', () =>{
 // When a person joins a server
 bot.on("guildMemberAdd", async member =>{
 
-    const channel = bot.guilds.cache.get('543848190995333152').channels.cache.get('772550965232140338');
+    const channel = bot.guilds.cache.get(process.env.GUILD).channels.cache.get('772550965232140338');
     if (!channel) return console.log('No channel.');
 
     await channel.send(`Sveikas ${member}, sveikinu prisijungus prie mūsų serverio!`);
