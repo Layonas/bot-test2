@@ -9,14 +9,19 @@ module.exports = {
     //Getting command alias and names
     if(msg.author.id !== BotID){
     var number = -1;
-     for(var i = 0; i < commandFiles.length; i++){
+    for(var i = 0; i < commandFiles.length; i++){
         const command = require(`../commands/${commandFiles[i]}`);
         if(command.alias.some(names =>{
             return args[0].toLowerCase() === names.toLowerCase();
         })) number = command.name;
-     }
-     if(args[0].toLowerCase() === 'clear') number = 'clear';
-     if(number === -1) return msg.reply(`__**${args[0]}**__ nėra komanda!`);
+    }
+    if(args[0].toLowerCase() === 'clear') number = 'clear';
+    if(number === -1) 
+    {
+        if(args[0].substring(1, 2).match(/\W/gi))
+        return;
+        return msg.reply(`__**${args[0]}**__ nėra komanda!`);
+    }
     }
      //--------------------------------------------------------------------
 
