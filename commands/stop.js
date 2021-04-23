@@ -15,7 +15,7 @@ module.exports={
             return msg.reply('Tu sustabdei muzikos grojima!');
         }
         if(!msg.member.voice.channel) return msg.reply('Tu negali sustabdyti muzikos nes tu nesi pasikalbėjimų kanale!');
-        if(msg.member.voice.channel.id !== process.env.MUSIC_CHANNEL) return msg.reply('Tu turi būti **Music** kanale!');
+        //if(msg.member.voice.channel.id !== process.env.MUSIC_CHANNEL) return msg.reply('Tu turi būti **Music** kanale!');
         if(!serverQueue) return msg.reply('Nėra ką stabdyti, nes muzika negroja!');
         serverQueue.songs = [];
         serverQueue.connection.dispatcher.end();

@@ -9,7 +9,7 @@ module.exports = {
         const voiceChannel = msg.member.voice.channel;
         if(msg.author.username !== 'Layon'){
         if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
-        if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
+        //if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
         }
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinimą!');
         const searchString = args.slice(1).join(' ');

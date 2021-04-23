@@ -10,11 +10,12 @@ module.exports ={
         var voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){
             if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
-            if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
+            //if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
         }
         else{
             if(!msg.guild.members.cache.get(process.env.USER_BOT).voice.channel){
-                voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
+                //voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
+                voiceChannel = msg.guild.members.cache.get(process.env.USER_BOT).voice.channel;
             }
         }
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinima arba dainos nuorodą!');
@@ -108,7 +109,12 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         }
 
     } else{
-        if(!serverQueue.connection) serverQueue.connection = await voiceChannel.join();
+        if(!serverQueue.connection) {
+            serverQueue.delete();
+            msg.channel.send(`<@${process.env.USER_OWNER}> no connection, trying to redo serverqueue. Check console for errors.`);
+            await voiceChannel.leave();
+            return handleVideo(video, msg, voiceChannel);
+        }
         await serverQueue.songs.push(song);
         await serverQueue.requester.push(msg.author.username);
         //console.log(serverQueue.songs);

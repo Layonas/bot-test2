@@ -11,7 +11,7 @@ async execute(msg, args, serverQueue, OwnerID){
     //Checking if a user is legal to use the command
     const voiceChannel = msg.member.voice.channel;
     if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
-    if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply(`Jūs turite būti **Music** kanale!`);
+    //if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply(`Jūs turite būti **Music** kanale!`);
     //-------------------------------------------------------------------------------------------------------
 
     if(!args[1]){
