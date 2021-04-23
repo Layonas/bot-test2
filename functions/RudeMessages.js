@@ -11,7 +11,7 @@ module.exports = {
         var Hate1 = ['Jopštararai seniukas!!','I vėl bazarini ane??','Vovo nusiramink biški.','Ramiakas.','Toli neskrisi su tokiais žodžiais.','Eik minecrafta atsipalaidavimui.','Lola judėk geriau nei čia keikies.','Reikia pachilinti seniuk.','Stop raging brather.'];
         var Hate2 = ['Tu cia raunies??','Tu gal pats ir eik vaikeli..','Tavo vardas pats kaip nx.','SHUT THE FUCK UP BITCH.','Tau mentus iškviesiu bledes.','Nesuprantu retardu kalbos.','Alio?'];
 
-        if(msg.author.id === Owner || msg.author.id === BotID) return;
+        if(/*msg.author.id === Owner ||*/ msg.author.id === BotID) return;
         
         var flag = false;
         let message = [];
@@ -30,23 +30,24 @@ module.exports = {
         
         if(!flag) return console.log('returned because no hate speech'); 
         
-        try{
             var respone =  await msg.channel.awaitMessages(filter1 , { 
             max: 6, // skaicius -1, tiek zinuciu bus gauta
-            time: 5000,
-            errors: ['time'],
-        });
-        
-    }catch(e){
-        const emoji = msg.guild.emojis.cache.find(e => e.name === 'kekw');
-        await msg.channel.send(`${emoji}`);
-        await msg.channel.send('biatch');
-        return;
-    }
+            time: 10000,
+            });
+
         respone.forEach(async m => {
             msg.channel.startTyping();
             var msg3 = m.content.toLowerCase();
-            if(msg3.match(/eik nx|pashol|pashol nx|pisk nx|pisk|atsipisk/gi))
+            if(msg3.match(/sorry|srr|nepyk/gi))
+                return msg.channel.send("Np <3!");
+
+            if(!msg3.match(/eik nx|pashol|pashol nx|pisk nx|pisk|atsipisk/gi))
+                {
+                    const emoji = msg.guild.emojis.cache.find(e => e.name === 'kekw');
+                    await msg.channel.send(`${emoji}`);
+                    await msg.channel.send('biatch');
+                    return;
+                }
             if(msg.author.id === m.author.id){
                 var num = random.int(0, Hate2.length-1);
                 await m.reply(Hate2[num]);
