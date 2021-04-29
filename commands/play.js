@@ -15,7 +15,7 @@ module.exports ={
         else{
             if(!msg.guild.members.cache.get(process.env.USER_BOT).voice.channel){
                 //voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
-                voiceChannel = msg.guild.members.cache.get(process.env.USER_BOT).voice.channel;
+                voiceChannel = msg.guild.members.cache.get(process.env.USER_OWNER).voice.channel;
             }
         }
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinima arba dainos nuorodą!');
