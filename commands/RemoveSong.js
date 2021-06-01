@@ -2,7 +2,7 @@ module.exports = {
 name: 'RemoveSong',
 alias: ['rs','removesong','removes','songremove'],
 usage: '!<alias> (optional) <index>',
-example: '!removesong 2',
+example: '!removesong',
 description: 'Removes a specific song form a playlist you just have to choose it',
 async execute(msg, args, serverQueue, OwnerID){
 
@@ -11,10 +11,10 @@ async execute(msg, args, serverQueue, OwnerID){
     //Checking if a user is legal to use the command
     const voiceChannel = msg.member.voice.channel;
     if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
+    if(msg.author.id !== OwnerID) return;
     //if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply(`Jūs turite būti **Music** kanale!`);
     //-------------------------------------------------------------------------------------------------------
 
-    if(!args[1]){
         const Discord = require('discord.js');
         if(!serverQueue) return msg.reply('Šiuo metu niekas negroja.');
     //-------------------------------------------------------------------------------------------------------
@@ -29,23 +29,13 @@ async execute(msg, args, serverQueue, OwnerID){
                 await msg.channel.send(embed);
                 //-------------------------------------------------------------------------------------------------------
                 // Getting the response about which song to remove
-                try {
-                    var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < serverQueue.songs.length && msg.author.id === msg2.author.id, {
-                        max: 1,
-                        time: 10000,
-                        errors: ['time']
-                    });
-                } catch (error) {
-                    console.error(error);
-                    return msg.channel.send(`Įvyko klaida.`);
-                }
-                //-------------------------------------------------------------------------------------------------------
-
-                //-------------------------------------------------------------------------------------------------------
-                //Removes a song from a queue
-                var remove = parseInt(response.first().content);
-                response.first().channel.send(`${response.first().author.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
-                return await serverQueue.songs.splice(remove-1, 1);
+                await msg.channel.awaitMessages(msg2 => msg2.content > 1 && msg2.content <= serverQueue.songs.length && msg.author.id === msg2.author.id, { max: 1 })
+                .then(async collected => {
+                    var remove = parseInt(collected.first().content);
+                    collected.first().channel.send(`${collected.first().author.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
+                    return await serverQueue.songs.splice(remove-1, 1);
+                })
+                .catch(collected => collected.first().channel.send("Įvyko klaida."));
                 //-------------------------------------------------------------------------------------------------------
 
         } catch (error1) {
@@ -66,22 +56,13 @@ Dabar yra **${serverQueue.songs.length}** dainų sąraše!`);
 
                     //-------------------------------------------------------------------------------------------------------
                     //Catch if the user wants to see page 2 etc. or to remove a song
-                    try {
-                        var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content <= 30 && msg.author.id === msg2.author.id, { // eslint-disable-line
-                            max: 1,
-                            time: 10000,
-                            errors: ['time']
-                        });
-                    } catch(error2){
-                        console.error(error2);
-                        return msg.channel.send('Įvyko klaida.');
-                    }
-                        //-------------------------------------------------------------------------------------------------------
-                        //Removes a song from a queue
-                        var remove = parseInt(response.first().content); // eslint-disable-line
-                        if (response.first().author.id !== OwnerID) response.first().channel.send(`${response.first().author.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
+                    await msg.channel.awaitMessages(msg2 => msg2.content > 1 && msg2.content <= 30 && msg.author.id === msg2.author.id, { max: 1 })
+                    .then(async collected => {
+                        var remove = parseInt(collected.first().content);
+                        collected.first().channel.send(`${collected.first().author.username} sėkmingai pašalino -- ${serverQueue.songs[remove-1].title}`);
                         return await serverQueue.songs.splice(remove-1, 1);
-                        //-------------------------------------------------------------------------------------------------------
+                    })
+                    .catch(collected => collected.first().channel.send("Įvyko klaida."));
                 
 }
 catch(e){
@@ -89,5 +70,4 @@ catch(e){
     msg.reply('WTF');
 }
 }}
-}
 };
