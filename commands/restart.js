@@ -1,6 +1,6 @@
 module.exports = {
     name: 'restart',
-    alias: ['restart', 'rs'],
+    alias: ['restart'],
     usage: '!<alias> <name>',
     example: '!restart self',
     description: 'Restarts the bot or a specified command',
