@@ -4,7 +4,7 @@
   "description": "",
   "main": "Bot.js",
   "dependencies": {
-    "discord.js": "^12.5.1",
+    "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "jimp": "^0.16.1",
     "jsonfile": "^6.1.0",
@@ -14,7 +14,7 @@
     "pg": "^8.5.1",
     "random": "^2.2.0",
     "simple-youtube-api": "^5.2.1",
-    "ytdl-core": "^4.8.0"
+    "ytdl-core": "^4.8.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0"
