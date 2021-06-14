@@ -17,7 +17,7 @@ execute(msg, args, CommandCooldown, OwnerID, Ctime){
             .setColor('RANDOM')
             .setTitle(`Užrakinti žmonės`)
             .setThumbnail('https://i1.sndcdn.com/artworks-000516782226-xsqnhj-t500x500.jpg')
-            .setDescription(`${Ctime.map ((user, index) => `**${index+1}**- __${msg.guild.members.get(user.ID).user.username}__`).join('\n')}`);
+            .setDescription(`${Ctime.map ((user, index) => `**${index+1}**- __${msg.guild.members.cache.get(user.ID).user.username}__`).join('\n')}`);
             return msg.channel.send(embed);
         }else{
             //-----------------------------------
@@ -32,7 +32,7 @@ execute(msg, args, CommandCooldown, OwnerID, Ctime){
                     for(var i = 0; i < Ctime.length; i++){
                         if(Ctime[i].ID === user.id) Ctime.splice(i, 1);
                     }
-                    return msg.channel.send(`**${msg.guild.members.get(user.id).user.username}** buvo pašalintas iš ilsėjimų sąrašo.`);
+                    return msg.channel.send(`**${msg.guild.members.cache.get(user.id).user.username}** buvo pašalintas iš ilsėjimų sąrašo.`);
                 }
             } else  return msg.reply('Prašau patikrink ar tą žmogų užtaginai.');
         } else return msg.reply('Prašau užtaginti!');
