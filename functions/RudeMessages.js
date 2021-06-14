@@ -10,7 +10,7 @@ module.exports = {
 
         var Hate1 = ['Jopštararai seniukas!!','I vėl bazarini ane??','Vovo nusiramink biški.','Ramiakas.','Toli neskrisi su tokiais žodžiais.','Eik minecrafta atsipalaidavimui.','Lola judėk geriau nei čia keikies.','Reikia pachilinti seniuk.','Stop raging brather.'];
         var Hate2 = ['Tu cia raunies??','Tu gal pats ir eik vaikeli..','Tavo vardas pats kaip nx.','SHUT THE FUCK UP BITCH.','Tau mentus iškviesiu bledes.','Nesuprantu retardu kalbos.','Alio?'];
-        var Bitching = ["Biatch", "Prasileidai seniuk", "Apsiramino pacas", "MUAHHAHAHHAHHAHHHAHHAHHAHHHAHAHHHAHAHHHAH", "I WIN", "One tappinau", "Pakviesk dofka lola palosit"];
+        var Bitching = ["Biatch", "Prasileidai seniuk", "Apsiramino pacas", "MUAHHAHAHHAHHAHHHAHHAHHAHHHAHAHHHAHAHHHAH", "I WIN", "One tappinau", "Nebekviesk dofkos lolo palost"];
         var Emojies = [
             msg.guild.emojis.cache.find(e => e.name === 'kekw'),
             msg.guild.emojis.cache.find(e => e.name === 'pilam'),
