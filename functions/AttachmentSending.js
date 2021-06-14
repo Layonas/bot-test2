@@ -8,14 +8,16 @@ module.exports = {
             if(msg.attachments.forEach(async files => {
                 if(files.url.toLowerCase().endsWith('.gif') || files.url.toLowerCase().endsWith('.png') || files.url.toLowerCase().endsWith('.jpg') || files.url.toLowerCase().endsWith('.mp4') || files.url.toLowerCase().endsWith('.webm') || files.url.toLowerCase().endsWith('.jpeg') || files.url.toLowerCase().endsWith('.mp3')) {
                     if(files.url.endsWith('test.png')) return;
-                    await ChatChannel.send(files.url);
+                    await ChatChannel.send(`**${msg.author.username}**`+ 
+                    files.url);
                     return PhotoChannel.send(`**${msg.author.username}**  išsiuntė - ${msg.createdAt} __+3h in LT__
 ${files.url}`);
 }}));
         }
 
         if(msg.author.id === process.env.USER_OWNER || msg.author.id === process.env.USER_BOT) return;
-        if(msg.content !== 0) await ChatChannel.send(msg);
+        if(msg.content !== 0) await ChatChannel.send(`**${msg.author.username} sent** `
+        +msg);
         ChatChannel.messages.fetch()
         .then(messages => messages.each(async m => {
             if(Date.now()-m.createdAt.getTime()>= 10*60*1000)
