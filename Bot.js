@@ -104,7 +104,7 @@ bot.on('guildDelete', guild =>{
 
 bot.on ('message', async msg=>
 {
-
+    if(msg.author.id === process.env.USER_BOT) return;
     let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
