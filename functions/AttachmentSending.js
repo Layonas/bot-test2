@@ -17,10 +17,10 @@ ${files.url}`);
         if(msg.author.id === process.env.USER_OWNER || msg.author.id === process.env.USER_BOT) return;
         if(msg.content !== 0) await ChatChannel.send(msg);
         ChatChannel.messages.fetch()
-        .then(messages => messages.each(m => {
+        .then(messages => messages.each(async m => {
             if(Date.now()-m.createdAt.getTime()>= 10*60*1000)
             {
-                m.delete();
+                await m.delete().catch(err => console.log('Hard to delete \n' + err));
             }
         }))
         .catch(err => console.log('Something happened with message logging \n' + err));
