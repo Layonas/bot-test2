@@ -18,7 +18,6 @@ ${files.url}`);
         if(msg.content !== 0) await ChatChannel.send(msg);
         ChatChannel.messages.fetch()
         .then(messages => messages.each(m => {
-            console.log(Date.now() - m.createdAt.getTime());
             if(Date.now()-m.createdAt.getTime()>= 10*60*1000)
             {
                 m.delete();
