@@ -60,7 +60,7 @@ module.exports = {
                     await client.query("UPDATE photos SET data = '" + JSON.stringify(guild) + "'").then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
                 }
 
-                    console.log(user);
+                    //console.log(user);
                     var photo = user[msg.author.id];
         //---------------------------------------------------------------
 
