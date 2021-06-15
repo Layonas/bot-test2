@@ -57,9 +57,10 @@ module.exports = {
                         photo: 'https://i.pinimg.com/474x/64/89/35/64893517cd0fad84c451c85b135ee091.jpg',
                         embed: true
                     };
-                    await client.query("UPDATE photos SET data'" + JSON.stringify(guild) + "'").then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
+                    await client.query("UPDATE photos SET data = '" + JSON.stringify(guild) + "'").then(console.log('Succesfully added new user into table photos.')).catch(err => console.error(err));
                 }
-        
+
+                    console.log(user);
                     var photo = user[msg.author.id];
         //---------------------------------------------------------------
 
