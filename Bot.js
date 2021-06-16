@@ -54,7 +54,23 @@ for(const file of FunctionFiles)
 // Bot is ready to work
 bot.on('ready', () =>{
     console.log('The bot is online. ');
-    bot.user.setActivity(`with ${bot.guilds.cache.get(process.env.GUILD).members.cache.get('366702124505235456').displayName}`, {type: 'PLAYING'}).catch(console.error);
+    bot.user.setActivity(`with ${bot.guilds.cache.get(process.env.GUILD).members.cache.get('366702124505235456').displayName}`, {type: 'WATCHING'}).catch(console.error);
+    
+    //----------------------------------------------------------------
+    const ChatChannel = bot.guilds.cache.get('672837775569190922').channels.cache.get('853982351535898634');
+
+    setInterval(() => {
+        ChatChannel.messages.fetch({cache:true})
+        .then(messages => {
+            // if(Date.now() - messages.first().createdAt.getTime() >= 10*60*1000)
+            //     return messages.first().channel.bulkDelete(99);
+        messages.each(async m =>{
+        if(Date.now() - m.createdAt.getTime() >= 10*60*1000)
+            await m.delete({timeout: 100}).catch(err => console.log(`Hard to delete. \n` + err));
+        });
+    }).catch(err => console.log(`Error fetching messages. \n` + err));
+    }, 10*60*1000);
+    //----------------------------------------------------------------
     
     //Reading guilds that bot is currently in
     //bot.guilds.cache.map(guild => console.log(guild.name));

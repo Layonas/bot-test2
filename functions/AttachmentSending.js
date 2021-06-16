@@ -15,16 +15,8 @@ ${files.url}`);
 }}));
 }
 
-        setInterval(() => {
-            ChatChannel.messages.fetch({cache:true})
-            .then(messages => messages.each(m =>{
-                if(Date.now() - m.createdAt.getTime() >= 10*60*1000)
-                    m.delete({timeout: 100}).catch(err => console.log(`Hard to delete. \n` + err));
-            })).catch(err => console.log(`Error fetching messages. \n` + err));
-        }, 10*60*1000);
-
         if(msg.author.id === process.env.USER_OWNER || msg.author.id === process.env.USER_BOT) return;
-        if(msg.content !== 0) ChatChannel.send(`**${msg.author.username} sent** `
+        if(msg.content !== 0) return ChatChannel.send(`**${msg.author.username} sent** `
         +msg.content).catch(err => console.log(`Error while logging a message, probably a spam.(await removed)\n`+err));
 
     }
