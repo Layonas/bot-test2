@@ -128,7 +128,6 @@ module.exports = {
             userStats.MessageLength = msg.content.length;
         else userStats.MessageLength += msg.content.length; 
     }
-    else return;
 
         const current_level = userStats.level;
         //await jsonfile.writeFileSync(`./functions/JsonFiles/stats.json`, stats, { spaces: 2}); // uncomment this then run and see all the info in the database
