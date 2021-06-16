@@ -72,6 +72,26 @@ module.exports = {
 
         const  previous_level = userStats.level;
 
+        //fetch 10 messages
+        //sort by id
+        //check wether 3 or more messages are the same
+        let spammers = [];
+        let index = 0;
+        await msg.channel.messages.fetch({cache: true, limit: 10})
+        .then(messages => messages.each(m => spammers.push({id: m.author.id, content: m.content})))
+        .catch(err => console.log('Error while trying to push to an array. \n' + err));
+        for(var j = 0; j < spammers.length; j++){
+            if(spammers[0].id === spammers[j].id)
+                if(spammers[0].content === spammers[j].content)
+                    {
+                        index++;
+                    }
+        }
+        if(index >= 3){
+            console.log(`Spammer detected: `+spammers[0].id);
+            return;
+        }
+
         if(Date.now() - userStats.Last_message >= 5000 || msg.author.id === OwnerID){
             
         if(msg.author.id === OwnerID) var amount = random.int(15, 25) + msg.content.length; // new variable so that the amount of xp for current and overall would be the same
@@ -108,6 +128,7 @@ module.exports = {
             userStats.MessageLength = msg.content.length;
         else userStats.MessageLength += msg.content.length; 
     }
+    else return;
 
         const current_level = userStats.level;
         //await jsonfile.writeFileSync(`./functions/JsonFiles/stats.json`, stats, { spaces: 2}); // uncomment this then run and see all the info in the database
