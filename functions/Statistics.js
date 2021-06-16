@@ -89,7 +89,7 @@ module.exports = {
         }
         if(index >= 3){
             console.log(`Spammer detected: `+spammers[0].id);
-            return;
+            return client.end();
         }
 
         if(Date.now() - userStats.Last_message >= 5000 || msg.author.id === OwnerID){
