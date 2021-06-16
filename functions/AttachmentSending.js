@@ -16,7 +16,6 @@ ${files.url}`);
 }
 
         setInterval(() => {
-            console.log(`Delete now`);
             ChatChannel.messages.fetch({cache:true})
             .then(messages => messages.each(m =>{
                 if(Date.now() - m.createdAt.getTime() >= 10*60*1000)
