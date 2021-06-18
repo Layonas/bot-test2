@@ -75,6 +75,7 @@ module.exports = {
         //fetch 10 messages
         //sort by id
         //check wether 3 or more messages are the same
+        //Really quick and easy bypass to auto spams - check if messages are in 6000ms range
         if(msg.author.id !== OwnerID)
         {        
             let spammers = [];
@@ -84,7 +85,7 @@ module.exports = {
                 .catch(err => console.log('Error while trying to push to an array. \n' + err));
                 for(var j = 0; j < spammers.length; j++){
                     if(spammers[0].id === spammers[j].id)
-                        if(spammers[0].content === spammers[j].content || isNaN(spammers[j].content) === false)
+                        if(spammers[0].content === spammers[j].content || isNaN(spammers[j].content.replace(',', '.')) === false)
                             {
                                 index++;
                             }
