@@ -81,14 +81,18 @@ module.exports = {
             let spammers = [];
                 let index = 0;
                 await msg.channel.messages.fetch({cache: true, limit: 10})
-                .then(messages => messages.each(m => spammers.push({id: m.author.id, content: m.content})))
+                .then(messages => messages.each(m => spammers.push({id: m.author.id, content: m.content, time: m.createdAt.getTime()})))
                 .catch(err => console.log('Error while trying to push to an array. \n' + err));
                 for(var j = 0; j < spammers.length; j++){
-                    if(spammers[0].id === spammers[j].id)
+                    if(spammers[0].id === spammers[j].id){
                         if(spammers[0].content === spammers[j].content || isNaN(spammers[j].content.replace(',', '.').replace('E-','')) === false)
                             {
                                 index++;
                             }
+                        else if(Date.now() - spammers[j].time <= 6000*(j+1)){
+                            index++;
+                        }
+                        }
                 }
                 if(index >= 3){
                     console.log(`Spammer detected: `+spammers[0].id);
