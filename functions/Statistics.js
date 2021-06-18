@@ -75,21 +75,24 @@ module.exports = {
         //fetch 10 messages
         //sort by id
         //check wether 3 or more messages are the same
-        let spammers = [];
-        let index = 0;
-        await msg.channel.messages.fetch({cache: true, limit: 10})
-        .then(messages => messages.each(m => spammers.push({id: m.author.id, content: m.content})))
-        .catch(err => console.log('Error while trying to push to an array. \n' + err));
-        for(var j = 0; j < spammers.length; j++){
-            if(spammers[0].id === spammers[j].id)
-                if(spammers[0].content === spammers[j].content)
-                    {
-                        index++;
-                    }
-        }
-        if(index >= 3){
-            console.log(`Spammer detected: `+spammers[0].id);
-            return client.end();
+        if(msg.author.id !== OwnerID)
+        {        
+            let spammers = [];
+                let index = 0;
+                await msg.channel.messages.fetch({cache: true, limit: 10})
+                .then(messages => messages.each(m => spammers.push({id: m.author.id, content: m.content})))
+                .catch(err => console.log('Error while trying to push to an array. \n' + err));
+                for(var j = 0; j < spammers.length; j++){
+                    if(spammers[0].id === spammers[j].id)
+                        if(spammers[0].content === spammers[j].content || isNaN(spammers[j].content) === false)
+                            {
+                                index++;
+                            }
+                }
+                if(index >= 3){
+                    console.log(`Spammer detected: `+spammers[0].id);
+                    return client.end();
+                }
         }
 
         if(Date.now() - userStats.Last_message >= 5000 || msg.author.id === OwnerID){
