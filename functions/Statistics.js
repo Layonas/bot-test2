@@ -85,7 +85,7 @@ module.exports = {
                 .catch(err => console.log('Error while trying to push to an array. \n' + err));
                 for(var j = 0; j < spammers.length; j++){
                     if(spammers[0].id === spammers[j].id)
-                        if(spammers[0].content === spammers[j].content || isNaN(spammers[j].content.replace(',', '.')) === false)
+                        if(spammers[0].content === spammers[j].content || isNaN(spammers[j].content.replace(',', '.').replace('E-','')) === false)
                             {
                                 index++;
                             }
