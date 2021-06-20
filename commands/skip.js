@@ -10,7 +10,13 @@ module.exports = {
         //if(msg.member.voice.channel.id !== process.env.MUSIC_CHANNEL) return msg.reply('Tu turi būti **Music** kanale!');
         if(!serverQueue) return msg.reply('Nėra dainų, kurias būtu galima praleisti!');
         if(!args[1]){
-        serverQueue.connection.dispatcher.end();
+        serverQueue.connection.dispatcher.end().catch(async err => {
+            serverQueue.voiceChannel = msg.member.voice.channel;
+            serverQueue.connection = await serverQueue.voiceChannel.join();
+            console.log("Connection: " + serverQueue.connection !== null);
+            console.log(err);
+            serverQueue.connection.dispatcher.end();
+        });
         msg.reply('Tu praleidai dainą!');
         return console.log('Skipped a song.');
         }
