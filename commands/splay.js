@@ -4,7 +4,7 @@ module.exports = {
     usage: '!<alias> song_name',
     example: '!selectplay robinzonas',
     description: 'Selection of videos if the video name is just a random guess',
-    async execute(msg, args, youtube, serverQueue, queue, ytdl){
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
         msg.delete({timeout: 3000});
         const voiceChannel = msg.member.voice.channel;
         if(msg.author.username !== 'Layon'){

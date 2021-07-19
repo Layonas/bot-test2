@@ -4,7 +4,8 @@ module.exports = {
     usage: '!<alias> <number>',
     example: '!volume 50',
     description: 'Sets the volume of the songs that are being played',
-    execute(msg, args, serverQueue){
+    execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+
         msg.delete({timeout: 3000});
         const voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){

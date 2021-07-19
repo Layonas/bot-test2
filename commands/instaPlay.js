@@ -4,7 +4,7 @@ module.exports = {
     usage: '!<alias> <song_url or song_name>',
     example: '!instaplay robinzonas',
     description: 'Adds a song second in the queue no matter the length of a queue',
-    async execute(msg, args, ytdl, queue, youtube){
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
         msg.delete({timeout: 3000});
         const voiceChannel = msg.member.voice.channel;
         if (msg.author.username !== 'Layon'){

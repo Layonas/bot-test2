@@ -4,8 +4,7 @@ module.exports = {
     usage: '!<alias> <@tag> <time>',
     example: '!cooldown @eligijus 120', 
     description: 'Making a player timeout so he couldnt write messages till the time runs out.',
-    execute(msg, args, CommandCooldown, Ctime)
-    {  
+    execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line 
     if (msg.author.username === 'Layon' || msg.author.username === 'TopperHarley') 
     {    
         if (args[1])

@@ -4,7 +4,7 @@ module.exports = {
     usage: '!<alias>',
     example: '!pause',
     description: 'Pauses the song that is playing.',
-   async execute(msg, queue, serverQueue){
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
         await msg.delete({timeout: 3000});
         if(!msg.member.voice.channel) return msg.reply('Tu turi būti **Music** kalbėjimo kanale, kad galėtum pristabdyti dainą!');
         if(msg.member.voice.channel.name.toLowerCase() !== 'music') return msg.reply("Tu negali pristabdyti muzikos, nes nesi **Music** kanale!");

@@ -4,7 +4,7 @@ alias: ['rs','removesong','removes','songremove'],
 usage: '!<alias> (optional) <index>',
 example: '!removesong',
 description: 'Removes a specific song form a playlist you just have to choose it',
-async execute(msg, args, serverQueue, OwnerID){
+async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
 
     msg.delete({timeout: 3000});
     //-------------------------------------------------------------------------------------------------------

@@ -1,18 +1,22 @@
 module.exports = {
     name: 'addRole',
-    alias: ['addRole', 'aR', 'Roleadd', 'ar', 'arole', 'ARole', 'Arole', 'addrole'],
+    alias: ['addRole', 'aR', 'Roleadd', 'ar', 'arole', 'ARole', 'Arole', 'addrole', 'add_role'],
     usage: `!<alias> <name> <min_level> <max_level> <color>`,
     example: '!addRole',
     description: 'Adds a role to the database and auto updates the bot with new roles.',
-    async execute(msg, args, OwnerID){
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
         //-------------------------------------------------
         const {Client} = require('pg');
         const jsfile = require('jsonfile'); // eslint-disable-line
         //-------------------------------------------------
-        if(msg.author.id !== OwnerID) {
+        if(msg.author.id !== OwnerID && holder !== true) {
             msg.Delete(3000);
             return msg.reply('Neturite teisių!');
         }
+        else if (msg.author.id !== OwnerID && holder === true)
+            return  await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+                        content: `Neturite teisių!`
+                    }}});
         //-------------------------------------------------
         //Connencting to the database
         const client = new Client({
@@ -49,43 +53,76 @@ module.exports = {
         //Roles = jsfile.readFileSync('./functions/JsonFiles/Roles.json');
         //-------------------------------------------------
 
-        var Role_name = args[1].replace(/_/gi, ' ');
+        var Role_name;
+        var setting;
+        if(holder === true){
+            Role_name = msg.options[0].value;
 
-        if(isNaN(args[2])) {
-            client.end();
-            return msg.reply(`${this.usage}`);
+            if(msg.options[1].value in Roles === false){
+                Roles[msg.options[1].value] = {
+                    name: '',
+                    min_level: 0,
+                    max_level: 0,
+                    color: '',
+                    position: 0
+                };
+            }   
+
+            setting = Roles[msg.options[1].value];
+
+                setting.name = Role_name;
+                setting.min_level = msg.options[1].value;
+                setting.max_level = msg.options[2].value;
+                setting.color = msg.options[3].value;
+                setting.position = msg.guild.roles.size-8;
+            
         }
+        else{
+            Role_name = args[1].replace(/_/gi, ' ');
 
-        if(args[2] in Roles === false){
-            Roles[args[2]] = {
-                name: '',
-                min_level: 0,
-                max_level: 0,
-                color: '',
-                position: 0
-            };
-        }   
+            if(isNaN(args[2])) {
+                client.end();
+                return msg.reply(`${this.usage}`);
+            }
 
-        var setting = Roles[args[2]];
+            if(args[2] in Roles === false){
+                Roles[args[2]] = {
+                    name: '',
+                    min_level: 0,
+                    max_level: 0,
+                    color: '',
+                    position: 0
+                };
+            }   
 
-        if(isNaN(args[3])){
-            setting.name = Role_name;
-            setting.max_level = args[2];
-            setting.min_level = args[2];
-            setting.color = args[3];
-            setting.position = msg.guild.roles.size-8;
-        } else {
-            setting.name = Role_name;
-            setting.min_level = args[2];
-            setting.max_level = args[3];
-            setting.color = args[4];
-            setting.position = msg.guild.roles.size-8;
-        }   
+            setting = Roles[args[2]];
+
+            if(isNaN(args[3])){
+                setting.name = Role_name;
+                setting.max_level = args[2];
+                setting.min_level = args[2];
+                setting.color = args[3];
+                setting.position = msg.guild.roles.size-8;
+            } else {
+                setting.name = Role_name;
+                setting.min_level = args[2];
+                setting.max_level = args[3];
+                setting.color = args[4];
+                setting.position = msg.guild.roles.size-8;
+            } 
+        }
 
         // one time use to push existing roles to DB
         //await client.query('DELETE FROM Roles');
         //await client.query('INSERT INTO Roles(roles) values($1)', [Roles]);
-        await client.query("UPDATE Roles SET roles = '" + JSON.stringify(Roles) + "'").then(() => {msg.reply('Naują rolę pavyko pridėti.'); console.log('Successfully added new role');}).catch(err => console.log(err));
+        await client.query("UPDATE Roles SET roles = '" + JSON.stringify(Roles) + "'").then(async () => {
+            if(holder === true)
+                await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+                    content: `Naują rolę pavyko pridėti.`
+                }}});
+            else
+                msg.reply('Naują rolę pavyko pridėti.'); console.log('Successfully added new role');
+        }).catch(err => console.log(err));
 
         //jsfile.writeFileSync('./functions/JsonFiles/Roles.json', Roles, {spaces: 2});
 

@@ -1,12 +1,10 @@
-const { MessageEmbed } = require('discord.js');
-
 module.exports = {
     name: 'RoleChecker',
     alias: ['roles', 'checkroles', 'RoleChecker', 'Roles', 'rolec'],
     usage: '!<alias>',
     example: '!RoleChecker',
     description: 'Checks the roles and send them to the channel.',
-    async execute(msg){
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
         const {Client} = require('pg');
 
         const client = new Client ({
@@ -27,8 +25,16 @@ module.exports = {
 
         var count = Math.ceil(Roles.length/30);
 
-        await msg.reply(`There are currently ${count} pages.
+        if(holder !== false)
+            await msg.reply(
+`There are currently ${count} pages.
 Choose which page you want to see:`);
+        else
+            await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+                content: 
+`There are currently ${count} pages.
+Choose which page you want to see:`
+            }}});
 
         const filter = message => message.author.id === msg.author.id && message.content > 0 && message.content <= count;
 

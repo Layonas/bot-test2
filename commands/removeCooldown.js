@@ -4,7 +4,7 @@ alias: ['rc', 'removeCooldown', 'removec', 'removecooldown', 'rcooldown', 'rcool
 usage: '!<alias> <@tag>',
 example: '!removecooldown @eligijus',
 description: 'Lets the owner remove the cooldown for a specific person',
-execute(msg, args, CommandCooldown, OwnerID, Ctime){
+execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
     //----------------------------------------
     //Includes and other variables
     const Discord = require('discord.js');

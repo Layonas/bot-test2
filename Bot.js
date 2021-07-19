@@ -4,6 +4,9 @@ const Discord = require('discord.js');
 const ping = require('minecraft-server-util');
 const ytdl = require("ytdl-core");
 const Youtube = require('simple-youtube-api');
+const fs = require('fs');
+const DeleteMessageLogs = require('./functions/DeleteMessageLogs');
+const Apps = require('./functions/Apps');
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const OwnerID = process.env.USER_OWNER;
@@ -11,7 +14,7 @@ const BotID = process.env.USER_BOT;
 
 const prefix = '!';
 
-const bot = new Client();
+const bot = new Client({partials: ['MESSAGE', 'REACTION']});
 const CommandCooldown = new Set();
 const queue = new Map();
 const youtube = new Youtube(YOUTUBE_API_KEY);
@@ -19,7 +22,7 @@ const youtube = new Youtube(YOUTUBE_API_KEY);
 var Ctime = [];
 var stats = {};
 
-const fs = require('fs');
+
 bot.commands = new Discord.Collection();
 const func = new Discord.Collection();
 //End of variables
@@ -52,29 +55,76 @@ for(const file of FunctionFiles)
 }
 
 // Bot is ready to work
-bot.on('ready', () =>{
+bot.on('ready', async () =>{
     console.log('The bot is online. ');
     bot.user.setActivity(`with ${bot.guilds.cache.get(process.env.GUILD).members.cache.get('366702124505235456').displayName}`, {type: 'WATCHING'}).catch(console.error);
     
-    //----------------------------------------------------------------
-    const ChatChannel = bot.guilds.cache.get('672837775569190922').channels.cache.get('853982351535898634');
+    DeleteMessageLogs.execute(bot);
 
-    setInterval(() => {
-        ChatChannel.messages.fetch({cache:true})
-        .then(messages => {
-            // if(Date.now() - messages.first().createdAt.getTime() >= 10*60*1000)
-            //     return messages.first().channel.bulkDelete(99);
-        messages.each(async m =>{
-        if(Date.now() - m.createdAt.getTime() >= 10*60*1000)
-            await m.delete({timeout: 100}).catch(err => console.log(`Hard to delete. \n` + err));
-        });
-    }).catch(err => console.log(`Error fetching messages. \n` + err));
-    }, 10*60*1000);
-    //----------------------------------------------------------------
-    
+    Apps.execute(bot);     
+
     //Reading guilds that bot is currently in
     //bot.guilds.cache.map(guild => console.log(guild.name));
 });
+
+bot.ws.on('INTERACTION_CREATE', async (interaction) =>{
+    // console.log(interaction.data.name);
+    // console.log(interaction.data.options[0].options[0]);
+    // console.log(interaction.data.options[0].name);
+    const { name, options } = interaction.data;
+    const { channel_id, guild_id } = interaction;
+
+    let command = '';
+    let msg = {};
+
+    for(var i = 0; i < commandFiles.length; i++){
+        const commands = require(`./commands/${commandFiles[i]}`);
+        if(commands.alias.some(names =>{
+            return name === names.toLowerCase();
+        })) command = commands.name;
+    }
+
+    if(options)
+        msg = {
+            input: options[0].value,
+            id: interaction.member.user.id,
+            voiceChannel: bot.guilds.cache.get(guild_id).members.cache.get(interaction.member.user.id).voice.channel,
+            guild: bot.guilds.cache.get(guild_id),
+            interaction: interaction,
+            author: bot.guilds.cache.get(process.env.GUILD).members.cache.get(interaction.member.user.id).user,
+            channel: bot.channels.cache.get(channel_id),
+            member: bot.guilds.cache.get(process.env.GUILD).members.cache.get(interaction.member.user.id),
+            options: options,
+        };
+    else
+        msg = {
+            id: interaction.member.user.id,
+            voiceChannel: bot.guilds.cache.get(guild_id).members.cache.get(interaction.member.user.id).voice.channel,
+            guild: bot.guilds.cache.get(guild_id),
+            interaction: interaction,
+            author: bot.guilds.cache.get(process.env.GUILD).members.cache.get(interaction.member.user.id).user,
+            channel: bot.channels.cache.get(channel_id),
+            member: bot.guilds.cache.get(process.env.GUILD).members.cache.get(interaction.member.user.id),
+        };
+
+    if (CommandCooldown.has(msg.author.id)) return;
+    
+    const serverQueue = queue.get(msg.guild.id);
+
+    bot.commands.get(command).execute(msg, '', BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, true, OwnerID, serverQueue); // eslint-disable-line)
+        
+                //console.log(interaction);
+                // bot.api.interactions(interaction.id, interaction.token).callback.post({
+                //     data: {
+                //         type: 4,
+                //         data: {
+                //             content: 'pong',
+                //         }
+                //     }
+                // });
+});
+
+//----------------------------------------------------------
 
 // When a person joins a server
 bot.on("guildMemberAdd", async member =>{

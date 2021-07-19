@@ -4,72 +4,31 @@ module.exports ={
     usage: '!<alias> <song_name || song_url>',
     example: '!play some random song',
     description: 'Plays a song that a user inputs.',
-    async execute(msg, args, ytdl, queue, serverQueue, youtube)
-    {
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+
+        if(holder === true){
+            var voiceChannel = msg.voiceChannel;
+
+            CheckForVoiceChannel(voiceChannel);
+
+            if(!msg.input)  return bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {content: 'Invalid input'}}});
+
+            const url = msg.input; // eslint-disable-line
+            const searchString = msg.input; // eslint-disable-line
+            GetVideoForSlashCommand(url, searchString);
+
+            return;
+        }
         msg.delete({timeout: 3000});
-        var voiceChannel = msg.member.voice.channel;
-        if (msg.author.username !== 'Layon'){
-            if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
-            //if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
-        }
-        else{
-            if(!msg.guild.members.cache.get(process.env.USER_BOT).voice.channel){
-                //voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
-                voiceChannel = msg.guild.members.cache.get(process.env.USER_OWNER).voice.channel;
-                if(!voiceChannel)
-                    voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
-            }
-        }
+        var voiceChannel = msg.member.voice.channel; // eslint-disable-line
+        CheckForVoiceChannel(voiceChannel);
+
         if (!args[1]) return msg.reply('Jūs turite pridėti dainos pavadinima arba dainos nuorodą!');
         const url = args[1];
         const searchString = args.slice(1).join(' ');
         console.log(`Order was requested.`);
+        GetVideo(url, searchString);
         
-        if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
-            const playlist = await youtube.getPlaylist(url);
-            const videos  = await playlist.getVideos();
-            //return console.log(videos.length) //veikia
-            for (const video of Object.values(videos)){
-                try {
-                    const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
-                    await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
-                } catch (error) {
-                    console.log('Song error in the Playlist. Song is either deleted or private.');
-                    // try {
-                    //     const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
-                    //     await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
-                    // } catch (err) {
-                    //     console.log(err);
-                    // }
-                }
-            }
-            msg.channel.send(`Playlist'as **__${playlist.title}__** buvo pridėtas su **${videos.length}** dainų prie sąrašo eilės!`);
-            console.log(`Playlist has been added with **${videos.length}** songs in the queue!`);
-        }else{
-            try {
-                var video = await youtube.getVideo(url);
-            } catch (error) {               
-                //console.log(err1 + ' Tai ne URL! ');
-                try {
-                    var videos = await youtube.searchVideos(searchString, 1);
-                    var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
-                } catch (err) {
-                    console.log(err);
-                    return msg.reply('Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!');
-                }
-                
-            }
-            var stringCheck = video.title.toLowerCase();
-            if(stringCheck.match(/krsna|kr\$na|krisna|kri\$na/gi))
-            {
-                var videos = await youtube.searchVideos('Dj Rimvis - Pashol v Pizdu', 1); //eslint-disable-line
-                var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
-                return handleVideo(video, msg, voiceChannel);
-            }
-            console.log(`Video has been added.`);
-            return handleVideo(video, msg, voiceChannel);
-            
-        }
 
 async function handleVideo (video, msg, voiceChannel , playlist = false){
     const serverQueue = queue.get(msg.guild.id);
@@ -104,6 +63,10 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         try {
             var connection = await voiceChannel.join();
             queueConstruct.connection = connection;
+            if(holder === true)
+                await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+                    content: `**${queueConstruct.songs[0].title}** pridėtas ir tuoj pradės groti!`
+                }}});
             await play(msg.guild, queueConstruct.songs[0]);
         } catch (error) {
             queue.delete(msg.guild.id);
@@ -113,7 +76,7 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
     } else{
         if(!serverQueue.connection) {
             serverQueue.delete();
-            msg.channel.send(`<@${process.env.USER_OWNER}> no connection, trying to redo serverqueue. Check console for errors.`);
+            msg.channel.send(`<@${process.env.USER_OWNER}> no connection, trying to redo serverqueue. Check console for errors.`); 
             await voiceChannel.leave();
             return handleVideo(video, msg, voiceChannel);
         }
@@ -121,8 +84,12 @@ async function handleVideo (video, msg, voiceChannel , playlist = false){
         await serverQueue.requester.push(msg.author.username);
         //console.log(serverQueue.songs);
         if (playlist) return;//console.log(serverQueue.songs.length);
+        else if(holder === true) return bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+            content: `**${song.title}** pridėta prie sąrašo, jos vieta **${serverQueue.songs.length}**!
+            Dainos trukmė: **${video.duration.hours}:${video.duration.minutes}:${video.duration.seconds}**`
+        }}});
         else return await msg.channel.send(`**${song.title}** pridėta prie sąrašo, jos vieta **${serverQueue.songs.length}**!
-        Dainos trukmė: **${video.duration.hours}:${video.duration.minutes}:${video.duration.seconds}**`);
+        Dainos trukmė: **${video.duration.hours}:${video.duration.minutes}:${video.duration.seconds}**`); 
         }
 return undefined;
 }
@@ -164,5 +131,113 @@ collector.on('end', collected => { // eslint-disable-line
 serverQueue.textChannel.send(`**${song.title}** pradėjo groti!`);
 
 }
+    
+async function CheckForVoiceChannel(voiceChannel){
+
+    if (msg.author.username !== 'Layon'){
+        if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
+        //if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
     }
-};
+    else{
+        if(!msg.guild.members.cache.get(process.env.USER_BOT).voice.channel){
+            //voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
+            voiceChannel = msg.guild.members.cache.get(process.env.USER_OWNER).voice.channel;
+            if(!voiceChannel)
+                voiceChannel = msg.guild.channels.cache.get(process.env.MUSIC_CHANNEL);
+        }
+    }
+
+}
+
+async function GetVideo(url, searchString){
+
+    if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
+        const playlist = await youtube.getPlaylist(url);
+        const videos  = await playlist.getVideos();
+
+        for (const video of Object.values(videos)){
+            try {
+                const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
+                await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
+            } catch (error) {
+                console.log('Song error in the Playlist. Song is either deleted or private.');
+            }
+        }
+        msg.channel.send(`Playlist'as **__${playlist.title}__** buvo pridėtas su **${videos.length}** dainų prie sąrašo eilės!`);
+        console.log(`Playlist has been added with **${videos.length}** songs in the queue!`);
+    }else{
+        try {
+            var video = await youtube.getVideo(url);
+        } catch (error) {               
+            try {
+                var videos = await youtube.searchVideos(searchString, 1);
+                var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
+            } catch (err) {
+                console.log(err);
+                return msg.reply('Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!');
+            }
+            
+        }
+        var stringCheck = video.title.toLowerCase();
+        if(stringCheck.match(/krsna|kr\$na|krisna|kri\$na/gi))
+        {
+            var videos = await youtube.searchVideos('Dj Rimvis - Pashol v Pizdu', 1); //eslint-disable-line
+            var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
+            return handleVideo(video, msg, voiceChannel);
+        }
+        console.log(`Video has been added.`);
+        return handleVideo(video, msg, voiceChannel);
+        
+    }
+}
+
+async function GetVideoForSlashCommand(url, searchString){
+
+    if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
+        const playlist = await youtube.getPlaylist(url);
+        const videos  = await playlist.getVideos();
+
+        for (const video of Object.values(videos)){
+            try {
+                const video2 = await youtube.getVideoByID(video.id); // eslint disable line no await in loop
+                await handleVideo(video2, msg, voiceChannel, true); // eslint disable line no await in loop
+            } catch (error) {
+                console.log('Song error in the Playlist. Song is either deleted or private.');
+            }
+        }
+        bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+            content: `Playlist'as **__${playlist.title}__** buvo pridėtas su **${videos.length}** dainų prie sąrašo eilės!`
+        }}});
+        //msg.channel.send(`Playlist'as **__${playlist.title}__** buvo pridėtas su **${videos.length}** dainų prie sąrašo eilės!`); // here prolly error
+        console.log(`Playlist has been added with **${videos.length}** songs in the queue!`);
+    }else{
+        try {
+            var video = await youtube.getVideo(url);
+        } catch (error) {               
+            try {
+                var videos = await youtube.searchVideos(searchString, 1);
+                var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
+            } catch (err) {
+                console.log(err);
+                return bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+                    content: 'Nepavyko rasti muzikos, kurios norėjote, prašome bandyti dar kartą!'
+                }}});
+            }
+            
+        }
+        var stringCheck = video.title.toLowerCase();
+        if(stringCheck.match(/krsna|kr\$na|krisna|kri\$na/gi))
+        {
+            var videos = await youtube.searchVideos('Dj Rimvis - Pashol v Pizdu', 1); //eslint-disable-line
+            var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
+            return handleVideo(video, msg, voiceChannel);
+        }
+        console.log(`Video has been added.`);
+        return handleVideo(video, msg, voiceChannel);
+        
+    }
+}
+
+}};
+
+

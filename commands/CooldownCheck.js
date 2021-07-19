@@ -4,7 +4,7 @@ module.exports = {
     usage: '!<alias> <@tag>',
     example: '!CooldownCheck @eligijus',
     description: 'Check how much time does a specified user has left on cooldown',
-    execute(msg, args, CommandCooldown, OwnerID, Ctime){
+    execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
 
         const user = msg.mentions.users.first();
         const member = msg.guild.member(user);

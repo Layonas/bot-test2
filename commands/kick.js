@@ -4,9 +4,9 @@ alias: ['kick'],
 usage: '!<alias> <@tag>',
 example: '!kick @eligijus',
 description: 'Kicking a member for bad behaviour',
-execute (msg, args)
-{
-    const requester = msg.author.username;
+execute (msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+    
+                const requester = msg.author.username;
                 if (requester === 'Layon' || requester === 'TopperHarley')
                 {
                     if (!args[1])

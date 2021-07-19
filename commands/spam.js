@@ -4,12 +4,12 @@ module.exports = {
     usage: '!<alias> <@tag> <times> <message>',
     example: '!spam @eligijus 10 atsiliepk velniaz',
     description: 'Spams messages that user says',
-   async execute(msg, args){
-       if(msg.author.username !== 'Layon') return msg.reply('Pisk nx');
-       var a = 1;
-       var limit = args[2];
-       var limit1 = args[1];
-       var attack =  setInterval(spam, 3000);
+    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+        if(msg.author.username !== 'Layon') return msg.reply('Pisk nx');
+        var a = 1;
+        var limit = args[2];
+        var limit1 = args[1];
+        var attack =  setInterval(spam, 3000);
 
         async function spam() {
             if(a >= limit || a >= limit1) 
