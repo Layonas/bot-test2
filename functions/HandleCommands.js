@@ -15,10 +15,18 @@ module.exports = {
             return args[0].toLowerCase() === names.toLowerCase();
         })) number = command.name;
     }
-    if(args[0].toLowerCase() === 'clear') number = 'clear';
+    if(args[0].toLowerCase() === 'clear') {
+        if (msg.author.username == "Layon")
+        {
+        if (!args[1]) return msg.reply('Please choose how much you want to delete');
+        if (isNaN(args[1])) return msg.reply(`<${args[1]}> is not a number`);
+        msg.channel.bulkDelete(parseInt(args[1])+1);
+        }
+        else msg.reply('No.');
+    }
     if(number === -1) 
     {
-        if(args[0].substring(1, 2).match(/\W/gi))
+        if(args[0].match(/\W{1,}|[ ]+/g))
         return;
         return msg.reply(`__**${args[0]}**__ nėra komanda!`);
     }
@@ -27,129 +35,7 @@ module.exports = {
 
     const serverQueue = queue.get(msg.guild.id);
 
-    //Logging on a local machine
-    //-------------------------------------------------------
-    // var d = new Date();
-    // fs.readFile('BotLogs.txt', (err, text) => {
-    //     if (err) throw err;
-    //     fs.writeFile('BotLogs.txt', `${text} \n[ ${d.getMonth()+1}:${d.getDate()} ${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s ]  ${msg.author.username} (${msg.author.id}) -- ${msg.content}`, (error) =>{
-    //         if (error) throw error;
-    //     })
-    // })
-    //-------------------------------------------------------
+    bot.commands.get(number).execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue);
 
-    switch(number.toLowerCase()){
-        
-        case 'clear':
-            if (msg.author.username == "Layon")
-            {
-            if (!args[1]) return msg.reply('Please choose how much you want to delete');
-            if (isNaN(args[1])) return msg.reply(`<${args[1]}> is not a number`);
-            msg.channel.bulkDelete(parseInt(args[1])+1);
-            }
-            else msg.reply('No.');
-        break;
-
-        case 'volume':
-            bot.commands.get('volume').execute(msg, args, serverQueue);
-        break;
-
-        case 'cooldown':
-            bot.commands.get('cooldown').execute(msg, args, CommandCooldown, Ctime);
-        break;
-
-        case 'spam':
-            bot.commands.get('spam').execute(msg, args);
-        break;
-
-        case 'help':
-            bot.commands.get('help').execute(msg, args);
-        break;
-
-        case 'instaplay':
-            bot.commands.get('instaPlay').execute(msg, args, ytdl, queue, youtube);
-        break;
-
-        case 'kick':
-            bot.commands.get('kick').execute(msg, args);
-        break;
-
-        case 'playlist':
-            bot.commands.get('playlist').execute(msg, serverQueue, queue, ytdl);
-        break;
-
-        case 'np':
-            bot.commands.get('np').execute(msg, serverQueue);
-        break;
-
-        case 'pause':
-            bot.commands.get('pause').execute(msg, queue, serverQueue);
-        break;
-
-        case 'play':
-            bot.commands.get('play').execute(msg, args, ytdl, queue, serverQueue, youtube);
-        break;
-
-        case 'poll':
-            bot.commands.get('poll').execute(msg, args);
-        break;
-
-        case 'resume':
-            bot.commands.get('resume').execute(msg, queue, serverQueue);
-        break;
-
-        case 'server':
-            holder.get('server').execute(msg, ping, MessageEmbed);
-        break;
-
-        case 'skip':
-            bot.commands.get('skip').execute(msg, serverQueue, args);
-        break;
-
-        case 'splay':
-            bot.commands.get('splay').execute(msg, args, youtube, serverQueue, queue, ytdl);
-        break;
-
-        case 'stop':
-            bot.commands.get('stop').execute(msg, serverQueue, queue);
-        break;
-
-        case 'cooldowncheck':
-            bot.commands.get('CooldownCheck').execute(msg, args, CommandCooldown, OwnerID, Ctime);
-        break;
-
-        case 'removecooldown':
-            bot.commands.get('removeCooldown').execute(msg, args, CommandCooldown, OwnerID, Ctime);
-        break;
-
-        case 'removesong':
-            bot.commands.get('RemoveSong').execute(msg, args, serverQueue, OwnerID);
-        break;
-
-        case 'profile':
-            bot.commands.get('profile').execute(msg, args, BotID);
-        break;
-
-        case 'levelrole':
-            bot.commands.get('levelRole').execute(msg, args, OwnerID);
-        break;
-
-        case 'addrole':
-            bot.commands.get('addRole').execute(msg, args, OwnerID);
-        break;
-
-        case 'rolechecker':
-            bot.commands.get('RoleChecker').execute(msg);
-        break;
-
-        case 'restart':
-            bot.commands.get('restart').execute(msg, args, OwnerID, bot);
-        break;
-
-        //check command
-        case 'roledeletion':
-            bot.commands.get('RoleDeletion').execute(bot, OwnerID, process.env.GUILD, msg);
-        break;
-    }
     }
 };
