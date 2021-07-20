@@ -77,7 +77,7 @@ module.exports = {
             var check = photo.photo;
             
 
-        if(!args[1] && holder !== true || msg.options[0].name === 'get' && msg.options[0].options[0].name === 'status'){
+        if(!args[1] && holder !== true || holder === true && msg.options[0].name === 'get' && msg.options[0].options[0].name === 'status'){
 
             if(photo.photo.endsWith('.gif') || photo.embed === true){
             //-------------------------------------------------------------------------------------------------------------------------
@@ -94,9 +94,10 @@ module.exports = {
             .setFooter('Tu gali pakeisti arba pašalinti didžiają nuotrauką! ', msg.guild.members.cache.get(BotID).user.avatarURL());
             //-------------------------------------------------------------------------------------------------------------------------
 
-            await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                content: `Informacija:`
-            }}});
+            if(holder === true)
+                await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+                    content: `Informacija:`
+                }}});
             msg.channel.send(embed);
 
             return client.end();
@@ -104,9 +105,10 @@ module.exports = {
 
             //---------------------------------------------------------------------------------------------------------------------------
             // Loading in prefered image of a user and applying cover on to it
-            await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                content: `Jūsų informacija tuoj bus pateikta:):`
-            }}});
+            if(holder === true)
+                await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
+                    content: `Jūsų informacija tuoj bus pateikta:):`
+                }}});
 
             await jimp.read(photo.photo, async (err, image) => {
                 if(err) return msg.reply('Įvyko klaida!');
@@ -132,9 +134,8 @@ module.exports = {
 
             return client.end();
 
-        } else if(msg.options[0].options[0].name === 'experience' || holder !== true && args[1].toLowerCase() === 'xp'|| holder !== true && args[1].toLowerCase() === 'exp'){
+        } else if(holder === true && msg.options[0].options[0].name === 'experience' || holder !== true && args[1].toLowerCase() === 'xp'|| holder !== true && args[1].toLowerCase() === 'exp'){
 
-            console.log(msg.options[0].options[0].name);
             if(holder === true)
                 await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
                     content: `Tu dabar turi **${userStats.CurrentXp}**, iš viso turi **${userStats.OverallXp}**`
@@ -144,7 +145,7 @@ module.exports = {
 
             return client.end();
 
-        } else if(msg.options[0].options[0].name === 'level' || holder !== true && args[1].toLowerCase() === 'level' || holder !== true && args[1].toLowerCase() === 'lygis' || holder !== true && args[1].toLowerCase() === 'l' || holder !== true && args[1].toLowerCase() === 'lvl'){
+        } else if(holder === true && msg.options[0].options[0].name === 'level' || holder !== true && args[1].toLowerCase() === 'level' || holder !== true && args[1].toLowerCase() === 'lygis' || holder !== true && args[1].toLowerCase() === 'l' || holder !== true && args[1].toLowerCase() === 'lvl'){
 
             if(holder === true)
                 await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
@@ -155,14 +156,14 @@ module.exports = {
 
             return client.end();
 
-        }else if(msg.options[0].name === 'update' || msg.options[0].name === 'embed' || holder !== true && args[1].toLowerCase() === 'update' || holder !== true && args[1].toLowerCase() === '-u'){
+        }else if(holder === true && msg.options[0].name === 'update' || msg.options[0].name === 'embed' || holder !== true && args[1].toLowerCase() === 'update' || holder !== true && args[1].toLowerCase() === '-u'){
 
             if(!args[2] && holder !== true) {
                 msg.reply('Prašome pasirinkti kokią nuotrauką norite naudoti, nuotrauka turi būti iš interneto URL formatu.');
                 return client.end();
             }
 
-            else if(msg.options[0].options[0].value === true || holder !== true && args[2].toLowerCase() === 'pc'){
+            else if(holder === true && msg.options[0].options[0].value === true || holder !== true && args[2].toLowerCase() === 'pc'){
 
                 if(holder === true)
                     await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
@@ -194,7 +195,7 @@ module.exports = {
                 if(holder !== true && args[3].toLowerCase() === 'true' || holder !== true && args[3].toLowerCase() === 'treu' || holder !== true && args[3].toLowerCase() === 't' || holder !== true && args[3].toLowerCase() === 'tru') photo.embed = true;
                 else if(holder !== true && args[3].toLowerCase() === 'false' || holder !== true && args[3].toLowerCase() === 'fal' || holder !== true && args[3].toLowerCase() === 'f' || holder !== true && args[3].toLowerCase() === 'fals' || holder !== true && args[3].toLowerCase() === 'flase') photo.embed = false;
 
-                if(msg.options[0].options[0].name === 'set')
+                if(holder === true && msg.options[0].options[0].name === 'set')
                     if(photo.embed === true) photo.embed = false;
                     else photo.embed = true;
 
