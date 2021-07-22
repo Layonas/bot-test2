@@ -174,6 +174,11 @@ bot.on ('message', async msg=>
     let arg = msg.content.toLowerCase().split(" ");
     let args = msg.content.substring(prefix.length).split(" ");
 
+    //jiglis norejo kad taip padaryciau
+    if(args.includes('dilgeles')) msg.channel.send("https://lh3.googleusercontent.com/proxy/LPvB5N0aKcq49Y3jpIVw4OhbfTmQsRhxl9GMer12mbPuV_tinWnvvrAjbGeU6IYCZWYWJpdKvMfXlYHzel4MEWzTTWhsVDGUTq3wVArk045dfseN7HR8PofZ");
+    //rokis norejo kad taip padaryciau
+    if(args.includes('garsva')) msg.channel.send('https://manoukis.lt/media/public/3e/62/3e624e41-6b5e-4056-9f9e-29b1b839ae2b/kanapes_jolantos_bulotienes_nuotrauka.jpg');
+    
     if (CommandCooldown.has(msg.author.id)) return await msg.delete({timeout: 1});
 
     await func.get('Statistics').execute(msg, args, BotID, stats, bot, OwnerID);
