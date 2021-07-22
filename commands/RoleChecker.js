@@ -25,7 +25,7 @@ module.exports = {
 
         var count = Math.ceil(Roles.length/30);
 
-        if(holder !== false)
+        if(holder !== true)
             await msg.reply(
 `There are currently ${count} pages.
 Choose which page you want to see:`);
