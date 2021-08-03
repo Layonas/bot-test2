@@ -179,7 +179,7 @@ async function GetVideo(url, searchString){
             
         }
         var stringCheck = video.title.toLowerCase();
-        if(stringCheck.match(/krsna|kr\$na|krisna|kri\$na/gi))
+        if(stringCheck.match(/krsna|kr\$na|krisna|kri\$na|despacito 2/gi))
         {
             var videos = await youtube.searchVideos('Dj Rimvis - Pashol v Pizdu', 1); //eslint-disable-line
             var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
@@ -226,7 +226,7 @@ async function GetVideoForSlashCommand(url, searchString){
             
         }
         var stringCheck = video.title.toLowerCase();
-        if(stringCheck.match(/krsna|kr\$na|krisna|kri\$na/gi))
+        if(stringCheck.match(/krsna|kr\$na|krisna|kri\$na|despacito 2/gi))
         {
             var videos = await youtube.searchVideos('Dj Rimvis - Pashol v Pizdu', 1); //eslint-disable-line
             var video  = await youtube.getVideoByID(videos[0].id); //eslint-disable-line
