@@ -104,7 +104,7 @@ async function play (guild, song){
     queue.delete(guild.id);
     return;
 }
-    const dispatcher = await serverQueue.connection.play(ytdl(song.url, {filter: "audioonly"}));
+    const dispatcher = await serverQueue.connection.play(ytdl(song.url, {filter: "audioonly", quality: 'highestaudio', highWaterMark: 1 << 25}));
     dispatcher.on('finish', () =>{
         console.log('Song ended and shifted to the next one!');
         serverQueue.songs.shift();
