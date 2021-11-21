@@ -15,7 +15,7 @@
     "pg": "^8.5.1",
     "random": "^2.2.0",
     "simple-youtube-api": "^5.2.1",
-    "ytdl-core": "^4.9.0"
+    "ytdl-core": "^4.9.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0"
