@@ -22,6 +22,7 @@ module.exports = {
         //     msg.guild.emojis.cache.find(e => e.name === 'toomad'),
         //     msg.guild.emojis.cache.find(e => e.name === 'emoji_46')
         // ];
+        
         if(msg.author.id === process.env.USER_OWNER || msg.author.id === process.env.USER_BOT) return;
         
         let message = [];
