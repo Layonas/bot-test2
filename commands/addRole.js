@@ -4,19 +4,14 @@ module.exports = {
     usage: `!<alias> <name> <min_level> <max_level> <color>`,
     example: '!addRole',
     description: 'Adds a role to the database and auto updates the bot with new roles.',
-    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+    async execute(bot, interaction){ // eslint-disable-line
         //-------------------------------------------------
         const {Client} = require('pg');
         const jsfile = require('jsonfile'); // eslint-disable-line
         //-------------------------------------------------
-        if(msg.author.id !== OwnerID && holder !== true) {
-            msg.Delete(3000);
-            return msg.reply('Neturite teisių!');
-        }
-        else if (msg.author.id !== OwnerID && holder === true)
-            return  await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                        content: `Neturite teisių!`
-                    }}});
+
+        if (interaction.member.id !== process.env.USER_OWNER)
+            return await interaction.editReply(`You don't have rights!`);
         //-------------------------------------------------
         //Connencting to the database
         const client = new Client({
@@ -53,75 +48,32 @@ module.exports = {
         //Roles = jsfile.readFileSync('./functions/JsonFiles/Roles.json');
         //-------------------------------------------------
 
-        var Role_name;
-        var setting;
-        if(holder === true){
-            Role_name = msg.options[0].value;
+        const Role_name = interaction.options.data[0].value;
+        
+        if(interaction.options.data[1].value in Roles === false){ // checks whether the level is already in the database
+            Roles[interaction.options.data[1].value] = {
+                name: '',
+                min_level: 0,
+                max_level: 0,
+                color: '',
+                position: 0,
+                index: 1
+            };
+        }   
 
-            if(msg.options[1].value in Roles === false){
-                Roles[msg.options[1].value] = {
-                    name: '',
-                    min_level: 0,
-                    max_level: 0,
-                    color: '',
-                    position: 0
-                };
-            }   
+        const level = interaction.options.data[1].value;
+        Roles[level].name = Role_name;
+        Roles[level].min_level = interaction.options.data[1].value;
+        Roles[level].max_level = interaction.options.data[2].value;
+        Roles[level].color = interaction.options.data[3].value;
+        Roles[level].position = 1;
 
-            setting = Roles[msg.options[1].value];
-
-                setting.name = Role_name;
-                setting.min_level = msg.options[1].value;
-                setting.max_level = msg.options[2].value;
-                setting.color = msg.options[3].value;
-                setting.position = msg.guild.roles.size-8;
-            
-        }
-        else{
-            Role_name = args[1].replace(/_/gi, ' ');
-
-            if(isNaN(args[2])) {
-                client.end();
-                return msg.reply(`${this.usage}`);
-            }
-
-            if(args[2] in Roles === false){
-                Roles[args[2]] = {
-                    name: '',
-                    min_level: 0,
-                    max_level: 0,
-                    color: '',
-                    position: 0
-                };
-            }   
-
-            setting = Roles[args[2]];
-
-            if(isNaN(args[3])){
-                setting.name = Role_name;
-                setting.max_level = args[2];
-                setting.min_level = args[2];
-                setting.color = args[3];
-                setting.position = msg.guild.roles.size-8;
-            } else {
-                setting.name = Role_name;
-                setting.min_level = args[2];
-                setting.max_level = args[3];
-                setting.color = args[4];
-                setting.position = msg.guild.roles.size-8;
-            } 
-        }
 
         // one time use to push existing roles to DB
         //await client.query('DELETE FROM Roles');
         //await client.query('INSERT INTO Roles(roles) values($1)', [Roles]);
         await client.query("UPDATE Roles SET roles = '" + JSON.stringify(Roles) + "'").then(async () => {
-            if(holder === true)
-                await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                    content: `Naują rolę pavyko pridėti.`
-                }}});
-            else
-                msg.reply('Naują rolę pavyko pridėti.'); console.log('Successfully added new role');
+            interaction.editReply("Added new role to the database: " + Role_name);
         }).catch(err => console.log(err));
 
         //jsfile.writeFileSync('./functions/JsonFiles/Roles.json', Roles, {spaces: 2});

@@ -4,7 +4,7 @@ module.exports = {
     usage: '!<alias> <@tag> <times> <message>',
     example: '!spam @eligijus 10 atsiliepk velniaz',
     description: 'Spams messages that user says',
-    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+    async execute(msg, args, bot, interaction, player){ // eslint-disable-line
         if(msg.author.username !== 'Layon') return msg.reply('Pisk nx');
         var a = 1;
         var limit = args[2];

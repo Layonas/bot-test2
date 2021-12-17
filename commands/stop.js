@@ -4,58 +4,29 @@ module.exports={
     usage: '!<alias>',
     example: '!stop',
     description: 'Stops the music that is being played with the bot.',
-    async execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+    async execute(msg, args, bot, interaction, player){ // eslint-disable-line
         
-        if(holder !== true) msg.delete({timeout: 3000});
+        const channel = msg.channel;
+        const guildID = msg.guildId;
+        const userID = msg.member.id;
+        const guild = msg.guild;
 
-        serverQueue = await queue.get(msg.guild.id);
+        const voiceChannel = bot.guilds.cache.get(guildID).members.cache.get(userID)
+        .voice.channelId;
 
-        if(msg.author.id === process.env.USER_OWNER) {
-            serverQueue.songs = [];
-            if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
-            console.log('Forced Stop!');
-            if(holder === true)
-                return await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                    content: `Tu sustabdei muzikos grojima!`
-                }}});
-            else
-                return msg.reply('Tu sustabdei muzikos grojima!');
-        }
+        const guildQueue = player.getQueue(guildID);
 
-        if(!msg.member.voice.channel) 
-            if(holder === true)
-                return await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                    content: `Tu negali sustabdyti muzikos nes tu nesi pasikalbėjimų kanale!`
-                }}});
-            else
-                return msg.reply('Tu negali sustabdyti muzikos nes tu nesi pasikalbėjimų kanale!');
+        if(!guildQueue)
+            return await msg.reply('There is nothing to skip!');
 
-        if(msg.member.voice.channel.id !== process.env.MUSIC_CHANNEL)
-            if(holder === true)
-                return await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                    content: `Tu turi būti **Music** kanale!`
-                }}});
-            else
-                return msg.reply('Tu turi būti **Music** kanale!');
+        if(!voiceChannel)
+            return await msg.reply('You have to be in a voice channel!');
 
-        if(!serverQueue) 
-            if(holder === true)
-                return await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                    content: `Nėra ką stabdyti, nes muzika negroja!`
-                }}});
-            else
-                return msg.reply('Nėra ką stabdyti, nes muzika negroja!');
+        if(guild.members.cache.get(process.env.USER_BOT).voice.channelId !== voiceChannel)
+            return await msg.reply('You have to be in the same voice channel!');
 
-        serverQueue.songs = [];
-        serverQueue.connection.dispatcher.end();
+        await channel.send('Queue has been stopped!');
 
-        if(await queue.get(msg.guild.id)) queue.delete(msg.guild.id);
-        console.log('Forced Stop!');
-        if(holder === true)
-            return await bot.api.interactions(msg.interaction.id, msg.interaction.token).callback.post({data: {type: 4, data: {
-                content: `Tu sustabdei muzikos grojima!`
-            }}});
-        else
-            return msg.reply('Tu sustabdei muzikos grojima!');
+        return await guildQueue.stop();
     }
 };

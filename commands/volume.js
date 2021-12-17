@@ -4,22 +4,33 @@ module.exports = {
     usage: '!<alias> <number>',
     example: '!volume 50',
     description: 'Sets the volume of the songs that are being played',
-    execute(msg, args, BotID, CommandCooldown, commandFiles, queue, prefix, Ctime, ytdl, youtube, bot, ping, MessageEmbed, holder, OwnerID, serverQueue){ // eslint-disable-line
+    async execute(msg, args, bot, interaction, player){ // eslint-disable-line
 
-        msg.delete({timeout: 3000});
-        const voiceChannel = msg.member.voice.channel;
-        if (msg.author.username !== 'Layon'){
-        if(!voiceChannel) return msg.reply('Prisijunkite prie **Music** kanalo!');
-        if(voiceChannel.name.toLowerCase() !== 'music') return msg.reply('Jūs turite būti **Music** kanale!');
-        }
-        if(!serverQueue) return msg.reply(`Dabar niekas negroja!`);
-        if(!args[1]) return msg.channel.send(`Dabartinis garsas yra - **${serverQueue.volume}**`);
-        if(isNaN(args[1])) return msg.reply(`${args[1]} nėra skaičius! Prašome pasirinkti nuo 1 iki 200.`);
-        if(args[1] < 1 || args[1] > 200) return msg.reply(`Skaičius turi būti nuo 1 iki 200!`);
+        const channel = msg.channel;
+        const guildID = msg.guildId;
+        const userID = msg.member.id;
+        const guild = msg.guild;
 
-        serverQueue.volume = args[1];
-        serverQueue.connection.dispatcher.setVolume(serverQueue.volume/100);
-        msg.channel.send(`**${msg.author.username}** sekmingai pakeitėte dainos garsą.`);
+        const voiceChannel = bot.guilds.cache.get(guildID).members.cache.get(userID)
+        .voice.channelId;
+
+        const guildQueue = player.getQueue(guildID);
+
+        if(!guildQueue)
+            return await msg.reply('There is no queue!');
+
+        if(!voiceChannel)
+            return await msg.reply('You have to be in a voice channel!');
+
+        if(guild.members.cache.get(process.env.USER_BOT).voice.channelId !== voiceChannel)
+            return await msg.reply("You have to be in the same voice channel!");
+
+        if(!args[1])
+            return await channel.send('Current volume is: **' + guildQueue.volume + '**');
+
+        await guildQueue.setVolume(parseInt(args[1]));
+
+        await channel.send('Player volume has been set to: **' + guildQueue.volume + '**');
 
         return;
     } 

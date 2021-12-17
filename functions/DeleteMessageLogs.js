@@ -3,7 +3,7 @@ module.exports = {
     description: 'Deletes messages from logs channel with an interval that is set',
     async execute(bot){
     //----------------------------------------------------------------
-    const ChatChannel = bot.guilds.cache.get('672837775569190922').channels.cache.get('853982351535898634');
+    const ChatChannel = bot.guilds.cache.get(process.env.LOG_GUILD).channels.cache.get(process.env.LOG_CHANNEL);
 
     setInterval(() => {
         ChatChannel.messages.fetch({cache:true})
