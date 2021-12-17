@@ -32,7 +32,6 @@ module.exports = {
                 await msg.channel.sendTyping();
                 const num = random.int(0, H1.length-1);
                 msg.reply(H1[num] + '\n' + Quotes.getQuote({author: false}).text);
-                await msg.channel.stopTyping();
                 break;
             }
         
