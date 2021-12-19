@@ -40,7 +40,10 @@ module.exports = {
                 
         }else {
 
-            if (!msg.content.startsWith('!')) return;
+            if (!msg.content.startsWith('!')) return;  
+            
+            if(args.length === 0 || args[0].match(/[\W\s]+/g))
+                return;
 
             //-----------------------------------------------------------------------
         
@@ -53,14 +56,15 @@ module.exports = {
                 }
                 else msg.reply('No.');
             }
-        
-                if(args[0].match(/\W/g))
-                    return;
-        
+
              //--------------------------------------------------------------------
-        
             const command = args[0].toLowerCase();
-            bot.commands.get(command).execute(msg, args, bot, null, player);
+            try {
+                bot.commands.get(command).execute(msg, args, bot, null, player);
+            } catch (error) {
+                msg.reply('**' + command + '** is not a command!');
+            }
+            
             return;
 
         }

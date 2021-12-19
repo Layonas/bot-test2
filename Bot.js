@@ -6,8 +6,6 @@ const DeleteMessageLogs = require('./functions/DeleteMessageLogs');
 const Apps = require('./functions/Apps');
 const { Player } = require('discord-music-player');
 
-const prefix = '!';
-
 const bot = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MEMBERS], partials: ['MESSAGE', 'REACTION', 'USER', 'GUILD_MEMBER', 'CHANNEL']});
 const player = new Player(bot, {
     leaveOnEmpty: false, // This options are optional.
@@ -97,7 +95,10 @@ bot.on('guildDelete', guild =>{
 bot.on ('messageCreate', async msg=>
 {
     if(msg.author.id === process.env.USER_BOT) return;
-    let args = msg.content.toLowerCase().substring(prefix.length).split(" ");
+    let args = msg.content.toLowerCase().substring(1).split(" ");
+    args = args.filter(str => {
+        return /\S/.test(str);
+    });
 
     // if(msg.author.id === '301073530240630795')
     //     msg.reply('https://cdn.discordapp.com/attachments/543849764219781131/915249866366681108/unknown.png');
