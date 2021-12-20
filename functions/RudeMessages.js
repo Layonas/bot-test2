@@ -4,7 +4,7 @@ module.exports = {
     // eslint-disable-next-line no-unused-vars
     async execute(msg, args){
 
-        const Quotes = require('inspirational-quotes');
+        const Quotes = require('../node_modules/inspirational-quotes/data/data.json');
 
         const random = require('random');
 
@@ -32,7 +32,8 @@ module.exports = {
             {
                 await msg.channel.sendTyping();
                 const num = random.int(0, H1.length-1);
-                msg.reply(H1[num] + '\n' + Quotes.getQuote({author: false}).text);
+                const qnum = random.int(0, Quotes.length);
+                msg.reply(H1[num] + '\n' + Quotes[qnum].text);
                 break;
             }
         
