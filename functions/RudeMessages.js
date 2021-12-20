@@ -28,7 +28,7 @@ module.exports = {
         let message = [];
         message = msg.content.toLowerCase().split(/[\s.,;:'"!?]/);
         for(const m of message)
-            if(m.match(/^duhas$|^duhai$|^suka$|^sukos$|^daunas$|^daunai$|^kekse$|^jibanas$|^jibanai$|^pydaras$|^pydarai$/gi))
+            if(m.match(/^duha[sie]?$|^suk[aos]+$|^daun[asie]+$|^kekse$|^jiban[asie]+$|^pydar[asie]+$|^debila?s?i?e?(iukas)?$|^dalbajob[aesi]+$|^krw$/gi))
             {
                 await msg.channel.sendTyping();
                 const num = random.int(0, H1.length-1);
