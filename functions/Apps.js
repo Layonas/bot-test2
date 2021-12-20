@@ -79,12 +79,12 @@ module.exports = {
               option
               .setName("user")
               .setDescription("User that you want to check.")
-              .setRequired(true))
+              .setRequired(false))
             .addBooleanOption(option =>
               option
               .setName("profile")
               .setDescription("Check your profile picture or embed stats.")
-              .setRequired(true)))
+              .setRequired(false)))
           .addSubcommand(command =>
             command
             .setName("update")
@@ -93,17 +93,17 @@ module.exports = {
               option
               .setName("link")
               .setDescription("Link to the photo you want to update (has to end with .png|.jpg|.gif)")
-              .setRequired(true))
+              .setRequired(false))
             .addBooleanOption(option =>
               option
               .setName("pc")
               .setDescription("Update the photo by uploading a picture.")
-              .setRequired(true))
+              .setRequired(false))
             .addBooleanOption(option =>
               option
               .setName("remove")
               .setDescription("Remove the current photo and set it to default.")
-              .setRequired(true)))
+              .setRequired(false)))
             .addSubcommand(command =>
               command
               .setName("embed")
@@ -112,12 +112,12 @@ module.exports = {
                 option
                 .setName("status")
                 .setDescription("Check the status of the embed.")
-                .setRequired(true))
+                .setRequired(false))
               .addBooleanOption(option =>
                 option
                 .setName("set")
                 .setDescription("Set the embed to true of false")
-                .setRequired(true)))
+                .setRequired(false)))
 
     ].map((command) => command.toJSON());
 
