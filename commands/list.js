@@ -36,7 +36,7 @@ module.exports = {
 Dabar yra **${guildQueue.songs.length}** dainų saraše!
 **__Dabar groja:__**  ${guildQueue.songs[0].name}
 **__Grojamos dainos linkas__** <${guildQueue.songs[0].url}>
-**__Dainą užsakė__** ${guildQueue.songs[0].requestedBy}
+**__Dainą užsakė__** ${guildQueue.songs[0].requestedBy.username}
 **__Apytiksli trukmė__**  **${PlayListLenghtMinutes + 'min ' + PlayListLenghtseconds + 's'}**`);
 
 }
@@ -53,7 +53,7 @@ Dainų sąraše yra tik 20 dainų, tačiau tai ne visos!
 Dabar yra **${guildQueue.songs.length}** dainų sąraše!
 **__Dabar groja:__**  ${holder[0].name}
 **__Grojamos dainos linkas__** <${guildQueue.songs[0].url}>
-**__Dainą užsakė__** ${guildQueue.songs[0].requestedBy}
+**__Dainą užsakė__** ${guildQueue.songs[0].requestedBy.username}
 **__Apytiksli trukmė__**  **${PlayListLenghtMinutes + 'min' + PlayListLenghtseconds + 's'}**`);
 
 } 
