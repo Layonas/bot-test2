@@ -25,8 +25,8 @@ module.exports = {
         if(guild.members.cache.get(process.env.USER_BOT).voice.channelId !== voiceChannel)
             return await msg.reply("You have to be in the same voice channel!");
         
-        await channel.send('You have skipped a song!');
+        channel.send('You have skipped a song!');
 
-        return await guildQueue.skip();
+        return guildQueue.skip();
     }
 };

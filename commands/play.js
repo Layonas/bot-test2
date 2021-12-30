@@ -1,9 +1,22 @@
+// eslint-disable-next-line no-unused-vars
+const Discord = require('discord.js');
+// eslint-disable-next-line no-unused-vars
+const {Player} = require('discord-music-player');
 module.exports = {
     name: "play",
-    alias: ["play", "p", "pla", "plai"],
+    alias: ["play", "p", "pla", "plai", "seek"],
     usage: "!<alias> <song_name || song_url>",
     example: "!play some random song",
     description: "Plays a song that a user inputs.",
+    /**
+     * 
+     * @param {Discord.Message} msg 
+     * @param {Array<string>} args 
+     * @param {Discord.Client} bot 
+     * @param {Discord.CommandInteraction} interaction 
+     * @param {Player} player 
+     * @returns 
+     */
     async execute(msg, args, bot, interaction, player) {
         // eslint-disable-line
 
@@ -13,6 +26,12 @@ module.exports = {
         // const { Client } = require('pg');
         // const { joinVoiceChannel, VoiceConnection, AudioPlayer } = require('@discordjs/voice');
 
+        if(!args[1]){
+            return msg.reply('No arguments specified!');
+        }
+
+        //------------------------------------------------------------------------------------------------
+        // Variable creation
         var guildID;
         var input;
         var userID;
@@ -39,50 +58,31 @@ module.exports = {
             return interaction
                 ? interaction.editReply("You have to be in a voice channel!")
                 : msg.reply("You have to be in a voice channel!");
+        //------------------------------------------------------------------------------------------------
 
-        const guildQueue = player.getQueue(guildID); // If I can save the player to DB then do so
 
-        if (!guildQueue) {
-            const queue = player.createQueue(guildID); // If I cant save the player maybe I can save the queue
+        const guildQueue = player.createQueue(guildID); // If I can save the player to DB then do so
+                                                        // If I cant save the player maybe I can save the queue
+        await guildQueue.join(voiceChannel);
 
-            await queue.join(voiceChannel);
-
-            const song = await queue.play(input); // At worst I could save songs in DB and add song again to the queue
-
-            song.setData({
-                name: song.name,
-                channel: channel
-            });
-
-            if (interaction)
-                return interaction.editReply(song.name + "\n Will begin playing shortly!");
-            else return msg.reply(song.name + "\n Will begin playing shortly!");
-
-            // queue.nowPlaying.data.name    for setData info
-        } else{
-
-            const song = await guildQueue.play(input);
-
-            song.setData({
-                name: song.name,
-                channel: channel
-            });
+        if(args[0] === 'seek'){
+            if(!isNaN(args[1]))
+                return guildQueue.seek(parseInt(args[1]) * 1000);
         }
+        
+        // eslint-disable-next-line no-unused-vars
+        const song = await guildQueue.play(input, {
+            'requestedBy': bot.users.cache.get(userID), 
+            'data': {
+                channel: channel, 
+                interaction: interaction, 
+                msg: msg
+            }
+        }).catch(() => {
+            if(!guildQueue)
+                guildQueue.stop();
+        }); // At worst I could save songs in DB and add song again to the queue
 
-        player
-            .on("songAdd", async (queue, song) => {
-                return interaction
-                    ? await interaction.editReply(
-                        "**" + song.name + " ** *has been added to the list.*\n" + 
-                        "*There are currently* **" + queue.songs.length + "** *in the queue.*")
-                    : await msg.reply(
-                        "**" + song.name + " ** *has been added to the list.*\n" + 
-                        "*There are currently* **" + queue.songs.length + "** *in the queue.*");
-            })
-            .on("songChanged", async (queue, newSong) => {
-                let { channel } = newSong.data;
-                return await channel.send(`**${newSong.name}** *started playing!*\n*Only* **${queue.songs.length}** *remain*`);
-            });
 
         //         //-----------------------------------------------------------------------------------
         //         //-----------------------------------------------------------------------------------

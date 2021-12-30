@@ -6,10 +6,28 @@ const DeleteMessageLogs = require('./functions/DeleteMessageLogs');
 const Apps = require('./functions/Apps');
 const { Player } = require('discord-music-player');
 
-const bot = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MEMBERS], partials: ['MESSAGE', 'REACTION', 'USER', 'GUILD_MEMBER', 'CHANNEL']});
+const bot = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS], partials: ['MESSAGE', 'REACTION', 'USER', 'GUILD_MEMBER', 'CHANNEL']});
 const player = new Player(bot, {
     leaveOnEmpty: false, // This options are optional.
 });
+
+    //------------------------------------------------------------------------------------------------
+    // Event listeners
+    player
+        .on("songAdd", (queue, song) => {
+            song.data.interaction
+                ? song.data.interaction.editReply(
+                    "**" + song.name + " ** *has been added to the list.*\n" + 
+                    "*There are currently* **" + queue.songs.length + "** *in the queue.*")
+                : song.data.msg.reply(
+                    "**" + song.name + " ** *has been added to the list.*\n" + 
+                    "*There are currently* **" + queue.songs.length + "** *in the queue.*");
+        })
+        .on("songChanged", (queue, newSong) => {
+            let { channel } = newSong.data;
+            channel.send(`**${newSong.name}** *started playing!*\n*Only* **${queue.songs.length}** *remain*`);
+        });
+    //------------------------------------------------------------------------------------------------
 
 bot.commands = new Discord.Collection();
 bot.functions = new Discord.Collection();
@@ -120,7 +138,7 @@ bot.on('interactionCreate', async(interaction) =>{
     if(!interaction.isCommand())
         return;
 
-    await bot.functions.get('HandleCommands').execute('', '', bot, interaction, player);
+    await bot.functions.get('HandleCommands').execute('', [], bot, interaction, player);
 });
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
