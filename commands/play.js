@@ -26,7 +26,7 @@ module.exports = {
         // const { Client } = require('pg');
         // const { joinVoiceChannel, VoiceConnection, AudioPlayer } = require('@discordjs/voice');
 
-        if(!args[1]){
+        if(!args[1] && !args[0] === 'loops'){
             return msg.reply('No arguments specified!');
         }
 
@@ -70,7 +70,7 @@ module.exports = {
                 return guildQueue.seek(parseInt(args[1]) * 1000);
         }
         if(args[0] === 'loops'){
-            guildQueue.repeatMode(1);
+            guildQueue.setRepeatMode(1);
             return msg.reply('Song loop toggled!');
         }
         
