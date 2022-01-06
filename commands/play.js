@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 const {Player} = require('discord-music-player');
 module.exports = {
     name: "play",
-    alias: ["play", "p", "pla", "plai", "seek", "loops"],
+    alias: ["play", "p", "pla", "plai", "seek", "loops", "stoploop"],
     usage: "!<alias> <song_name || song_url>",
     example: "!play some random song",
     description: "Plays a song that a user inputs.",
@@ -72,6 +72,10 @@ module.exports = {
         if(args[0] === 'loops'){
             guildQueue.setRepeatMode(1);
             return msg.reply('Song loop toggled!');
+        }
+        if(args[0] === 'stoploop'){
+            guildQueue.setRepeatMode(0);
+            return msg.reply('Song loop has been stopped!');
         }
         
         // eslint-disable-next-line no-unused-vars
