@@ -118,14 +118,6 @@ bot.on ('messageCreate', async msg=>
         return /\S/.test(str);
     });
 
-    // if(msg.author.id === '301073530240630795')
-    //     msg.reply('https://cdn.discordapp.com/attachments/543849764219781131/915249866366681108/unknown.png');
-
-    //jiglis norejo kad taip padaryciau
-    if(args.includes('dilgeles')) msg.channel.send("https://sveikas.info/wp-content/uploads/2011/05/dilgeles2.jpg");
-    //rokis norejo kad taip padaryciau
-    if(args.includes('garsva')) msg.channel.send('https://manoukis.lt/media/public/3e/62/3e624e41-6b5e-4056-9f9e-29b1b839ae2b/kanapes_jolantos_bulotienes_nuotrauka.jpg');
-
     await bot.functions.get('Statistics').execute(msg, args, bot);
     await bot.functions.get('HandleCommands').execute(msg, args, bot, null, player);
     await bot.functions.get('Rudeness').execute(msg, args);
