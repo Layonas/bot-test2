@@ -10,8 +10,8 @@ module.exports = {
      * @returns 
      */
     async execute(bot, msg){
-        const PhotoChannel = bot.guilds.cache.get(process.env.LOG_GUILD).channels.cache.get(process.env.LOG_CHANNEL_AT);
-        const ChatChannel = bot.guilds.cache.get(process.env.LOG_GUILD).channels.cache.get(process.env.LOG_CHANNEL);
+        const PhotoChannel = (await (await bot.guilds.fetch(process.env.LOG_GUILD)).channels.fetch(process.env.LOG_CHANNEL_AT));
+        const ChatChannel = (await (await bot.guilds.fetch(process.env.LOG_GUILD)).channels.fetch(process.env.LOG_CHANNEL));
         if (msg.attachments.size > 0){
             if(msg.attachments.forEach(async files => {
                 if(files.url.toLowerCase().endsWith('.gif') || files.url.toLowerCase().endsWith('.png') || files.url.toLowerCase().endsWith('.jpg') || files.url.toLowerCase().endsWith('.mp4') || files.url.toLowerCase().endsWith('.webm') || files.url.toLowerCase().endsWith('.jpeg') || files.url.toLowerCase().endsWith('.mp3')) {
