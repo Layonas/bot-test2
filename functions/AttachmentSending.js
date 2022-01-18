@@ -10,14 +10,16 @@ module.exports = {
      * @returns 
      */
     async execute(bot, msg){
-        const PhotoChannel = (await bot.guilds.fetch(process.env.LOG_GUILD)).channels.cache.get(process.env.LOG_CHANNEL_AT);
         const ChatChannel = (await bot.guilds.fetch(process.env.LOG_GUILD)).channels.cache.get(process.env.LOG_CHANNEL);
         if (msg.attachments.size > 0){
+            let PhotoChannel = (await bot.guilds.fetch(process.env.LOG_GUILD)).channels.cache.get(process.env.LOG_CHANNEL_AT);
             if(msg.attachments.forEach(async files => {
                 if(files.url.toLowerCase().endsWith('.gif') || files.url.toLowerCase().endsWith('.png') || files.url.toLowerCase().endsWith('.jpg') || files.url.toLowerCase().endsWith('.mp4') || files.url.toLowerCase().endsWith('.webm') || files.url.toLowerCase().endsWith('.jpeg') || files.url.toLowerCase().endsWith('.mp3')) {
                     if(files.url.endsWith('test.png')) return;
                     ChatChannel.send(`**${msg.author.username}**`+ 
                     files.url);
+                    if (!PhotoChannel)
+                        PhotoChannel = (await bot.guilds.fetch(process.env.LOG_GUILD)).channels.cache.get(process.env.LOG_CHANNEL_AT);
                     return  PhotoChannel.send(`**${msg.author.username}**  išsiuntė - ${msg.createdAt} __+3h in LT__
 ${files.url}`);
 }}));
