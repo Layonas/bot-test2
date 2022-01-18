@@ -1,9 +1,20 @@
+// eslint-disable-next-line no-unused-vars
+const Discord = require('discord.js');
 module.exports = {
     name: 'RoleChecker',
     alias: ['roles', 'checkroles', 'RoleChecker', 'Roles', 'rolec'],
     usage: '!<alias>',
     example: '!RoleChecker',
     description: 'Checks the roles and send them to the channel.',
+    /**
+     * 
+     * @param {Discord.Message} msg 
+     * @param {Array<string>} args 
+     * @param {Discord.Client} bot 
+     * @param {Discord.CommandInteraction} interaction 
+     * @param {any} player 
+     * @returns 
+     */
     async execute(msg, args, bot, interaction, player){ // eslint-disable-line
         const {Client} = require('pg');
         const Discord = require('discord.js');
@@ -43,7 +54,7 @@ Choose which page you want to see:`);
 
         const filter = message => message.author.id === authorId && message.content > 0 && message.content <= count;
 
-        var response = await channel.awaitMessages(filter, {max: 1, time: 10000});
+        const response = await channel.awaitMessages({filter, max: 1, time: 10000});
 
         if(!response) return;
 
@@ -55,7 +66,7 @@ Choose which page you want to see:`);
             .setFooter('More roles can be added so you can suggest with /suggest_role', bot.user.avatarURL())
             .setColor('RANDOM')
             .setDescription(`${rolesHold.map((roles, index) => `**${index+1}.** **${Role_info[roles].name}** nuo **${Role_info[roles].min_level}** iki **${Role_info[roles].max_level}** lygio`).join('\n')}`)
-            .setAuthor(bot.users.cache.get(process.env.USER_OWNER).user.username, bot.users.cache.get(process.env.USER_OWNER).user.avatarURL());
+            .setAuthor(bot.users.cache.get(process.env.USER_OWNER).username, bot.users.cache.get(process.env.USER_OWNER).avatarURL());
 
             await channel.send({embeds: [embed]});
 
