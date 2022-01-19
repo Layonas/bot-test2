@@ -20,7 +20,7 @@ module.exports = {
                     files.url);
                     if (!PhotoChannel)
                         PhotoChannel = (await bot.guilds.fetch(process.env.LOG_GUILD)).channels.cache.get(process.env.LOG_CHANNEL_AT);
-                    return  PhotoChannel.send(`**${msg.author.username}**  išsiuntė - ${msg.createdAt} __+3h in LT__
+                    PhotoChannel.send(`**${msg.author.username}**  išsiuntė - ${msg.createdAt} __+3h in LT__
 ${files.url}`);
 }}));
 }
@@ -40,7 +40,7 @@ ${files.url}`);
         
 
         if(msg.author.id === process.env.USER_OWNER || msg.author.id === process.env.USER_BOT) return;
-        return ChatChannel.send(`**${msg.author.username} sent** ${message}`)
+        ChatChannel.send(`**${msg.author.username} sent** ${message}`)
         .catch(err => console.log(`Error while logging a message, probably a spam.(await removed)\n`+err));
 
     }
