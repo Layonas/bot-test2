@@ -5,6 +5,7 @@ const fs = require('fs');
 const DeleteMessageLogs = require('./functions/DeleteMessageLogs');
 const Apps = require('./functions/Apps');
 const { Player } = require('discord-music-player');
+const Savings = require('./functions/Savings/Savings');
 
 const bot = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS], partials: ['MESSAGE', 'REACTION', 'USER', 'GUILD_MEMBER', 'CHANNEL']});
 const player = new Player(bot, {
@@ -70,6 +71,8 @@ bot.on('ready', async () =>{
     DeleteMessageLogs.execute(bot);
 
     await Apps.execute(bot);
+
+    Savings.CreateSavingsStatus();
     
     //Reading guilds that bot is currently in
     console.log('\nBot is currently in these servers:');
