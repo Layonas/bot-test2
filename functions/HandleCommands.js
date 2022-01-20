@@ -1,6 +1,19 @@
+// eslint-disable-next-line no-unused-vars
+const Discord = require('discord.js');
+// eslint-disable-next-line no-unused-vars
+const { Player } = require('discord-music-player');
 module.exports = {
     name: 'HandleCommands',
     description: 'Handles all commands that are presented to the bot so that the main test.js would look cleaner',
+    /**
+     * 
+     * @param {Discord.Message} msg 
+     * @param {Array<string>} args 
+     * @param {Discord.Client} bot 
+     * @param {Discord.CommandInteraction} interaction 
+     * @param {Player} player 
+     * @returns 
+     */
     async execute(msg, args, bot, interaction, player){
     
         if(interaction){
