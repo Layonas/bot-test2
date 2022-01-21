@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 const {Player} = require('discord-music-player');
 module.exports = {
     name: "play",
-    alias: ["play", "p", "pla", "plai", "seek", "loops", "stoploop"],
+    alias: ["play", "p", "pla", "plai", "seek", "setloop"],
     usage: "!<alias> <song_name || song_url>",
     example: "!play some random song",
     description: "Plays a song that a user inputs.",
@@ -26,7 +26,7 @@ module.exports = {
         // const { Client } = require('pg');
         // const { joinVoiceChannel, VoiceConnection, AudioPlayer } = require('@discordjs/voice');
 
-        if(!args[1] && !args[0] === 'loops'){
+        if(!args[1] && args[0] !== 'setloop'){
             return msg.reply('No arguments specified!');
         }
 
@@ -69,13 +69,22 @@ module.exports = {
             if(!isNaN(args[1]))
                 return guildQueue.seek(parseInt(args[1]) * 1000);
         }
-        if(args[0] === 'loops'){
-            guildQueue.setRepeatMode(1);
-            return msg.reply('Song loop toggled!');
-        }
-        if(args[0] === 'stoploop'){
-            guildQueue.setRepeatMode(0);
-            return msg.reply('Song loop has been stopped!');
+        if(args[0] === 'setloop'){
+            if(!args[1])
+                return msg.reply(`Please specify to loop a song or a playlist.`);
+            else if(args[1] === 'song'){
+                guildQueue.setRepeatMode(1);
+                return msg.reply('Song loop toggled!');
+            }
+            else if(args[1] === 'playlist'){
+                guildQueue.setRepeatMode(2);
+                return msg.reply('Playlist loop toggled!');
+            }
+            else if(args[1] === 'stop'){
+                guildQueue.setRepeatMode(0);
+                return msg.reply('Song loop has been stopped!');
+            }
+
         }
         
         // eslint-disable-next-line no-unused-vars
