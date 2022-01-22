@@ -218,11 +218,50 @@ async function Profile(playerId, msg){
     return client.end();
 }
 
+/**
+ * 
+ * @param {string} playerId Player id to give the money
+ * @param {Discord.Message} msg
+ * @param {number} amount 
+ */
+async function Give(playerId, msg, amount){
+
+    const { Client } = require("pg");
+
+    //-----------------------------------------------------------------------------------
+    // Connecting to the database
+    const client = new Client({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    client.connect();
+
+    const { rows } = await client.query(`select * from savings where playerId = '${playerId}'`);
+    let player = rows[0];
+
+    if(msg.author.id !== process.env.USER_OWNER){
+        msg.reply(`You have no authorities!`);
+        return client.end();
+    }
+
+    player.money += amount;
+
+    await client.query(`update savings set money = ${player.money} where playerId = '${playerId}'`);
+
+    msg.channel.send(`Users: **${msg.guild.members.cache.get(playerId).user.username}** new balance is *${player.money}*`);
+
+    return client.end();
+}
+
 module.exports = {
     name: "Savings",
     description: "Database information associated with savings",
     CreateSavingsStatus,
     UpdateLevel,
     Claim,
-    Profile
+    Profile,
+    Give
 };

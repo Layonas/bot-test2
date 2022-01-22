@@ -3,7 +3,7 @@ const Savings = require("../functions/Savings/Savings");
 module.exports = {
     name: "BlackJack",
     description: "Play BlackJack with no worries about loses!",
-    alias: ["bj", "blackjack", "BlackJack", "ca", "claim"],
+    alias: ["bj", "blackjack", "BlackJack", "ca", "claim", "give"],
     usage: "!<alias> <amount>",
     example: "!bj 1000",
 
@@ -73,6 +73,10 @@ module.exports = {
 
         if(args[1] === 'p' || args[1] === '-p' || args[1] === 'profile'){
             return Savings.Profile(msg.author.id, msg);
+        }
+
+        if(args[0] === 'give'){
+            return Savings.Give(args[1], msg, args[2]);
         }
 
         const table = `CREATE TABLE IF NOT EXISTS blackjack(
@@ -219,7 +223,15 @@ module.exports = {
         var dealerEmojies = [];
 
         msg.channel.send({ embeds: [Player.embed] }).then(async (message) => {
-            Player.emojis.forEach((emoji) => message.react(GetEmoji(emoji)));
+
+            const emojies = [];
+            Player.emojis.forEach((emoji) => {
+                emojies.push(emoji);
+                message.react(GetEmoji(emoji));
+            });
+
+            if(!emojies.includes('stand'))
+            message.react(GetEmoji('stand'));
 
             Playing = true;
 
@@ -254,7 +266,8 @@ module.exports = {
                                         : card
                                 );
                                 e = new Discord.MessageEmbed();
-                                Player.emojis.splice(Player.emojis.indexOf("double"), 1);
+                                if(Player.emojis.indexOf("double") > 0)
+                                    Player.emojis.splice(Player.emojis.indexOf("double"), 1);
 
                                 if (Player.playervalue > 21) {
                                     [Player.playercards, Player.playervalue] = CalculateAce(
@@ -975,7 +988,14 @@ module.exports = {
                     return;
                 }
 
-                Player.emojis.forEach((emoji) => message.react(GetEmoji(emoji)));
+                const emojies = [];
+                Player.emojis.forEach((emoji) => {
+                    emojies.push(emoji);
+                    message.react(GetEmoji(emoji));
+                });
+    
+                if(!emojies.includes('stand'))
+                message.react(GetEmoji('stand'));
             }
 
             return;
