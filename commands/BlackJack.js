@@ -429,6 +429,7 @@ module.exports = {
                                     Playing = false;
 
                                     WinLoss = parseInt(Player.amount) * -2;
+                                    Player.amount *= 2;
                                 } else if (Player.playervalue === 21) {
                                     Player.dealercards.forEach((card) =>
                                         dealerEmojies.push(GetEmoji(card))
@@ -460,6 +461,8 @@ module.exports = {
                                         message.edit({ embeds: [e] });
 
                                         WinLoss = parseInt(Player.amount) * 2;
+                                        Player.amount *= 2;
+
                                         Playing = false;
                                     } else {
                                         e.setAuthor(msg.author.username)
@@ -513,6 +516,7 @@ module.exports = {
                                             message.edit({ embeds: [e] });
 
                                             WinLoss = parseInt(Player.amount) * -2;
+                                            Player.amount *= 2;
 
                                             Playing = false;
                                         } else if (DealerPlayingCardValue === Player.playervalue) {
@@ -565,6 +569,7 @@ module.exports = {
                                             message.edit({ embeds: [e] });
 
                                             WinLoss = parseInt(Player.amount) * 2;
+                                            Player.amount *= 2;
 
                                             Playing = false;
                                         }
@@ -611,6 +616,7 @@ module.exports = {
                                             message.edit({ embeds: [e] });
 
                                             WinLoss = parseInt(Player.amount) * 2;
+                                            Player.amount *= 2;
 
                                             Playing = false;
                                         } else if (
@@ -642,6 +648,7 @@ module.exports = {
                                             message.edit({ embeds: [e] });
 
                                             WinLoss = parseInt(Player.amount) * -2;
+                                            Player.amount *= 2;
 
                                             Playing = false;
                                         } else if (
@@ -673,6 +680,7 @@ module.exports = {
                                             message.edit({ embeds: [e] });
 
                                             WinLoss = parseInt(Player.amount) * 2;
+                                            Player.amount *= 2;
 
                                             Playing = false;
                                         } else if (
