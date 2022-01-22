@@ -71,6 +71,10 @@ module.exports = {
             return Savings.Claim(msg.author.id, msg);
         }
 
+        if(args[1] === 'p' || args[1] === '-p' || args[1] === 'profile'){
+            return Savings.Profile(msg.author.id, msg);
+        }
+
         const table = `CREATE TABLE IF NOT EXISTS blackjack(
             playerId varchar(255),
             amount int,
@@ -109,8 +113,8 @@ module.exports = {
 
             if (!savings) {
                 await client.query(
-                    `insert into savings(money, hourly, hourlyClaimed, daily, dailyClaimed, weakly, weaklyClaimed, level, gambled, won, lost, playerId) 
-                    values(1000, 200, false, 1000, false, 10000, false, 1, 0, 0, 0, '${msg.author.id}')`
+                    `insert into savings(money, hourly, hourlyClaimed, daily, dailyClaimed, weakly, weaklyClaimed, level, gambled, won, lost, playerId, timesPlayed) 
+                    values(1000, 200, false, 1000, false, 10000, false, 1, 0, 0, 0, '${msg.author.id}', 0)`
                 );
 
                 const { rows } = await client.query(
@@ -940,7 +944,7 @@ module.exports = {
                         await client.query(
                             `update savings set money = ${savings.money + WinLoss}, won = ${
                                 savings.won + WinLoss
-                            }, gambled = ${savings.gambled + WinLoss} where playerId = '${
+                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed} where playerId = '${
                                 msg.author.id
                             }'`
                         );
@@ -948,7 +952,7 @@ module.exports = {
                         await client.query(
                             `update savings set money = ${savings.money + WinLoss}, lost = ${
                                 savings.lost + WinLoss
-                            }, gambled = ${savings.gambled + WinLoss * -1} where playerId = '${
+                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed} where playerId = '${
                                 msg.author.id
                             }'`
                         );

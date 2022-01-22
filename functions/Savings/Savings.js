@@ -35,6 +35,7 @@ async function CreateSavingsStatus() {
 
     // await client.query(`alter table savings add column dailyClaimedTime int, add column hourlyClaimedTime int, add column weaklyClaimedTime int, add column lastClaimedHourly float,
     // add column lastClaimedDaily float, add column lastClaimedWeakly float`);
+    //await client.query(`alter table savings add column timesPlayed int`);
 
     client.end();
 }
@@ -171,10 +172,53 @@ async function Claim(playerId, msg){
     return client.end();
 }
 
+/**
+ * 
+ * @param {string} id 
+ * @param {Discord.Message} msg 
+ */
+async function Profile(playerId, msg){
+
+    const { Client } = require("pg");
+
+    //-----------------------------------------------------------------------------------
+    // Connecting to the database
+    const client = new Client({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    client.connect();
+
+    const { rows } = await client.query(`select * from savings where playerId = '${playerId}'`);
+    let player = rows[0];
+
+    const e = new Discord.MessageEmbed()
+    .setTitle('Profile')
+    .setColor('RANDOM')
+    .setAuthor(msg.author.username, msg.author.avatarURL())
+    .setThumbnail(msg.author.avatarURL())
+    .setFooter(`Powered by the power of love<3`, msg.guild.members.cache.get(process.env.USER_BOT).user.avatarURL())
+    .setTimestamp(msg.createdTimestamp)
+    .addField(`Balance`, `${player.money}`)
+    .addField(`Times played`, `${player.timesplayed}`)
+    .addField('You gambled total', `${player.gambled}`)
+    .addField(`You won`, `${player.won}`, true)
+    .addField(`You lost`, `${player.lost}`, true)
+    .addField(`Next level at`, `${Math.pow(2, player.level - 1) * 1000}`);
+
+    msg.channel.send({embeds: [e]});
+
+    return client.end();
+}
+
 module.exports = {
     name: "Savings",
     description: "Database information associated with savings",
     CreateSavingsStatus,
     UpdateLevel,
-    Claim
+    Claim,
+    Profile
 };
