@@ -529,7 +529,7 @@ module.exports = {
                                                     `${playerEmojies.join(" ")}`
                                                 )
                                                 .addField(
-                                                    "Dealers has | " + Player.dealervalue,
+                                                    "Dealers has | " + DealerPlayingCardValue,
                                                     `${dealerEmojies.join(" ")}`
                                                 )
                                                 .addField(
