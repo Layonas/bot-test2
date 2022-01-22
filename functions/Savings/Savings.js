@@ -247,7 +247,8 @@ async function Give(playerId, msg, amount){
         return client.end();
     }
 
-    player.money += amount;
+
+    player.money = parseInt(player.money) + parseInt(amount);
 
     await client.query(`update savings set money = ${player.money} where playerId = '${playerId}'`);
 
