@@ -108,6 +108,10 @@ async function Claim(playerId, msg){
     const { rows } = await client.query(`select * from savings where playerId = '${playerId}'`);
     let player = rows[0];
 
+    if(!player){
+        return msg.reply(`Please play one atleast one game before trying to claim:)\n!bj <amount>`);
+    }
+
     const date = new Date(Date.now());
 
     if(player.hourlyclaimedtime !== date.getHours() || player.lastclaimedhourly+60*60*1000 < date.getTime()){
