@@ -76,7 +76,7 @@ module.exports = {
         }
 
         if(args[0] === 'give'){
-            return Savings.Give(args[1], msg, args[2]);
+            return Savings.Give(args[1], msg, args[2], bot);
         }
 
         const table = `CREATE TABLE IF NOT EXISTS blackjack(

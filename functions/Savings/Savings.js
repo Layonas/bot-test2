@@ -222,9 +222,10 @@ async function Profile(playerId, msg){
  * 
  * @param {string} playerId Player id to give the money
  * @param {Discord.Message} msg
- * @param {number} amount 
+ * @param {number} amount
+ * @param {Discord.Client} bot 
  */
-async function Give(playerId, msg, amount){
+async function Give(playerId, msg, amount, bot){
 
     const { Client } = require("pg");
 
@@ -252,7 +253,7 @@ async function Give(playerId, msg, amount){
 
     await client.query(`update savings set money = ${player.money} where playerId = '${playerId}'`);
 
-    msg.channel.send(`Users: **${msg.guild.members.cache.get(playerId).user.username}** new balance is *${player.money}*`);
+    msg.channel.send(`Users: **${(await bot.users.fetch(playerId)).username}** new balance is *${player.money}*`);
 
     return client.end();
 }
