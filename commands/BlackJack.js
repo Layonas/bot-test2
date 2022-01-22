@@ -257,14 +257,19 @@ module.exports = {
 
                         switch (command) {
                             case "hit":
+                                // Player.playercards.forEach((card) =>
+                                //     !playerEmojies.includes(GetEmoji(card))
+                                //         ? playerEmojies.push(GetEmoji(card))
+                                //         : card
+                                // );
+                                playerEmojies = [];
+                                Player.playercards.forEach((card) =>
+                                    playerEmojies.push(GetEmoji(card))     
+                                );
                                 card = bj.Hit();
                                 Player.playervalue = Player.playervalue + CalculateCardValue(card);
                                 Player.playercards.push(card);
-                                Player.playercards.forEach((card) =>
-                                    !playerEmojies.includes(GetEmoji(card))
-                                        ? playerEmojies.push(GetEmoji(card))
-                                        : card
-                                );
+                                playerEmojies.push(GetEmoji(card));
                                 e = new Discord.MessageEmbed();
                                 if(Player.emojis.indexOf("double") > 0)
                                     Player.emojis.splice(Player.emojis.indexOf("double"), 1);
@@ -394,19 +399,29 @@ module.exports = {
                                 break;
 
                             case "double":
+                                playerEmojies = [];
+                                Player.playercards.forEach((card) =>
+                                    playerEmojies.push(GetEmoji(card))     
+                                );
+                                dealerEmojies = [];
+                                Player.dealercards.forEach((card) =>
+                                dealerEmojies.push(GetEmoji(card))     
+                                );
+
                                 card = bj.Hit();
                                 Player.playervalue = Player.playervalue + CalculateCardValue(card);
                                 Player.playercards.push(card);
-                                Player.playercards.forEach((card) =>
-                                    !playerEmojies.includes(GetEmoji(card))
-                                        ? playerEmojies.push(GetEmoji(card))
-                                        : card
-                                );
-                                Player.dealercards.forEach((card) =>
-                                    !dealerEmojies.includes(GetEmoji(card))
-                                        ? dealerEmojies.push(GetEmoji(card))
-                                        : card
-                                );
+                                // Player.playercards.forEach((card) =>
+                                //     !playerEmojies.includes(GetEmoji(card))
+                                //         ? playerEmojies.push(GetEmoji(card))
+                                //         : card
+                                // );
+                                playerEmojies.push(GetEmoji(card));
+                                // Player.dealercards.forEach((card) =>
+                                //     !dealerEmojies.includes(GetEmoji(card))
+                                //         ? dealerEmojies.push(GetEmoji(card))
+                                //         : card
+                                // );
                                 e = new Discord.MessageEmbed();
 
                                 if (Player.playervalue > 21) {
@@ -589,6 +604,7 @@ module.exports = {
                                     }
 
                                     while (DealerPlayingCardValue < 17) {
+                                        
                                         card = bj.Hit();
                                         Player.dealercards.push(card);
                                         dealerEmojies.push(GetEmoji(card));
@@ -731,16 +747,25 @@ module.exports = {
 
                             case "stand":
                                 e = new Discord.MessageEmbed();
+
+                                playerEmojies = [];
                                 Player.playercards.forEach((card) =>
-                                    !playerEmojies.includes(GetEmoji(card))
-                                        ? playerEmojies.push(GetEmoji(card))
-                                        : card
+                                    playerEmojies.push(GetEmoji(card))     
                                 );
+                                dealerEmojies = [];
                                 Player.dealercards.forEach((card) =>
-                                    !dealerEmojies.includes(GetEmoji(card))
-                                        ? dealerEmojies.push(GetEmoji(card))
-                                        : card
+                                    dealerEmojies.push(GetEmoji(card))     
                                 );
+                                // Player.playercards.forEach((card) =>
+                                //     !playerEmojies.includes(GetEmoji(card))
+                                //         ? playerEmojies.push(GetEmoji(card))
+                                //         : card
+                                // );
+                                // Player.dealercards.forEach((card) =>
+                                //     !dealerEmojies.includes(GetEmoji(card))
+                                //         ? dealerEmojies.push(GetEmoji(card))
+                                //         : card
+                                // );
 
                                 if (DealerPlayingCardValue >= 17) {
                                     if (Player.playervalue > DealerPlayingCardValue) {
