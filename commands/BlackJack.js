@@ -148,7 +148,7 @@ module.exports = {
                 dealervalue: dealerValue,
                 emojis:
                     parseInt(savings.money) >= amount * 2
-                        ? ["hit", "double", "stand"]
+                        ? ["hit", "stand", "double"]
                         : ["hit", "stand"],
                 embed: Discord.MessageEmbed,
             };
