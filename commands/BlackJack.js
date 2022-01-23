@@ -185,7 +185,7 @@ module.exports = {
                 await client.query(
                     `update savings set money = ${savings.money + Player.amount * 1.5}, won = ${
                         Player.amount * 1.5
-                    }, gambled = ${Player.amount} where playerId = '${msg.author.id}'`
+                    }, gambled = ${savings.gambled + Player.amount * 1.5} where playerId = '${msg.author.id}'`
                 );
 
                 client.end();
@@ -756,6 +756,14 @@ module.exports = {
                                 Player.dealercards.forEach((card) =>
                                     dealerEmojies.push(GetEmoji(card))     
                                 );
+
+                                if (DealerPlayingCardValue > 21) {
+                                    [Player.dealercards, DealerPlayingCardValue] =
+                                        CalculateAce(
+                                            Player.dealercards,
+                                            DealerPlayingCardValue
+                                        );
+                                }
                                 // Player.playercards.forEach((card) =>
                                 //     !playerEmojies.includes(GetEmoji(card))
                                 //         ? playerEmojies.push(GetEmoji(card))
