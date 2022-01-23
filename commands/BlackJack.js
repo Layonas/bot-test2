@@ -184,7 +184,7 @@ module.exports = {
 
                 await client.query(
                     `update savings set money = ${savings.money + Player.amount * 1.5}, won = ${
-                        Player.amount * 1.5
+                        savings.won + Player.amount * 1.5
                     }, gambled = ${savings.gambled + Player.amount * 1.5} where playerId = '${msg.author.id}'`
                 );
 
