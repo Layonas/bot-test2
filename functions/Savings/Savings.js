@@ -78,7 +78,8 @@ async function UpdateLevel(playerId, msg) {
         );
 
         msg.channel.send(
-            `You have been promoted to level **${player.level}**!\nYour reward have now been increased!`
+            `You have been promoted to level **${player.level}**!\nYour reward have now been increased!\n
+            You can now claim your rewards again!`
         );
     }
 
