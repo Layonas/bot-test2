@@ -114,15 +114,17 @@ module.exports = {
             let amount = 0;
             if(isNaN(args[1])){
                 if(args[1].toLowerCase().endsWith('k')){
-                    amount = parseInt(args[1].substring(0, args[1].length)) * 1000;
+                    amount = parseFloat(args[1].substring(0, args[1].length)) * 1000;
                 } else if(args[1].toLowerCase().endsWith('m')){
-                    amount = parseInt(args[1].substring(0, args[1].length)) * 1000000;
+                    amount = parseFloat(args[1].substring(0, args[1].length)) * 1000000;
                 } else{
                     return msg.reply("Bet amount needs to be a valid number!");
                 }
             } else{
                 amount = parseInt(args[1]);
             }
+
+            amount = parseInt(amount);
             
             if (!savings) {
                 await client.query(
