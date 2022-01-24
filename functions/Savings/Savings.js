@@ -110,7 +110,13 @@ async function Claim(playerId, msg){
     let player = rows[0];
 
     if(!player){
-        return msg.reply(`Please play one atleast one game before trying to claim:)\n!bj <amount>`);
+        await client.query(
+            `insert into savings(money, hourly, hourlyClaimed, daily, dailyClaimed, weakly, weaklyClaimed, level, gambled, won, lost, playerId, timesPlayed) 
+            values(1000, 200, false, 1000, false, 10000, false, 1, 0, 0, 0, '${msg.author.id}', 0)`
+        );
+
+        const { rows } = await client.query(`select * from savings where playerId = '${playerId}'`);
+        player = rows[0];
     }
 
     const date = new Date(Date.now());
