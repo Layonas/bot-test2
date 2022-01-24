@@ -52,7 +52,7 @@ module.exports = {
             return bot.guilds.cache
                 .get(process.env.LOG_GUILD)
                 .emojis.cache.find(
-                    (emoji) => emoji.name === `${card.value}${card.type.toLowerCase()}`
+                    (emoji) => emoji.name === `${parseInt(card.value) === 1 ? 'A' : card.value}${card.type.toLowerCase()}`
                 );
         }
 
