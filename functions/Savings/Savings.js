@@ -318,7 +318,7 @@ async function Tip(playerId, amount, msg){
     await client.query(`update savings set money = ${playerGet.money} where playerId = '${playerId}'`);
     await client.query(`update savings set money = ${playerGive.money} where playerId = '${msg.author.id}'`);
 
-    return msg.channel.send(`You have successfully tipped ${separator(amount)} dollars to ${msg.guild.members.cache.get(playerId).user.username}!`);
+    return msg.channel.send(`You have successfully tipped ${separator(amount)} dollars to ${(await msg.guild.members.fetch(playerId)).user.username}!`);
 
 
 
