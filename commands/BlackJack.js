@@ -128,8 +128,8 @@ module.exports = {
             
             if (!savings) {
                 await client.query(
-                    `insert into savings(money, hourly, hourlyClaimed, daily, dailyClaimed, weakly, weaklyClaimed, level, gambled, won, lost, playerId, timesPlayed) 
-                    values(1000, 200, false, 1000, false, 10000, false, 1, 0, 0, 0, '${msg.author.id}', 0)`
+                    `insert into savings(money, hourly, hourlyClaimed, daily, dailyClaimed, weakly, weaklyClaimed, level, gambled, won, lost, playerId, timesPlayed, biggestBet) 
+                    values(1000, 200, false, 1000, false, 10000, false, 1, 0, 0, 0, '${msg.author.id}', 0, 0)`
                 );
 
                 const { rows } = await client.query(
@@ -1005,11 +1005,14 @@ module.exports = {
                 message.reactions.removeAll();
 
                 if (!Playing) {
+                    if(Player.amount > savings.biggestbet)
+                        savings.biggestbet = Player.amount;
                     if (WinLoss > 0) {
                         await client.query(
                             `update savings set money = ${savings.money + WinLoss}, won = ${
                                 savings.won + WinLoss
-                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed} where playerId = '${
+                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed},
+                                biggestBet = ${savings.biggestbet} where playerId = '${
                                 msg.author.id
                             }'`
                         );
@@ -1017,7 +1020,8 @@ module.exports = {
                         await client.query(
                             `update savings set money = ${savings.money + WinLoss}, lost = ${
                                 savings.lost + WinLoss
-                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed} where playerId = '${
+                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed},
+                                biggestBet = ${savings.biggestbet} where playerId = '${
                                 msg.author.id
                             }'`
                         );

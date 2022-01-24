@@ -36,6 +36,7 @@ async function CreateSavingsStatus() {
     // await client.query(`alter table savings add column dailyClaimedTime int, add column hourlyClaimedTime int, add column weaklyClaimedTime int, add column lastClaimedHourly float,
     // add column lastClaimedDaily float, add column lastClaimedWeakly float`);
     //await client.query(`alter table savings add column timesPlayed int`);
+        //await client.query(`alter table savings add column biggestBet float`);
 
     client.end();
 }
@@ -169,9 +170,9 @@ async function Claim(playerId, msg){
     .setColor('RANDOM')
     .setTimestamp(msg.createdTimestamp)
     .setTitle('Claim')
-    .addField('Hourly:', `${claims.hourly ? player.hourly.toString() : 'Nothing'}`)
-    .addField('Daily:', `${claims.daily ? player.daily.toString() : 'Nothing'}`)
-    .addField('Weakly:' , `${claims.weakly ? player.weakly.toString() : 'Nothing'}`);
+    .addField('Hourly:', `${claims.hourly ? separator(player.hourly.toString()) : 'Nothing'}`)
+    .addField('Daily:', `${claims.daily ? separator(player.daily.toString()) : 'Nothing'}`)
+    .addField('Weekly:' , `${claims.weakly ? separator(player.weakly.toString()) : 'Nothing'}`);
 
     msg.channel.send({embeds : [e]});
 
@@ -213,12 +214,13 @@ async function Profile(playerId, msg){
     .setThumbnail(msg.author.avatarURL())
     .setFooter(`Powered by the power of love<3`, msg.guild.members.cache.get(process.env.USER_BOT).user.avatarURL())
     .setTimestamp(msg.createdTimestamp)
-    .addField(`Balance`, `${player.money}`)
-    .addField(`Times played`, `${player.timesplayed}`)
-    .addField('You gambled total', `${player.gambled}`)
-    .addField(`You won`, `${player.won}`, true)
-    .addField(`You lost`, `${player.lost}`, true)
-    .addField(`Next level at`, `${Math.pow(2, player.level - 1) * 1000}`);
+    .addField(`Balance`, `${separator(player.money)}`)
+    .addField(`Times played`, `${separator(player.timesplayed)}`)
+    .addField('You gambled total', `${separator(player.gambled)}`)
+    .addField(`You won`, `${separator(player.won)}`, true)
+    .addField(`You lost`, `${separator(player.lost)}`, true)
+    .addField(`Next level at`, `${separator(Math.pow(2, player.level - 1) * 1000)}`)
+    .addField(`Your biggest bet`, `${separator(player.biggestbet)}`);
 
     msg.channel.send({embeds: [e]});
 
@@ -263,6 +265,43 @@ async function Give(playerId, msg, amount, bot){
     msg.channel.send(`Users: **${(await bot.users.fetch(playerId)).username}** new balance is *${player.money}*`);
 
     return client.end();
+}
+
+/**
+ * 
+ * @param {number} num 
+ * @returns string of numbers that are sorted
+ */
+function separator(num){
+
+    let str = num.toString();
+
+    let c = str.split('');
+
+    const div = str.length % 3;
+    let newNum = [];
+
+    if(str.length !== 0){
+        if (div === 0){
+            for(let i = 0; i < str.length/3; i++){
+                let p = c.join('').substring(3*i, 3*(i+1));
+                newNum.push(p);                    
+            }
+        } else{
+            let p = c.join('').substring(0, div);
+            c.reverse();
+            for(let i = 0; i < div; i++)
+                c.pop();
+            c.reverse();
+            newNum.push(p);
+            for(let i = 0; i < c.length/3; i++){
+                p = c.join('').substring(3*i, 3*(i+1));
+                newNum.push(p);
+            }
+        }
+    }
+
+    return newNum.join(' ');
 }
 
 module.exports = {
