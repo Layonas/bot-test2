@@ -6,3 +6,4 @@ export function UpdateLevel(playerId : string, msg : Discord.Message) : void;
 export function Claim(playerId : string, msg : Discord.Message) : void;
 export function Profile(playerId : string, msg : Discord.Message) : void;
 export function Give(playerId : string,  msg : Discord.Message, amount : number, bot : Discord.Client) : void;
+export function Tip(playerId : string, amount : number, msg : Discord.Message) : void;

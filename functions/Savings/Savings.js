@@ -220,7 +220,7 @@ async function Profile(playerId, msg){
     .addField(`You won`, `${separator(player.won)}`, true)
     .addField(`You lost`, `${separator(player.lost)}`, true)
     .addField(`Next level at`, `${separator(Math.pow(2, player.level - 1) * 1000)}`)
-    .addField(`Your biggest bet`, `${separator(player.biggestbet)}`);
+    .addField(`Your biggest bet`, `${separator(player.biggestbet)}`, true);
 
     msg.channel.send({embeds: [e]});
 
@@ -269,10 +269,69 @@ async function Give(playerId, msg, amount, bot){
 
 /**
  * 
+ * @param {string} playerId
+ * @param {number} amount
+ * @param {Discord.Message} msg 
+ */
+async function Tip(playerId, amount, msg){
+
+    const { Client } = require("pg");
+
+    //-----------------------------------------------------------------------------------
+    // Connecting to the database
+    const client = new Client({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    client.connect();
+
+    if(isNaN(amount)){
+        if(amount.toLowerCase().endsWith('k')){
+            amount = parseFloat(amount.substring(0, amount.length)) * 1000;
+        } else if(amount.toLowerCase().endsWith('m')){
+            amount = parseFloat(amount.substring(0, amount.length)) * 1000000;
+        } else{
+            return msg.reply("Bet amount needs to be a valid number!");
+        }
+    } else{
+        amount = parseInt(amount);
+    }
+
+    if(playerId.match(/[<>]+/g))
+        playerId = msg.mentions.users.first().id;
+
+    let playerGet = await (await client.query(`select * from savings where playerId = '${playerId}'`)).rows[0];
+    let playerGive = await (await client.query(`select * from savings where playerId = '${msg.author.id}'`)).rows[0];
+    
+    if (playerGive.money < amount)
+        return msg.reply(`You don't have enough funds to give away!`);
+
+    if(!playerGet)
+        return msg.reply(`Confirm the player id and try again!`);
+
+    playerGive.money = parseInt(playerGive.money) - parseInt(amount);
+    playerGet.money = parseInt(playerGet.money) + parseInt(amount);
+
+    await client.query(`update savings set money = ${playerGet.money} where playerId = '${playerId}'`);
+    await client.query(`update savings set money = ${playerGive.money} where playerId = '${msg.author.id}'`);
+
+    return msg.channel.send(`You have successfully tipped ${separator(amount)} dollars to ${msg.guild.members.cache.get(playerId).user.username}!`);
+
+
+
+}
+/**
+ * 
  * @param {number} num 
  * @returns string of numbers that are sorted
  */
 function separator(num){
+
+    if(!num || num === 0)
+        return 0;
 
     let str = num.toString();
 
@@ -311,5 +370,6 @@ module.exports = {
     UpdateLevel,
     Claim,
     Profile,
-    Give
+    Give,
+    Tip
 };
