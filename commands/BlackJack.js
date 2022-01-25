@@ -396,8 +396,8 @@ module.exports = {
                                                 `${playerEmojies.join(" ")}`
                                             )
                                             .addField(
-                                                "Dealers has | " + DealerPlayingCardValue,
-                                                `${dealerEmojies.join(" ")}`
+                                                "Dealers has | " + Player.dealervalue,
+                                                `${GetEmoji(Player.dealercards[0])}${GetEmoji("back")}`
                                             )
                                             .addField(
                                                 "You Won!",
