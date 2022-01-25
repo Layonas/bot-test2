@@ -300,7 +300,7 @@ async function Tip(playerId, amount, msg){
         amount = parseInt(amount);
     }
 
-    if(playerId.match(/[<>]+/g))
+    if(msg.mentions.users.first())
         playerId = msg.mentions.users.first().id;
 
     let playerGet = await (await client.query(`select * from savings where playerId = '${playerId}'`)).rows[0];
