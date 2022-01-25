@@ -258,6 +258,7 @@ module.exports = {
             var WinLoss;
 
             while (Playing) {
+
                 await message
                     .awaitReactions({
                         filter: (reaction, user) =>
@@ -1007,6 +1008,41 @@ module.exports = {
                     });
 
                 message.reactions.removeAll();
+
+                if(Player.playercards.length === 5){
+                    if(Player.playervalue <= 21){
+
+                        const e = new Discord.MessageEmbed()
+                        .setAuthor(msg.author.username)
+                        .setColor("GREEN")
+                        .setTitle("BlackJack")
+                        .setThumbnail(msg.author.avatarURL())
+                        .setTimestamp(msg.createdTimestamp)
+                        .addField(
+                            "You have | " + Player.playervalue,
+                            `${playerEmojies.join(" ")}`
+                        )
+                        .addField(
+                            "Dealers has | " + DealerPlayingCardValue,
+                            `${dealerEmojies.join(" ")}`
+                        )
+                        .addField(
+                            "You Won!",
+                            `Your bet * 1.5 = ${
+                                Player.amount * 1.5
+                            }\nYou now have: ${
+                                savings.money + Player.amount * 1.5
+                            }`
+                        );
+
+                        message.edit({ embeds: [e] });
+
+                        WinLoss = parseInt(Player.amount) * 1.5;
+                        Player.amount *= 1.5;
+
+                        Playing = false;
+                    }
+                }
 
                 if (!Playing) {
                     if(Player.amount > savings.biggestbet)
