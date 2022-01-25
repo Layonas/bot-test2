@@ -381,25 +381,62 @@ module.exports = {
                                     }
 
                                     Playing = false;
-                                } else {
-                                    e.setAuthor(msg.author.username)
-                                        .setColor("ORANGE")
-                                        .setTitle("BlackJack")
-                                        .setThumbnail(msg.author.avatarURL())
-                                        .setTimestamp(msg.createdTimestamp)
-                                        .addField(
-                                            "You have | " + Player.playervalue,
-                                            `${playerEmojies.join(" ")}`
-                                        )
-                                        .addField(
-                                            "Dealers has | " + Player.dealervalue,
-                                            `${GetEmoji(Player.dealercards[0])}${GetEmoji("back")}`
-                                        );
+                                } else if (Player.playercards.length === 5){
 
-                                    Player.embed = e;
+                                        if(Player.playervalue <= 21){
+                    
+                                            e
+                                            .setAuthor(msg.author.username)
+                                            .setColor("GREEN")
+                                            .setTitle("BlackJack")
+                                            .setThumbnail(msg.author.avatarURL())
+                                            .setTimestamp(msg.createdTimestamp)
+                                            .addField(
+                                                "You have | " + Player.playervalue,
+                                                `${playerEmojies.join(" ")}`
+                                            )
+                                            .addField(
+                                                "Dealers has | " + DealerPlayingCardValue,
+                                                `${dealerEmojies.join(" ")}`
+                                            )
+                                            .addField(
+                                                "You Won!",
+                                                `Your bet * 1.5 = ${
+                                                    Player.amount * 1.5
+                                                }\nYou now have: ${
+                                                    savings.money + Player.amount * 1.5
+                                                }`
+                                            );
+                    
+                                            message.edit({ embeds: [e] });
+                    
+                                            WinLoss = parseInt(Player.amount) * 1.5;
+                                            Player.amount *= 1.5;
+                    
+                                            Playing = false;
 
-                                    message.edit({ embeds: [e] });
-                                }
+                                        }
+
+                                    } else{
+
+                                        e.setAuthor(msg.author.username)
+                                            .setColor("ORANGE")
+                                            .setTitle("BlackJack")
+                                            .setThumbnail(msg.author.avatarURL())
+                                            .setTimestamp(msg.createdTimestamp)
+                                            .addField(
+                                                "You have | " + Player.playervalue,
+                                                `${playerEmojies.join(" ")}`
+                                            )
+                                            .addField(
+                                                "Dealers has | " + Player.dealervalue,
+                                                `${GetEmoji(Player.dealercards[0])}${GetEmoji("back")}`
+                                            );
+
+                                        Player.embed = e;
+
+                                        message.edit({ embeds: [e] });
+                                    }
 
                                 await client.query(`UPDATE blackjack SET playerCards = '${JSON.stringify(
                                     Player.playercards
@@ -1008,41 +1045,6 @@ module.exports = {
                     });
 
                 message.reactions.removeAll();
-
-                if(Player.playercards.length === 5){
-                    if(Player.playervalue <= 21){
-
-                        const e = new Discord.MessageEmbed()
-                        .setAuthor(msg.author.username)
-                        .setColor("GREEN")
-                        .setTitle("BlackJack")
-                        .setThumbnail(msg.author.avatarURL())
-                        .setTimestamp(msg.createdTimestamp)
-                        .addField(
-                            "You have | " + Player.playervalue,
-                            `${playerEmojies.join(" ")}`
-                        )
-                        .addField(
-                            "Dealers has | " + DealerPlayingCardValue,
-                            `${dealerEmojies.join(" ")}`
-                        )
-                        .addField(
-                            "You Won!",
-                            `Your bet * 1.5 = ${
-                                Player.amount * 1.5
-                            }\nYou now have: ${
-                                savings.money + Player.amount * 1.5
-                            }`
-                        );
-
-                        message.edit({ embeds: [e] });
-
-                        WinLoss = parseInt(Player.amount) * 1.5;
-                        Player.amount *= 1.5;
-
-                        Playing = false;
-                    }
-                }
 
                 if (!Playing) {
                     if(Player.amount > savings.biggestbet)
