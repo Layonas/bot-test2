@@ -1,6 +1,13 @@
 module.exports = {
     name: 'Statistics',
     description: 'Gets all the statistics form all servers and sends through different functions',
+    /**
+     * 
+     * @param {Discord.Message} msg 
+     * @param {Array<string} args 
+     * @param {Discord.Client} bot 
+     * @returns 
+     */
     async execute(msg, args, bot){
 
         if(msg.author.id === process.env.USER_BOT) return;
@@ -156,21 +163,17 @@ module.exports = {
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Creating and adding roles to people who have met certain level requirements
-    const guild = bot.guilds.cache.get(process.env.GUILD);
+    const guild = (await bot.guilds.fetch(process.env.GUILD));
     if(msg.guild.id !== guild.id) return client.end();
 
     //----------------------------------------------------------
     // Getting new role info
     var role_data = await client.query('SELECT * FROM Roles');
 
-    var Roles = role_data.rows[0].roles;
+    const Roles = role_data.rows[0].roles;
     //----------------------------------------------------------
 
     client.end();
-
-
-    // var All_roles = {};
-    // await GetRolePostition(All_roles, guild, Roles);
 
     //-----------------------------------------------------------------------------------
     // One time role checker for upcoming and gained levels
@@ -178,20 +181,28 @@ module.exports = {
     
     if(previous_level === current_level) return;
     if(userStats.level in Roles){
-        var role_info = Roles[userStats.level];
-        var previous_role_index = role_info.index-1; // number of previous role (the spot in an Object array)
-        var previous_role;
+        var role_info = Roles[userStats.level]; // new role by leveling up
+
+        const userRoles = (await msg.guild.members.fetch(msg.author.id)).roles.cache.filter(role => role.name !== null);
+        let userRoleLevel;
+        userRoles.each(role => {
+            if(userRoleLevel)
+                return;
+
+            Object.keys(Roles).forEach(level => {
+            if(Roles[level].name === role.name)
+                return userRoleLevel = level;
+            });
+        });
+
+        const previous_role = Roles[userRoleLevel];
         var dbroles = new Map();
-        
-        Object.keys(Roles).forEach((level) => {
-            if(Roles[level].index === previous_role_index) previous_role = Roles[level];
-            dbroles.set(Roles[level].name, Roles[level].name);
-        }); 
+        Object.keys(Roles).forEach(level => dbroles.set(Roles[level].name, 1));
 
         var All_roles = new Map();
         var flag = false;
                     
-        guild.roles.cache.forEach(role => {
+        (await guild.roles.fetch()).each(role => {
 
             if(flag)
                 All_roles.set(role.name, ++role.position);
@@ -206,7 +217,7 @@ module.exports = {
             
         });
 
-            if(!guild.roles.cache.find(r => r.name === role_info.name)){
+            if(!(await guild.roles.fetch()).find(r => r.name === role_info.name)){
                 await guild.roles.create({
                     data: {
                         name: role_info.name,
@@ -219,12 +230,12 @@ module.exports = {
                     reason: `${msg.author.username} leveled up and now can have a new role.`,
                 }).then(async () => {
 
-                    bot.guilds.cache.get(process.env.GUILD).channels.cache.find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`);
+                    (await guild.channels.fetch()).find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`);
                     
                 }).catch(err => console.log(err));
             }
 
-        const member = guild.members.cache.get(msg.author.id);
+        const member = (await guild.members.fetch(msg.author.id));
 
         var member_role_previous = member.roles.cache.find(r => r.name === previous_role.name);
         // removing the previous role
@@ -240,7 +251,7 @@ module.exports = {
     var embed = new Discord.MessageEmbed();
     embed.setAuthor(bot.user.username, bot.user.avatarURL())
     .setColor('RED')
-    .setTimestamp(Date.prototype.getDay() + " " + Date.prototype.getHours() + " " + Date.prototype.getMinutes())
+    .setTimestamp(msg.createdTimestamp)
     .setTitle('Deleted roles')
     .setDescription('Roles that have been deleted since no players are in them.');
     (await (await bot.guilds.fetch(process.env.GUILD)).roles.fetch()).each(role => role_size.set(role.name, 0));
@@ -258,7 +269,7 @@ module.exports = {
         }  
     });
     embed.addField('Roles', arr.join('\n'));
-    bot.guilds.cache.get(process.env.GUILD).channels.cache.find(channel => channel.name === 'logs').send({embeds: [embed]});
+    (await guild.channels.fetch()).find(channel => channel.name === 'logs').send({embeds: [embed]});
     }
         return;
     }
