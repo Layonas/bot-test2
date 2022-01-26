@@ -3,7 +3,7 @@ const Savings = require("../functions/Savings/Savings");
 module.exports = {
     name: "BlackJack",
     description: "Play BlackJack with no worries about loses!",
-    alias: ["bj", "blackjack", "BlackJack", "ca", "claim", "give", "tip"],
+    alias: ["bj", "blackjack", "BlackJack", "ca", "claim", "give", "tip", "bal", "balance"],
     usage: "!<alias> <amount>",
     example: "!bj 1000",
 
@@ -81,6 +81,10 @@ module.exports = {
 
         if(args[0] === 'tip'){
             return Savings.Tip(args[1], args[2], msg);
+        }
+
+        if(args[0].match(/bal|balance/gi)){
+            return Savings.Balance(msg.author.id, msg);
         }
 
         const table = `CREATE TABLE IF NOT EXISTS blackjack(

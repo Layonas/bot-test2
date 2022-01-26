@@ -218,8 +218,10 @@ async function Profile(playerId, msg){
     .addField(`Times played`, `${separator(player.timesplayed)}`)
     .addField('You gambled total', `${separator(player.gambled)}`)
     .addField(`You won`, `${separator(player.won)}`, true)
+    .addField('\u200B', '\u200B', true)
     .addField(`You lost`, `${separator(player.lost)}`, true)
-    .addField(`Next level at`, `${separator(Math.pow(2, player.level - 1) * 1000)}`)
+    .addField(`Next level at`, `${separator(Math.pow(2, player.level - 1) * 1000)}`, true)
+    .addField('\u200B', '\u200B', true)
     .addField(`Your biggest bet`, `${separator(player.biggestbet)}`, true);
 
     msg.channel.send({embeds: [e]});
@@ -319,10 +321,50 @@ async function Tip(playerId, amount, msg){
     await client.query(`update savings set money = ${playerGive.money} where playerId = '${msg.author.id}'`);
 
     return msg.channel.send(`You have successfully tipped ${separator(amount)} dollars to ${(await msg.guild.members.fetch(playerId)).user.username}!`);
-
-
-
 }
+
+/**
+ * 
+ * @param {string} playerId 
+ * @param {Discord.Message} msg 
+ */
+async function Balance(playerId, msg){
+
+    const { Client } = require("pg");
+
+    //-----------------------------------------------------------------------------------
+    // Connecting to the database
+    const client = new Client({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    client.connect();
+
+    const { rows } = await client.query(`select * from savings where playerId = '${playerId}'`); 
+    let player = rows[0];
+
+    if(!player)
+        return msg.reply(`Please use !claim first before using this command!`);
+
+    const e = new Discord.MessageEmbed()
+    .setTitle('Profile')
+    .setColor('RANDOM')
+    .setAuthor(msg.author.username, msg.author.avatarURL())
+    .setThumbnail(msg.author.avatarURL())
+    .setFooter(`Powered by the power of love<3`, msg.guild.members.cache.get(process.env.USER_BOT).user.avatarURL())
+    .setTimestamp(msg.createdTimestamp)
+    .addField(`Balance`, `${separator(player.money)}`);
+
+    msg.channel.send({embeds: [e]});
+
+    return client.end();
+}
+
+
+
 /**
  * 
  * @param {number} num 
@@ -371,5 +413,6 @@ module.exports = {
     Claim,
     Profile,
     Give,
-    Tip
+    Tip,
+    Balance
 };
