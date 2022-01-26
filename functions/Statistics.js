@@ -219,15 +219,13 @@ module.exports = {
 
             if(!(await guild.roles.fetch()).find(r => r.name === role_info.name)){
                 await guild.roles.create({
-                    data: {
                         name: role_info.name,
                         color: role_info.color,
                         position: All_roles.get(role_info.name),
                         permissions: ['SEND_MESSAGES'],
                         mentionable: true,
-                        hoist: true
-                    },
-                    reason: `${msg.author.username} leveled up and now can have a new role.`,
+                        hoist: true,
+                        reason: `${msg.author.username} leveled up and now can have a new role.`,
                 }).then(async () => {
 
                     (await guild.channels.fetch()).find(channel => channel.name === 'logs').send(`Created new role **${role_info.name}**`);
@@ -269,7 +267,8 @@ module.exports = {
         }  
     });
     embed.addField('Roles', arr.join('\n'));
-    (await guild.channels.fetch()).find(channel => channel.name === 'logs').send({embeds: [embed]});
+    if(arr.length!==0)
+        (await guild.channels.fetch()).find(channel => channel.name === 'logs').send({embeds: [embed]});
     }
         return;
     }
