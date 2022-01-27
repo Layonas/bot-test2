@@ -87,18 +87,38 @@ module.exports = {
 
         }
         
-        // eslint-disable-next-line no-unused-vars
-        const song = await guildQueue.play(input, {
-            'requestedBy': bot.users.cache.get(userID), 
-            'data': {
-                channel: channel, 
-                interaction: interaction, 
-                msg: msg
-            }
-        }).catch(() => {
-            if(!guildQueue)
-                guildQueue.stop();
-        }); // At worst I could save songs in DB and add song again to the queue
+        if(input.match(/playlist\?list/gi)){
+
+            // eslint-disable-next-line no-unused-vars
+            const song = await guildQueue.playlist(input, {
+                'requestedBy': bot.users.cache.get(userID), 
+                'data': {
+                    channel: channel, 
+                    interaction: interaction, 
+                    msg: msg
+                }
+            }).catch(() => {
+                if(!guildQueue)
+                    guildQueue.stop();
+            }); // At worst I could save songs in DB and add song again to the queue
+
+        } else{
+
+            // eslint-disable-next-line no-unused-vars
+            const song = await guildQueue.play(input, {
+                'requestedBy': bot.users.cache.get(userID), 
+                'data': {
+                    channel: channel, 
+                    interaction: interaction, 
+                    msg: msg
+                }
+            }).catch(() => {
+                if(!guildQueue)
+                    guildQueue.stop();
+            }); // At worst I could save songs in DB and add song again to the queue
+            
+        }
+
 
 
         //         //-----------------------------------------------------------------------------------
