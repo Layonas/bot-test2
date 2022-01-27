@@ -25,7 +25,7 @@ async function CreateSavingsStatus() {
         weakly int,
         weaklyClaimed bool,
         level int,
-        gambled int,
+        gambled float,
         won int,
         lost int,
         playerId varchar(255)
@@ -36,7 +36,8 @@ async function CreateSavingsStatus() {
     // await client.query(`alter table savings add column dailyClaimedTime int, add column hourlyClaimedTime int, add column weaklyClaimedTime int, add column lastClaimedHourly float,
     // add column lastClaimedDaily float, add column lastClaimedWeakly float`);
     //await client.query(`alter table savings add column timesPlayed int`);
-        //await client.query(`alter table savings add column biggestBet float`);
+    //await client.query(`alter table savings add column biggestBet float`);
+    //await client.query(`alter table savings alter column gambled type float`);
 
     client.end();
 }
