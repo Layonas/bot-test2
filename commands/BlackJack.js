@@ -197,14 +197,14 @@ module.exports = {
                     .addField(
                         "You won!",
                         `Your bet * 1.5 = ${Player.amount * 1.5}\nYou now have: ${
-                            savings.money + Player.amount * 1.5
+                            Math.floor(savings.money + Player.amount * 1.5)
                         }`
                     );
 
                 await client.query(
-                    `update savings set money = ${savings.money + Player.amount * 1.5}, won = ${
-                        savings.won + Player.amount * 1.5
-                    }, gambled = ${savings.gambled + Player.amount * 1.5} where playerId = '${msg.author.id}'`
+                    `update savings set money = ${Math.floor(savings.money + Player.amount * 1.5)}, won = ${
+                        Math.floor(savings.won + Player.amount * 1.5)
+                    }, gambled = ${Math.floor(savings.gambled + Player.amount * 1.5)} where playerId = '${msg.author.id}'`
                 );
 
                 client.end();
@@ -406,16 +406,16 @@ module.exports = {
                                             .addField(
                                                 "You Won!",
                                                 `Your bet * 1.5 = ${
-                                                    Player.amount * 1.5
+                                                    Math.floor(Player.amount * 1.5)
                                                 }\nYou now have: ${
-                                                    savings.money + Player.amount * 1.5
+                                                    Math.floor(savings.money + Player.amount * 1.5)
                                                 }`
                                             );
                     
                                             message.edit({ embeds: [e] });
                     
-                                            WinLoss = parseInt(Player.amount) * 1.5;
-                                            Player.amount *= 1.5;
+                                            WinLoss = Math.floor(parseInt(Player.amount) * 1.5);
+                                            Player.amount = Math.floor(Player.amount * 1.5);
                     
                                             Playing = false;
 
