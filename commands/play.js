@@ -26,7 +26,7 @@ module.exports = {
         // const { Client } = require('pg');
         // const { joinVoiceChannel, VoiceConnection, AudioPlayer } = require('@discordjs/voice');
 
-        if(!args[1] && args[0] !== 'setloop'){
+        if(!interaction && (!args[1] && args[0] !== 'setloop')){
             return msg.reply('No arguments specified!');
         }
 
