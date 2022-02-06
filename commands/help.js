@@ -36,7 +36,8 @@ __Pavyzdys__ -- !help play`);
 }
 
 var command;
-command = require(`./${args[1]}.js`);
+const com = msg.content.substring(1).split(" ");
+command = require(`./${com[1]}.js`);
 
     if (command)
     {
