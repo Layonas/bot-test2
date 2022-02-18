@@ -20,7 +20,7 @@
     "jsonfile": "^6.1.0",
     "node-opus": "^0.3.3",
     "nodemon": "^2.0.15",
-    "opusscript": "^0.0.7",
+    "opusscript": "^0.0.8",
     "pg": "^8.5.1",
     "random": "^3.0.6",
     "simple-youtube-api": "^5.2.1",
