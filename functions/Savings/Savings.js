@@ -16,28 +16,29 @@ async function CreateSavingsStatus() {
     client.connect();
     //-----------------------------------------------------------------------------------
 
-    const table = `CREATE table if not exists savings(
-        money int,
-        hourly int,
-        hourlyClaimed bool,
-        daily int,
-        dailyClaimed bool,
-        weakly int,
-        weaklyClaimed bool,
-        level int,
-        gambled float,
-        won int,
-        lost int,
-        playerId varchar(255)
-        )`;
+    // const table = `CREATE table if not exists savings(
+    //     money int,
+    //     hourly int,
+    //     hourlyClaimed bool,
+    //     daily int,
+    //     dailyClaimed bool,
+    //     weakly int,
+    //     weaklyClaimed bool,
+    //     level int,
+    //     gambled float,
+    //     won int,
+    //     lost int,
+    //     playerId varchar(255)
+    //     )`;
 
-    await client.query(table).catch((err) => console.log(err));
+    // await client.query(table).catch((err) => console.log(err));
 
     // await client.query(`alter table savings add column dailyClaimedTime int, add column hourlyClaimedTime int, add column weaklyClaimedTime int, add column lastClaimedHourly float,
     // add column lastClaimedDaily float, add column lastClaimedWeakly float`);
     //await client.query(`alter table savings add column timesPlayed int`);
     //await client.query(`alter table savings add column biggestBet float`);
     //await client.query(`alter table savings alter column gambled type float`);
+    //await client.query(`alter table savings alter column lost type float, alter column won type float`).catch(err => console.error(err));
 
     client.end();
 }
@@ -81,8 +82,9 @@ async function UpdateLevel(playerId, msg) {
 
         msg.channel.send(
             `You have been promoted to level **${player.level}**!\nYour reward have now been increased!\n
-            You can now claim your rewards again!`
+            **You can now claim your rewards again!**`
         );
+        msg.channel.send(`**Please don't waste your valuable money and just write !claim**`);
     }
 
     return client.end();
