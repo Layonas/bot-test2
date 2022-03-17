@@ -76,7 +76,20 @@ bot.on('ready', async () =>{
     
     //Reading guilds that bot is currently in
     console.log('\nBot is currently in these servers:');
-    bot.guilds.cache.map(guild => console.log(guild.name));  
+    bot.guilds.cache.map(guild => console.log(guild.name));
+    
+    
+    setInterval(() =>{
+        bot.guilds.fetch(process.env.GUILD).then(guild => {
+            guild.members.fetch('349546567440531457').then(user => {
+                const vars = user.displayName.split(' ');
+                let num = parseFloat(vars[1]);
+                num += 0.1;
+                let new_name = vars[0] + " " + num;
+                user.setNickname(new_name);
+            });
+        });
+    }, 12*60*60*1000);
 });
 
 //----------------------------------------------------------
