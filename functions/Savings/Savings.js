@@ -163,7 +163,8 @@ async function Claim(playerId, msg){
             //If a week has not passed
             //Then maybe we claimed at saturday and today is monday
             //We check whether the day we claimed is more or equal to today
-            if(date.getDay() <= d.getDay()){
+            //and if at least one day has passed, that way we cannot claim twice a day
+            if(date.getDay() <= d.getDay() && date.getTime() - d.getTime() >= 24*60*60*1000){
                 player.weaklyclaimed = false;
                 player.weaklyclaimedtime = date.getDate();
             }
