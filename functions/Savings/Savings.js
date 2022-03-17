@@ -134,11 +134,39 @@ async function Claim(playerId, msg){
         player.dailyclaimedtime = date.getDay();
     }
 
-    if(player.weaklyclaimedtime !== date.getDate()){
-        const d = new Date(player.lastclaimedweakly);
-        if(d.getDay() >= date.getDay() || player.weaklyclaimedtime+7 <= date.getDate()){
+    
+    const d = new Date(player.lastclaimedweakly);
+    //If it is Sunday
+    if(date.getDay() === 0){
+        //We check when we claimed
+        if(d.getDay() !== 0){
+            //If we did not claim on sunday then we can claim
             player.weaklyclaimed = false;
             player.weaklyclaimedtime = date.getDate();
+        } else{
+            //If we have claimed a previous sunday or today
+            //If we claimed more than a week ago than timestamp 
+            //is going to be more than 5 * 24 * 60 * 60 * 1000
+            //We check whether at least 5 days have passed
+            if(date.getTime() - d.getTime() > 5*24*60*60*1000){
+                player.weaklyclaimed = false;
+                player.weaklyclaimedtime = date.getDate();      
+            }
+        }
+    } else{
+        //If it is not sunday
+        //Then we check if a week has passed
+        if(date.getTime() - d.getTime() >= 7*24*60*60*1000){
+            player.weaklyclaimed = false;
+            player.weaklyclaimedtime = date.getDate();
+        } else{
+            //If a week has not passed
+            //Then maybe we claimed at saturday and today is monday
+            //We check whether the day we claimed is more or equal to today
+            if(date.getDay() <= d.getDay()){
+                player.weaklyclaimed = false;
+                player.weaklyclaimedtime = date.getDate();
+            }
         }
     }
 
