@@ -85,6 +85,7 @@ bot.on('ready', async () =>{
                 const vars = user.displayName.split(' ');
                 let num = parseFloat(vars[1]);
                 num += 0.1;
+                num = num.toFixed(1);
                 let new_name = vars[0] + " " + num;
                 user.setNickname(new_name);
             });
