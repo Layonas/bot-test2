@@ -83,14 +83,11 @@ bot.on('ready', async () =>{
         bot.guilds.fetch(process.env.GUILD).then(guild => {
             guild.members.fetch('349546567440531457').then(user => {
                 const vars = user.displayName.split(' ');
-                let num = parseFloat(vars[1]);
-                num += 0.1;
-                num = num.toFixed(1);
-                let new_name = vars[0] + " " + num;
+                let new_name = vars[0] + " ryžas";
                 user.setNickname(new_name);
             });
         });
-    }, 12*60*60*1000);
+    }, 2*60*60*1000);
 });
 
 //----------------------------------------------------------
