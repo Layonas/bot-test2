@@ -79,15 +79,15 @@ bot.on('ready', async () =>{
     bot.guilds.cache.map(guild => console.log(guild.name));
     
     
-    setInterval(() =>{
-        bot.guilds.fetch(process.env.GUILD).then(guild => {
-            guild.members.fetch('349546567440531457').then(user => {
-                const vars = user.displayName.split(' ');
-                let new_name = vars[0] + " ryžas";
-                user.setNickname(new_name);
-            });
-        });
-    }, 2*60*60*1000);
+    // setInterval(() =>{
+    //     bot.guilds.fetch(process.env.GUILD).then(guild => {
+    //         guild.members.fetch('349546567440531457').then(user => {
+    //             const vars = user.displayName.split(' ');
+    //             let new_name = vars[0] + " ryžas";
+    //             user.setNickname(new_name);
+    //         });
+    //     });
+    // }, 2*60*60*1000);
 });
 
 //----------------------------------------------------------
