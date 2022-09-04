@@ -8,16 +8,14 @@ module.exports = {
     example: "!bj 1000",
 
     /**
-     *
+     * Blackjack command to play blackjack, to see balance, to claim money, to tip, to give
+     * Contains an easter egg which lets you win easily but incredibly rarely :)
      * @param {Discord.Message} msg
      * @param {Array<string>} args
      * @param {Discord.Client} bot
-     * @param {Discord.CommandInteraction} interaction
-     * @param {null} player
      * @returns
      */
-    // eslint-disable-next-line no-unused-vars
-    async execute(msg, args, bot, interaction, player) {
+    async execute(msg, args, bot) {
         const { Client } = require("pg");
         const { BlackJack } = require("../functions/BlackJack/BlackJack");
         const Discord = require("discord.js");
@@ -52,7 +50,9 @@ module.exports = {
             return bot.guilds.cache
                 .get(process.env.LOG_GUILD)
                 .emojis.cache.find(
-                    (emoji) => emoji.name === `${parseInt(card.value) === 1 ? 'A' : card.value}${card.type.toLowerCase()}`
+                    (emoji) =>
+                        emoji.name ===
+                        `${parseInt(card.value) === 1 ? "A" : card.value}${card.type.toLowerCase()}`
                 );
         }
 
@@ -67,23 +67,23 @@ module.exports = {
             );
         }
 
-        if(args[0] === 'ca' || args[0] === 'claim'){
+        if (args[0] === "ca" || args[0] === "claim") {
             return Savings.Claim(msg.author.id, msg);
         }
 
-        if(args[1] === 'p' || args[1] === '-p' || args[1] === 'profile'){
+        if (args[1] === "p" || args[1] === "-p" || args[1] === "profile") {
             return Savings.Profile(msg.author.id, msg);
         }
 
-        if(args[0] === 'give'){
+        if (args[0] === "give") {
             return Savings.Give(args[1], msg, args[2], bot);
         }
 
-        if(args[0] === 'tip'){
+        if (args[0] === "tip") {
             return Savings.Tip(args[1], args[2], msg);
         }
 
-        if(args[0].match(/bal|balance/gi)){
+        if (args[0].match(/bal|balance/gi)) {
             return Savings.Balance(msg.author.id, msg);
         }
 
@@ -120,20 +120,20 @@ module.exports = {
             if (!args[1]) return msg.reply("You need to specify an amount!");
 
             let amount = 0;
-            if(isNaN(args[1])){
-                if(args[1].toLowerCase().endsWith('k')){
+            if (isNaN(args[1])) {
+                if (args[1].toLowerCase().endsWith("k")) {
                     amount = parseFloat(args[1].substring(0, args[1].length)) * 1000;
-                } else if(args[1].toLowerCase().endsWith('m')){
+                } else if (args[1].toLowerCase().endsWith("m")) {
                     amount = parseFloat(args[1].substring(0, args[1].length)) * 1000000;
-                } else{
+                } else {
                     return msg.reply("Bet amount needs to be a valid number!");
                 }
-            } else{
+            } else {
                 amount = parseInt(args[1]);
             }
 
             amount = parseInt(amount);
-            
+
             if (!savings) {
                 await client.query(
                     `insert into savings(money, hourly, hourlyClaimed, daily, dailyClaimed, weakly, weaklyClaimed, level, gambled, won, lost, playerId, timesPlayed, biggestBet) 
@@ -196,15 +196,19 @@ module.exports = {
                     )
                     .addField(
                         "You won!",
-                        `Your bet * 1.5 = ${Player.amount * 1.5}\nYou now have: ${
-                            Math.floor(savings.money + Player.amount * 1.5)
-                        }`
+                        `Your bet * 1.5 = ${Player.amount * 1.5}\nYou now have: ${Math.floor(
+                            savings.money + Player.amount * 1.5
+                        )}`
                     );
 
                 await client.query(
-                    `update savings set money = ${Math.floor(savings.money + Player.amount * 1.5)}, won = ${
-                        Math.floor(savings.won + Player.amount * 1.5)
-                    }, gambled = ${Math.floor(savings.gambled + Player.amount * 1.5)} where playerId = '${msg.author.id}'`
+                    `update savings set money = ${Math.floor(
+                        savings.money + Player.amount * 1.5
+                    )}, won = ${Math.floor(
+                        savings.won + Player.amount * 1.5
+                    )}, gambled = ${Math.floor(
+                        savings.gambled + Player.amount * 1.5
+                    )} where playerId = '${msg.author.id}'`
                 );
 
                 client.end();
@@ -242,15 +246,13 @@ module.exports = {
         var dealerEmojies = [];
 
         msg.channel.send({ embeds: [Player.embed] }).then(async (message) => {
-
             const emojies = [];
             Player.emojis.forEach((emoji) => {
                 emojies.push(emoji);
                 message.react(GetEmoji(emoji));
             });
 
-            if(!emojies.includes('stand'))
-            message.react(GetEmoji('stand'));
+            if (!emojies.includes("stand")) message.react(GetEmoji("stand"));
 
             Playing = true;
 
@@ -262,7 +264,6 @@ module.exports = {
             var WinLoss;
 
             while (Playing) {
-
                 await message
                     .awaitReactions({
                         filter: (reaction, user) =>
@@ -284,14 +285,14 @@ module.exports = {
                                 // );
                                 playerEmojies = [];
                                 Player.playercards.forEach((card) =>
-                                    playerEmojies.push(GetEmoji(card))     
+                                    playerEmojies.push(GetEmoji(card))
                                 );
                                 card = bj.Hit();
                                 Player.playervalue = Player.playervalue + CalculateCardValue(card);
                                 Player.playercards.push(card);
                                 playerEmojies.push(GetEmoji(card));
                                 e = new Discord.MessageEmbed();
-                                if(Player.emojis.indexOf("double") > 0)
+                                if (Player.emojis.indexOf("double") > 0)
                                     Player.emojis.splice(Player.emojis.indexOf("double"), 1);
 
                                 if (Player.playervalue > 21) {
@@ -385,12 +386,9 @@ module.exports = {
                                     }
 
                                     Playing = false;
-                                } else if (Player.playercards.length === 5){
-
-                                        if(Player.playervalue <= 21){
-                    
-                                            e
-                                            .setAuthor(msg.author.username)
+                                } else if (Player.playercards.length === 5) {
+                                    if (Player.playervalue <= 21) {
+                                        e.setAuthor(msg.author.username)
                                             .setColor("GREEN")
                                             .setTitle("BlackJack")
                                             .setThumbnail(msg.author.avatarURL())
@@ -401,46 +399,45 @@ module.exports = {
                                             )
                                             .addField(
                                                 "Dealers has | " + Player.dealervalue,
-                                                `${GetEmoji(Player.dealercards[0])}${GetEmoji("back")}`
+                                                `${GetEmoji(Player.dealercards[0])}${GetEmoji(
+                                                    "back"
+                                                )}`
                                             )
                                             .addField(
                                                 "You Won!",
-                                                `Your bet * 1.5 = ${
-                                                    Math.floor(Player.amount * 1.5)
-                                                }\nYou now have: ${
-                                                    Math.floor(savings.money + Player.amount * 1.5)
-                                                }`
+                                                `Your bet * 1.5 = ${Math.floor(
+                                                    Player.amount * 1.5
+                                                )}\nYou now have: ${Math.floor(
+                                                    savings.money + Player.amount * 1.5
+                                                )}`
                                             );
-                    
-                                            message.edit({ embeds: [e] });
-                    
-                                            WinLoss = Math.floor(parseInt(Player.amount) * 1.5);
-                                            Player.amount = Math.floor(Player.amount * 1.5);
-                    
-                                            Playing = false;
-
-                                        }
-
-                                    } else{
-
-                                        e.setAuthor(msg.author.username)
-                                            .setColor("ORANGE")
-                                            .setTitle("BlackJack")
-                                            .setThumbnail(msg.author.avatarURL())
-                                            .setTimestamp(msg.createdTimestamp)
-                                            .addField(
-                                                "You have | " + Player.playervalue,
-                                                `${playerEmojies.join(" ")}`
-                                            )
-                                            .addField(
-                                                "Dealers has | " + Player.dealervalue,
-                                                `${GetEmoji(Player.dealercards[0])}${GetEmoji("back")}`
-                                            );
-
-                                        Player.embed = e;
 
                                         message.edit({ embeds: [e] });
+
+                                        WinLoss = Math.floor(parseInt(Player.amount) * 1.5);
+                                        Player.amount = Math.floor(Player.amount * 1.5);
+
+                                        Playing = false;
                                     }
+                                } else {
+                                    e.setAuthor(msg.author.username)
+                                        .setColor("ORANGE")
+                                        .setTitle("BlackJack")
+                                        .setThumbnail(msg.author.avatarURL())
+                                        .setTimestamp(msg.createdTimestamp)
+                                        .addField(
+                                            "You have | " + Player.playervalue,
+                                            `${playerEmojies.join(" ")}`
+                                        )
+                                        .addField(
+                                            "Dealers has | " + Player.dealervalue,
+                                            `${GetEmoji(Player.dealercards[0])}${GetEmoji("back")}`
+                                        );
+
+                                    Player.embed = e;
+
+                                    message.edit({ embeds: [e] });
+                                }
 
                                 await client.query(`UPDATE blackjack SET playerCards = '${JSON.stringify(
                                     Player.playercards
@@ -458,11 +455,11 @@ module.exports = {
                             case "double":
                                 playerEmojies = [];
                                 Player.playercards.forEach((card) =>
-                                    playerEmojies.push(GetEmoji(card))     
+                                    playerEmojies.push(GetEmoji(card))
                                 );
                                 dealerEmojies = [];
                                 Player.dealercards.forEach((card) =>
-                                dealerEmojies.push(GetEmoji(card))     
+                                    dealerEmojies.push(GetEmoji(card))
                                 );
 
                                 card = bj.Hit();
@@ -661,7 +658,6 @@ module.exports = {
                                     }
 
                                     while (DealerPlayingCardValue < 17) {
-                                        
                                         card = bj.Hit();
                                         Player.dealercards.push(card);
                                         dealerEmojies.push(GetEmoji(card));
@@ -807,19 +803,18 @@ module.exports = {
 
                                 playerEmojies = [];
                                 Player.playercards.forEach((card) =>
-                                    playerEmojies.push(GetEmoji(card))     
+                                    playerEmojies.push(GetEmoji(card))
                                 );
                                 dealerEmojies = [];
                                 Player.dealercards.forEach((card) =>
-                                    dealerEmojies.push(GetEmoji(card))     
+                                    dealerEmojies.push(GetEmoji(card))
                                 );
 
                                 if (DealerPlayingCardValue > 21) {
-                                    [Player.dealercards, DealerPlayingCardValue] =
-                                        CalculateAce(
-                                            Player.dealercards,
-                                            DealerPlayingCardValue
-                                        );
+                                    [Player.dealercards, DealerPlayingCardValue] = CalculateAce(
+                                        Player.dealercards,
+                                        DealerPlayingCardValue
+                                    );
                                 }
                                 // Player.playercards.forEach((card) =>
                                 //     !playerEmojies.includes(GetEmoji(card))
@@ -1051,13 +1046,14 @@ module.exports = {
                 message.reactions.removeAll();
 
                 if (!Playing) {
-                    if(Player.amount > savings.biggestbet)
-                        savings.biggestbet = Player.amount;
+                    if (Player.amount > savings.biggestbet) savings.biggestbet = Player.amount;
                     if (WinLoss > 0) {
                         await client.query(
                             `update savings set money = ${savings.money + WinLoss}, won = ${
                                 savings.won + WinLoss
-                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed},
+                            }, gambled = ${
+                                savings.gambled + Player.amount
+                            }, timesPlayed = ${++savings.timesplayed},
                                 biggestBet = ${savings.biggestbet} where playerId = '${
                                 msg.author.id
                             }'`
@@ -1066,7 +1062,9 @@ module.exports = {
                         await client.query(
                             `update savings set money = ${savings.money + WinLoss}, lost = ${
                                 savings.lost + WinLoss
-                            }, gambled = ${savings.gambled + Player.amount}, timesPlayed = ${++savings.timesplayed},
+                            }, gambled = ${
+                                savings.gambled + Player.amount
+                            }, timesPlayed = ${++savings.timesplayed},
                                 biggestBet = ${savings.biggestbet} where playerId = '${
                                 msg.author.id
                             }'`
@@ -1087,9 +1085,8 @@ module.exports = {
                     emojies.push(emoji);
                     message.react(GetEmoji(emoji));
                 });
-    
-                if(!emojies.includes('stand'))
-                message.react(GetEmoji('stand'));
+
+                if (!emojies.includes("stand")) message.react(GetEmoji("stand"));
             }
 
             return;

@@ -2,7 +2,8 @@ module.exports = {
     name: 'Statistics',
     description: 'Gets all the statistics form all servers and sends through different functions',
     /**
-     * 
+     * This function is only used for the main guild (later can be scaled) to update users with roles and allow them to use features like setting image or gif.
+     * This function keeps track on users statistical data that includes xp, level, sent message number, etc.
      * @param {Discord.Message} msg 
      * @param {Array<string} args 
      * @param {Discord.Client} bot 
@@ -163,6 +164,7 @@ module.exports = {
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Creating and adding roles to people who have met certain level requirements
+    // END POINT FOR GLOBAL GUILDS
     const guild = (await bot.guilds.fetch(process.env.GUILD));
     if(msg.guild.id !== guild.id) return client.end();
 

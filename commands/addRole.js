@@ -1,13 +1,22 @@
+// eslint-disable-next-line no-unused-vars
+const Discord = require("discord.js");
 module.exports = {
-    name: 'addRole',
-    alias: ['addRole', 'aR', 'Roleadd', 'ar', 'arole', 'ARole', 'Arole', 'addrole', 'add_role'],
+    name: "addRole",
+    alias: ["addRole", "aR", "Roleadd", "ar", "arole", "ARole", "Arole", "addrole", "add_role"],
     usage: `!<alias> <name> <min_level> <max_level> <color>`,
-    example: '!addRole',
-    description: 'Adds a role to the database and auto updates the bot with new roles.',
-    async execute(bot, interaction){ // eslint-disable-line
+    example: "!addRole",
+    description: "Adds a role to the database and auto updates the bot with new roles.",
+    /**
+     * Adds a role to the database and auto updates the bot with new roles.
+     * @param {Discord.Client} bot
+     * @param {Discord.CommandInteraction} interaction
+     * @returns
+     */
+    async execute(bot, interaction) {
+        // eslint-disable-line
         //-------------------------------------------------
-        const {Client} = require('pg');
-        const jsfile = require('jsonfile'); // eslint-disable-line
+        const { Client } = require("pg");
+        const jsfile = require("jsonfile"); // eslint-disable-line
         //-------------------------------------------------
 
         if (interaction.member.id !== process.env.USER_OWNER)
@@ -17,9 +26,9 @@ module.exports = {
         const client = new Client({
             connectionString: process.env.DATABASE_URL,
             ssl: {
-                rejectUnauthorized: false
-            }
-            });
+                rejectUnauthorized: false,
+            },
+        });
 
         client.connect();
         //-------------------------------------------------
@@ -34,9 +43,9 @@ module.exports = {
 
         //-------------------------------------------------
         // Extracting info from DB
-        const {rows} = await client.query(`SELECT * FROM Roles`);
+        const { rows } = await client.query(`SELECT * FROM Roles`);
 
-        var Roles = {}; 
+        var Roles = {};
 
         try {
             Roles = rows[0].roles;
@@ -49,17 +58,18 @@ module.exports = {
         //-------------------------------------------------
 
         const Role_name = interaction.options.data[0].value;
-        
-        if(interaction.options.data[1].value in Roles === false){ // checks whether the level is already in the database
+
+        if (interaction.options.data[1].value in Roles === false) {
+            // checks whether the level is already in the database
             Roles[interaction.options.data[1].value] = {
-                name: '',
+                name: "",
                 min_level: 0,
                 max_level: 0,
-                color: '',
+                color: "",
                 position: 0,
-                index: 1
+                index: 1,
             };
-        }   
+        }
 
         const level = interaction.options.data[1].value;
         Roles[level].name = Role_name;
@@ -68,16 +78,18 @@ module.exports = {
         Roles[level].color = interaction.options.data[3].value;
         Roles[level].position = 1;
 
-
         // one time use to push existing roles to DB
         //await client.query('DELETE FROM Roles');
         //await client.query('INSERT INTO Roles(roles) values($1)', [Roles]);
-        await client.query("UPDATE Roles SET roles = '" + JSON.stringify(Roles) + "'").then(async () => {
-            interaction.editReply("Added new role to the database: " + Role_name);
-        }).catch(err => console.log(err));
+        await client
+            .query("UPDATE Roles SET roles = '" + JSON.stringify(Roles) + "'")
+            .then(async () => {
+                interaction.editReply("Added new role to the database: " + Role_name);
+            })
+            .catch((err) => console.log(err));
 
         //jsfile.writeFileSync('./functions/JsonFiles/Roles.json', Roles, {spaces: 2});
 
         client.end();
-    }
+    },
 };

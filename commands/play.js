@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 // eslint-disable-next-line no-unused-vars
-const {Player} = require('discord-music-player');
+const { Player } = require("discord-music-player");
 module.exports = {
     name: "play",
     alias: ["play", "p", "pla", "plai", "seek", "setloop"],
@@ -9,13 +9,13 @@ module.exports = {
     example: "!play some random song",
     description: "Plays a song that a user inputs.",
     /**
-     * 
-     * @param {Discord.Message} msg 
-     * @param {Array<string>} args 
-     * @param {Discord.Client} bot 
-     * @param {Discord.CommandInteraction} interaction 
-     * @param {Player} player 
-     * @returns 
+     * Plays a song that a user inputs.
+     * @param {Discord.Message} msg
+     * @param {Array<string>} args
+     * @param {Discord.Client} bot
+     * @param {Discord.CommandInteraction} interaction
+     * @param {Player} player
+     * @returns
      */
     async execute(msg, args, bot, interaction, player) {
         // eslint-disable-line
@@ -26,8 +26,8 @@ module.exports = {
         // const { Client } = require('pg');
         // const { joinVoiceChannel, VoiceConnection, AudioPlayer } = require('@discordjs/voice');
 
-        if(!interaction && (!args[1] && args[0] !== 'setloop')){
-            return msg.reply('No arguments specified!');
+        if (!interaction && !args[1] && args[0] !== "setloop") {
+            return msg.reply("No arguments specified!");
         }
 
         //------------------------------------------------------------------------------------------------
@@ -60,66 +60,56 @@ module.exports = {
                 : msg.reply("You have to be in a voice channel!");
         //------------------------------------------------------------------------------------------------
 
-
         const guildQueue = player.createQueue(guildID); // If I can save the player to DB then do so
-                                                        // If I cant save the player maybe I can save the queue
+        // If I cant save the player maybe I can save the queue
         await guildQueue.join(voiceChannel);
 
-        if(args[0] === 'seek'){
-            if(!isNaN(args[1]))
-                return guildQueue.seek(parseInt(args[1]) * 1000);
+        if (args[0] === "seek") {
+            if (!isNaN(args[1])) return guildQueue.seek(parseInt(args[1]) * 1000);
         }
-        if(args[0] === 'setloop'){
-            if(!args[1])
-                return msg.reply(`Please specify to loop a song or a playlist.`);
-            else if(args[1] === 'song'){
+        if (args[0] === "setloop") {
+            if (!args[1]) return msg.reply(`Please specify to loop a song or a playlist.`);
+            else if (args[1] === "song") {
                 guildQueue.setRepeatMode(1);
-                return msg.reply('Song loop toggled!');
-            }
-            else if(args[1] === 'playlist'){
+                return msg.reply("Song loop toggled!");
+            } else if (args[1] === "playlist") {
                 guildQueue.setRepeatMode(2);
-                return msg.reply('Playlist loop toggled!');
-            }
-            else if(args[1] === 'stop'){
+                return msg.reply("Playlist loop toggled!");
+            } else if (args[1] === "stop") {
                 guildQueue.setRepeatMode(0);
-                return msg.reply('Song loop has been stopped!');
+                return msg.reply("Song loop has been stopped!");
             }
-
-        }
-        
-        if(input.match(/playlist\?list/gi)){
-
-            // eslint-disable-next-line no-unused-vars
-            const song = await guildQueue.playlist(input, {
-                'requestedBy': bot.users.cache.get(userID), 
-                'data': {
-                    channel: channel, 
-                    interaction: interaction, 
-                    msg: msg
-                }
-            }).catch(() => {
-                if(!guildQueue)
-                    guildQueue.stop();
-            }); // At worst I could save songs in DB and add song again to the queue
-
-        } else{
-
-            // eslint-disable-next-line no-unused-vars
-            const song = await guildQueue.play(input, {
-                'requestedBy': bot.users.cache.get(userID), 
-                'data': {
-                    channel: channel, 
-                    interaction: interaction, 
-                    msg: msg
-                }
-            }).catch(() => {
-                if(!guildQueue)
-                    guildQueue.stop();
-            }); // At worst I could save songs in DB and add song again to the queue
-            
         }
 
-
+        if (input.match(/playlist\?list/gi)) {
+            // eslint-disable-next-line no-unused-vars
+            const song = await guildQueue
+                .playlist(input, {
+                    requestedBy: bot.users.cache.get(userID),
+                    data: {
+                        channel: channel,
+                        interaction: interaction,
+                        msg: msg,
+                    },
+                })
+                .catch(() => {
+                    if (!guildQueue) guildQueue.stop();
+                }); // At worst I could save songs in DB and add song again to the queue
+        } else {
+            // eslint-disable-next-line no-unused-vars
+            const song = await guildQueue
+                .play(input, {
+                    requestedBy: bot.users.cache.get(userID),
+                    data: {
+                        channel: channel,
+                        interaction: interaction,
+                        msg: msg,
+                    },
+                })
+                .catch(() => {
+                    if (!guildQueue) guildQueue.stop();
+                }); // At worst I could save songs in DB and add song again to the queue
+        }
 
         //         //-----------------------------------------------------------------------------------
         //         //-----------------------------------------------------------------------------------

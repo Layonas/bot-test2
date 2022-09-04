@@ -6,8 +6,15 @@ module.exports = {
 !profile update || level || xp -- https://image.jpg
 !profile update embed true || false`,
     description: "Lets people see what level and other stuff they have like xp from the database",
-    // eslint-disable-next-line no-unused-vars
-    async execute(msg, args, bot, interaction, player) {
+    /**
+     * Profile command to view, update, edit you profile with information gathered by the bot
+     * @param {Discord.Message} msg
+     * @param {Array<string>} args
+     * @param {Discord.Client} bot
+     * @param {Discord.CommandInteraction} interaction
+     * @returns
+     */
+    async execute(msg, args, bot, interaction) {
         //---------------------------------------------------------
         const Discord = require("discord.js");
         const { Client } = require("pg");
@@ -95,23 +102,18 @@ module.exports = {
         var subCommandGroup;
         var command;
         var option;
-        if(interaction){
+        if (interaction) {
             try {
                 subCommandGroup = interaction.options.data[0].name; // check
                 command = interaction.options.data[0].options[0].name; //profile
                 option = interaction.options.data[0].options[0].value; //True || False
             } catch (error) {
-                await interaction.editReply('Wrong command formulation!');
+                await interaction.editReply("Wrong command formulation!");
                 return;
             }
-
         }
 
-
-        if (
-            (!args[1] && !interaction) ||
-            command === "profile"
-        ) {
+        if ((!args[1] && !interaction) || command === "profile") {
             if (photo.photo.endsWith(".gif") || photo.embed === true) {
                 //-------------------------------------------------------------------------------------------------------------------------
                 // Making an Embed
@@ -126,7 +128,11 @@ module.exports = {
                     .addField("Dabartinis XP: ", userStats.CurrentXp.toString(), true)
                     .addField("Visas XP: ", userStats.OverallXp.toString(), true)
                     .addField("Tavo dabartinis lygis yra: ", userStats.level.toString(), true)
-                    .addField("Iki kito lygio tau trūksta: ", userStats.xpToNextLevel.toString(), true)
+                    .addField(
+                        "Iki kito lygio tau trūksta: ",
+                        userStats.xpToNextLevel.toString(),
+                        true
+                    )
                     .setFooter(
                         "Tu gali pakeisti arba pašalinti didžiają nuotrauką! ",
                         bot.user.avatarURL()
@@ -238,10 +244,7 @@ module.exports = {
                     "Prašome pasirinkti kokią nuotrauką norite naudoti, nuotrauka turi būti iš interneto URL formatu."
                 );
                 return client.end();
-            } else if (
-                command === "pc" || 
-                !interaction && args[2].toLowerCase() === "pc"
-            ) {
+            } else if (command === "pc" || (!interaction && args[2].toLowerCase() === "pc")) {
                 if (interaction)
                     await interaction.editReply("You have 10 seconds to add a picture!");
                 else await msg.reply("You have 10 seconds to add a picture!");
@@ -250,13 +253,13 @@ module.exports = {
                     if (msg.author.id === m.author.id) {
                         if (m.attachments.size === 1) {
                             m.attachments.forEach((file) => {
-                                (photo.photo = file.url);
+                                photo.photo = file.url;
                                 console.log("Got photo!");
                             });
                         } else m.reply("Turite pridėti nuotrauką.");
                     }
                 };
-                await msg.channel.awaitMessages({filter,  max: 6, time: 10000 }); // might need to do 10_000
+                await msg.channel.awaitMessages({ filter, max: 6, time: 10000 }); // might need to do 10_000
             } else if (!interaction && args[2].toLowerCase() === "embed") {
                 if (!args[3]) msg.reply(photo.embed);
 
@@ -289,14 +292,13 @@ module.exports = {
 
                 return client.end();
             } else if (
-                (!interaction && 
-                (args[2].toLowerCase() === "remove" ||
-                args[2].toLowerCase() === "-r" ||
-                args[2].toLowerCase() === "r" ||
-                args[2].toLowerCase() === "re" ||
-                args[2].toLowerCase() === "rem")) ||
-                (command === "remove" &&
-                    option === true)
+                (!interaction &&
+                    (args[2].toLowerCase() === "remove" ||
+                        args[2].toLowerCase() === "-r" ||
+                        args[2].toLowerCase() === "r" ||
+                        args[2].toLowerCase() === "re" ||
+                        args[2].toLowerCase() === "rem")) ||
+                (command === "remove" && option === true)
             ) {
                 photo.photo = "";
 
@@ -316,14 +318,11 @@ module.exports = {
 
                 return client.end();
             } else if (
-                (!interaction && 
-                ((args[2].startsWith("https") && args[2].endsWith(`.jpg`)) ||
-                (args[2].startsWith("https") && args[2].endsWith(`.png`)) ||
-                (args[2].startsWith("https") && args[2].endsWith(`.gif`)))) ||
-                (command === "link" &&
-                    option.match(
-                        /^https.*.gif$|^https.*.jpg$|^https.*.png$/gim
-                    ))
+                (!interaction &&
+                    ((args[2].startsWith("https") && args[2].endsWith(`.jpg`)) ||
+                        (args[2].startsWith("https") && args[2].endsWith(`.png`)) ||
+                        (args[2].startsWith("https") && args[2].endsWith(`.gif`)))) ||
+                (command === "link" && option.match(/^https.*.gif$|^https.*.jpg$|^https.*.png$/gim))
             ) {
                 if (interaction) photo.photo = option;
                 else photo.photo = args[2];
@@ -356,10 +355,7 @@ module.exports = {
             else msg.reply("Nuotrauka liko tokia pati.");
 
             return client.end();
-        } else if (
-            (!interaction && msg.mentions.users.first() && !args[2]) ||
-            command === "user"
-        ) {
+        } else if ((!interaction && msg.mentions.users.first() && !args[2]) || command === "user") {
             try {
                 var userCheck;
 
@@ -442,25 +438,27 @@ module.exports = {
                     ? interaction.editReply("Error")
                     : msg.reply("Atsiprašome kažkas nepavyko.");
             }
-        }else if (subCommandGroup === 'embed'){
-            if(command === 'status'){
+        } else if (subCommandGroup === "embed") {
+            if (command === "status") {
                 interaction.editReply(photo.embed.toString());
                 return client.end();
             }
 
-            if(command === 'set'){
+            if (command === "set") {
                 photo.embed = option;
-                interaction.editReply('Embed status updated to ' + photo.embed.toString());
+                interaction.editReply("Embed status updated to " + photo.embed.toString());
             }
 
             await client
-            .query("UPDATE photos SET data = '" + JSON.stringify(guild) + "'")
-            .then(console.log("Done"))
-            .catch((err) => {
-                interaction.editReply("Something went wrong while trying to update your options!");
-                console.log(err);
-                return client.end();
-            });
+                .query("UPDATE photos SET data = '" + JSON.stringify(guild) + "'")
+                .then(console.log("Done"))
+                .catch((err) => {
+                    interaction.editReply(
+                        "Something went wrong while trying to update your options!"
+                    );
+                    console.log(err);
+                    return client.end();
+                });
 
             return client.end();
         } else {
