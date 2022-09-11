@@ -268,9 +268,11 @@ module.exports = {
             await role.delete('No members are in the role');
         }  
     });
-    embed.addField('Roles', arr.join('\n'));
-    if(arr.length!==0)
+    if(arr.length!==0){
+        embed.addField('Roles', arr.join('\n'));
+        
         (await guild.channels.fetch()).find(channel => channel.name === 'logs').send({embeds: [embed]});
+    }
     }
         return;
     }
