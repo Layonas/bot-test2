@@ -129,10 +129,10 @@ module.exports = {
                     return msg.reply("Bet amount needs to be a valid number!");
                 }
             } else {
-                amount = parseInt(args[1]);
+                amount = parseFloat(args[1]);
             }
 
-            amount = parseInt(amount);
+            amount = parseFloat(amount);
 
             if (!savings) {
                 await client.query(
