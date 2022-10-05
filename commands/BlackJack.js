@@ -147,7 +147,7 @@ module.exports = {
                 savings = rows[0];
             }
 
-            if (parseInt(savings.money) < amount)
+            if (parseFloat(savings.money) < amount)
                 return msg.reply(`You cannot bet more than you have!`);
 
             const playerCards = bj.PlayerCards();
@@ -170,7 +170,7 @@ module.exports = {
                 dealercards: DCards,
                 dealervalue: dealerValue,
                 emojis:
-                    parseInt(savings.money) >= amount * 2
+                    parseFloat(savings.money) >= amount * 2
                         ? ["hit", "stand", "double"]
                         : ["hit", "stand"],
                 embed: Discord.MessageEmbed,
@@ -327,7 +327,7 @@ module.exports = {
 
                                     Playing = false;
 
-                                    WinLoss = parseInt(Player.amount) * -1;
+                                    WinLoss = parseFloat(Player.amount) * -1;
                                 } else if (Player.playervalue === 21) {
                                     // After a Hit got 21
 
@@ -358,7 +358,7 @@ module.exports = {
 
                                         message.edit({ embeds: [e] });
 
-                                        WinLoss = parseInt(Player.amount);
+                                        WinLoss = parseFloat(Player.amount);
                                         Playing = false;
                                     } else {
                                         e.setAuthor(msg.author.username)
@@ -414,7 +414,7 @@ module.exports = {
 
                                         message.edit({ embeds: [e] });
 
-                                        WinLoss = Math.floor(parseInt(Player.amount) * 1.5);
+                                        WinLoss = Math.floor(parseFloat(Player.amount) * 1.5);
                                         Player.amount = Math.floor(Player.amount * 1.5);
 
                                         Playing = false;
@@ -510,7 +510,7 @@ module.exports = {
 
                                     Playing = false;
 
-                                    WinLoss = parseInt(Player.amount) * -2;
+                                    WinLoss = parseFloat(Player.amount) * -2;
                                     Player.amount *= 2;
                                 } else if (Player.playervalue === 21) {
                                     Player.dealercards.forEach((card) =>
@@ -542,7 +542,7 @@ module.exports = {
 
                                         message.edit({ embeds: [e] });
 
-                                        WinLoss = parseInt(Player.amount) * 2;
+                                        WinLoss = parseFloat(Player.amount) * 2;
                                         Player.amount *= 2;
 
                                         Playing = false;
@@ -597,7 +597,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount) * -2;
+                                            WinLoss = parseFloat(Player.amount) * -2;
                                             Player.amount *= 2;
 
                                             Playing = false;
@@ -650,7 +650,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount) * 2;
+                                            WinLoss = parseFloat(Player.amount) * 2;
                                             Player.amount *= 2;
 
                                             Playing = false;
@@ -697,7 +697,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount) * 2;
+                                            WinLoss = parseFloat(Player.amount) * 2;
                                             Player.amount *= 2;
 
                                             Playing = false;
@@ -729,7 +729,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount) * -2;
+                                            WinLoss = parseFloat(Player.amount) * -2;
                                             Player.amount *= 2;
 
                                             Playing = false;
@@ -761,7 +761,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount) * 2;
+                                            WinLoss = parseFloat(Player.amount) * 2;
                                             Player.amount *= 2;
 
                                             Playing = false;
@@ -851,7 +851,7 @@ module.exports = {
 
                                         message.edit({ embeds: [e] });
 
-                                        WinLoss = parseInt(Player.amount);
+                                        WinLoss = parseFloat(Player.amount);
 
                                         Playing = false;
                                     } else if (Player.playervalue < DealerPlayingCardValue) {
@@ -877,7 +877,7 @@ module.exports = {
 
                                         message.edit({ embeds: [e] });
 
-                                        WinLoss = parseInt(Player.amount) * -1;
+                                        WinLoss = parseFloat(Player.amount) * -1;
 
                                         Playing = false;
                                     } else if (Player.playervalue === DealerPlayingCardValue) {
@@ -944,7 +944,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount);
+                                            WinLoss = parseFloat(Player.amount);
 
                                             Playing = false;
                                         } else if (
@@ -973,7 +973,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount) * -1;
+                                            WinLoss = parseFloat(Player.amount) * -1;
 
                                             Playing = false;
                                         } else if (
@@ -1002,7 +1002,7 @@ module.exports = {
 
                                             message.edit({ embeds: [e] });
 
-                                            WinLoss = parseInt(Player.amount);
+                                            WinLoss = parseFloat(Player.amount);
 
                                             Playing = false;
                                         } else if (
