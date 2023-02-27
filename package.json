@@ -17,7 +17,7 @@
     "dotenv": "^16.0.0",
     "inspirational-quotes": "^2.0.1",
     "isomorphic-unfetch": "^3.1.0",
-    "jimp": "^0.16.1",
+    "jimp": "^0.22.7",
     "jsonfile": "^6.1.0",
     "node-opus": "^0.3.3",
     "nodemon": "^2.0.15",
